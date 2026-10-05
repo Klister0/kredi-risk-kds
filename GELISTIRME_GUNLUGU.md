@@ -87,6 +87,16 @@ kalıcı kod `src/`'de, denemeler `notebooks/`'ta tutulur.
   - **pandas 3.0 notu:** Copy-on-Write varsayılan ve metin sütunları artık `str` tipinde. Önceki sohbetteki
     (pandas 2 ile yazılmış) referans koddan parça alınırsa zincirleme atama (`df[a][b] = ...`) çalışmaz, `.loc` kullanılmalı.
 
+### Adım 5: Kaggle verisi ✅
+- 10 CSV (2.5 GB) Downloads'tan `data/raw/`'a taşındı (aynı disk: taşıma anlık, kopya 2.5 GB israf olurdu).
+- 8 tablonun satır/sütun sayısı Kaggle değerleriyle birebir doğrulandı; SHA-256 parmak izleri `data/README.md`'de.
+- Öğrenilenler:
+  - Veri Git'e girmez ama verinin kimliği (kaynak, boyut, parmak izi) girer: başkası doğru veriyi indirdiğini doğrulayabilir.
+  - `HomeCredit_columns_description.csv` latin-1 kodlamalı: `pd.read_csv(..., encoding="latin-1")`.
+  - `application_test.csv`'de `TARGET` yok (Kaggle'ın gizli test kümesi); bizim test kümemiz
+    `application_train`'den ayrılacak.
+  - Büyük dosyalar `chunksize` ile parça parça okunabilir; bellek yetmezse bu yöntem kullanılır.
+
 ## Açık konular / kararlar
 
 - **TOPSIS tek başvuruda tanımsız:** İdeal/anti-ideal noktalar eğitim verisinden (ör. %5 ve %95 yüzdelikleri)
@@ -100,6 +110,5 @@ kalıcı kod `src/`'de, denemeler `notebooks/`'ta tutulur.
 
 ## Sıradaki adım
 
-Adım 5: Kaggle Home Credit verisini `data/raw/`'a indirmek (Kaggle hesabı + yarışma kurallarını kabul;
-kabul işlemini kullanıcı kendisi yapar), dosyaları ve boyutlarını doğrulamak.
-Ardından Adım 6: ilk keşif defteri (`notebooks/01_kesif.ipynb`): application_train'in yapısı, TARGET dengesizliği.
+Adım 6: ilk keşif defteri (`notebooks/01_kesif.ipynb`): application_train'in yapısı, sütun tipleri,
+eksik değer oranları, `TARGET` dengesizliği (~%8 temerrüt beklenir), bellek kullanımı.
