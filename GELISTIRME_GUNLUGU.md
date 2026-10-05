@@ -60,6 +60,17 @@ kalıcı kod `src/`'de, denemeler `notebooks/`'ta tutulur.
     (`data/raw/` yazılsaydı klasörün tamamı dışlanır ve istisna çalışmazdı.)
   - `notebooks/`, `src/`, `tests/` henüz boş olduğu için depoda görünmez; içlerine ilk dosya eklenince görünecekler.
 
+### Adım 3: GitHub deposu ✅
+- GitHub CLI (`gh` 2.102) kuruldu, `gh auth login` ile giriş yapıldı.
+- Public depo: https://github.com/Klister0/kredi-risk-kds
+- Tek komut: `gh repo create kredi-risk-kds --public --source=. --remote=origin --push`
+- Öğrenilenler:
+  - `gh repo create` üç işi birden yapar: GitHub'da depo açar, `git remote add origin <url>`, `git push -u origin main`.
+  - `remote`: yerel deponun bildiği uzak adres; `origin` geleneksel addır (`git remote -v` ile görülür).
+  - `-u` (upstream): `main`'i `origin/main`'e bağlar; sonrasında yalnızca `git push` / `git pull` yeterli.
+  - Public depo güvenli çünkü veri `.gitignore` ile dışarıda; ama `.env` gibi gizli bilgiler asla commit edilmemeli.
+  - Yeni kurulan program "bulunamadı" derse terminal eski PATH'i kullanıyordur; terminali yeniden açmak yeterli.
+
 ## Açık konular / kararlar
 
 - **TOPSIS tek başvuruda tanımsız:** İdeal/anti-ideal noktalar eğitim verisinden (ör. %5 ve %95 yüzdelikleri)
@@ -73,5 +84,6 @@ kalıcı kod `src/`'de, denemeler `notebooks/`'ta tutulur.
 
 ## Sıradaki adım
 
-Adım 3: GitHub'da `kredi-risk-kds` deposunu açıp yerel depoyu bağlamak ve ilk push (`git remote add`, `git push -u`).
-Ardından Adım 4: Python sanal ortamı (`.venv`) ve `requirements.txt`.
+Adım 4: Python sanal ortamı (`.venv`, Python 3.13) ve `requirements.txt`
+(pandas, numpy, scikit-learn, xgboost, matplotlib, seaborn, jupyter, pytest; sonra shap, streamlit).
+Ardından Adım 5: Kaggle verisini `data/raw/`'a indirmek.
