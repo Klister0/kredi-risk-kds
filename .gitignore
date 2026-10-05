@@ -1,0 +1,15 @@
+# Veri: Git'e girmez (boyut + Kaggle lisansı)
+data/raw/*
+!data/raw/.gitkeep
+data/processed/*
+!data/processed/.gitkeep
+
+# Python sanal ortamı ve önbellekler
+.venv/
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+.pytest_cache/
+
+# Gizli bilgiler
+.env
