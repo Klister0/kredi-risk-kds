@@ -71,6 +71,22 @@ kalıcı kod `src/`'de, denemeler `notebooks/`'ta tutulur.
   - Public depo güvenli çünkü veri `.gitignore` ile dışarıda; ama `.env` gibi gizli bilgiler asla commit edilmemeli.
   - Yeni kurulan program "bulunamadı" derse terminal eski PATH'i kullanıyordur; terminali yeniden açmak yeterli.
 
+### Adım 4: Python sanal ortamı ✅
+- `py -3.13 -m venv .venv` ile projeye özel ortam; paketler `requirements.txt`'de sürümleri sabitlenerek tutuluyor.
+- Kurulu: pandas 3.0, numpy 2.5, scikit-learn 1.9, xgboost 3.4, matplotlib, seaborn, jupyterlab, ipykernel, pytest.
+  `shap` ve `streamlit` ilgili adımlarda eklenecek.
+- Komutlar ortamı etkinleştirmeden, doğrudan `.\.venv\Scripts\python.exe` ile çalıştırılıyor.
+  (PowerShell'de `.\.venv\Scripts\Activate.ps1` "running scripts is disabled" hatası verebilir; bu bir güvenlik ayarıdır,
+  etkinleştirme şart değil.)
+- Öğrenilenler:
+  - Sanal ortam: her projenin paketleri ayrı; biri bozulursa silinip `requirements.txt`'den yeniden kurulur.
+  - `requirements.txt`'ye `pip freeze`'in tamamı (110 satır, dolaylı bağımlılıklar dahil) değil,
+    yalnızca doğrudan kurulan paketler `==` ile yazıldı: okunabilir, platformdan bağımsız, tekrarlanabilir.
+  - Doğrulama: `pip install -r requirements.txt --dry-run` (dosya ortamla uyumlu mu) ve `pip check` (çakışma var mı).
+  - İçe aktarma adı ile paket adı farklı olabilir: `pip install scikit-learn` ama `import sklearn`.
+  - **pandas 3.0 notu:** Copy-on-Write varsayılan ve metin sütunları artık `str` tipinde. Önceki sohbetteki
+    (pandas 2 ile yazılmış) referans koddan parça alınırsa zincirleme atama (`df[a][b] = ...`) çalışmaz, `.loc` kullanılmalı.
+
 ## Açık konular / kararlar
 
 - **TOPSIS tek başvuruda tanımsız:** İdeal/anti-ideal noktalar eğitim verisinden (ör. %5 ve %95 yüzdelikleri)
@@ -84,6 +100,6 @@ kalıcı kod `src/`'de, denemeler `notebooks/`'ta tutulur.
 
 ## Sıradaki adım
 
-Adım 4: Python sanal ortamı (`.venv`, Python 3.13) ve `requirements.txt`
-(pandas, numpy, scikit-learn, xgboost, matplotlib, seaborn, jupyter, pytest; sonra shap, streamlit).
-Ardından Adım 5: Kaggle verisini `data/raw/`'a indirmek.
+Adım 5: Kaggle Home Credit verisini `data/raw/`'a indirmek (Kaggle hesabı + yarışma kurallarını kabul;
+kabul işlemini kullanıcı kendisi yapar), dosyaları ve boyutlarını doğrulamak.
+Ardından Adım 6: ilk keşif defteri (`notebooks/01_kesif.ipynb`): application_train'in yapısı, TARGET dengesizliği.

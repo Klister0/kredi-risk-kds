@@ -1,0 +1,21 @@
+# Python 3.13
+# Kurulum: py -3.13 -m venv .venv ; .\.venv\Scripts\python.exe -m pip install -r requirements.txt
+
+# Veri işleme
+pandas==3.0.6
+numpy==2.5.3
+
+# Modelleme
+scikit-learn==1.9.1
+xgboost==3.4.1
+
+# Görselleştirme
+matplotlib==3.11.2
+seaborn==0.13.2
+
+# Keşif defterleri
+jupyterlab==4.6.4
+ipykernel==7.4.0
+
+# Test
+pytest==9.1.1
