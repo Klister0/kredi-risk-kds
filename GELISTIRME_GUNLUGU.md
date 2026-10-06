@@ -22,6 +22,11 @@ Proje önerisi: `Proje_Onerisi_Kredi_Risk.docx` (depo dışında).
 - **Adım 2'den itibaren Claude Code ile çalışılıyor:** komutları ve dosya işlemlerini Claude Code yapar,
   ama her adımda ne yaptığını ve neden yaptığını kısaca açıklar, kullanıcının öğrenmesi önceliklidir.
 - Günlük her adımın sonunda güncellenir ve commit'e dahil edilir.
+- **Obsidian notları (2026-10-06'dan itibaren):** Günlüğün bağlantılı, öğrenmeye yönelik hâli Obsidian kasasında
+  tutuluyor: `C:\Users\Egemen\OneDrive\Belgeler\Obsidian Vault\Kredi Risk KDS\`. İçinde ana sayfa
+  (`Kredi Risk KDS.md`) ve `Adımlar/`, `Kavramlar/`, `Veri/`, `Kararlar/` klasörleri var. Her adımın sonunda
+  yeni bir adım notu açılır, yeni kavramlar için kavram notları yazılır, ana sayfadaki tablo güncellenir.
+  Asıl kaynak bu günlüktür, Obsidian ondan türetilir. Kasa depo dışında olduğu için Git'e girmez.
 
 ## Ortam
 
