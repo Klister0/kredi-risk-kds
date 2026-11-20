@@ -1,8 +1,15 @@
 # Geliştirme Günlüğü: Kredi Risk KDS Projesi
 
 Bu dosya projenin nerede kaldığını, alınan kararları ve sıradaki adımı kaydeder.
-Yeni bir sohbette devam ederken "GELISTIRME_GUNLUGU.md'yi oku, buradan devam edelim" demek yeterlidir.
-Proje önerisi: `Proje_Onerisi_Kredi_Risk.docx` (depo dışında).
+Yeni bir Claude oturumunda önce `CLAUDE.md`, sonra bu dosya okunur (`docs/00_BASLA_BURADAN.md`).
+Proje önerisi: `docs/kaynaklar/Proje_Onerisi_Kredi_Risk.docx`.
+
+Son güncelleme: 2026-11-20
+
+## Takvim
+
+- **Sunum: 7 Aralık 2026 (Pzt).** Makale (akademik yayın formatı) sunumdan sonra teslim; tarihi bilinmiyor.
+- Günlük plan: `docs/02_yol_haritasi.md` → "Sıkıştırılmış takvim". Kapsam daraltma önerisi: `docs/03` D31 (🟡).
 
 ## Proje özeti
 
@@ -19,8 +26,10 @@ Proje önerisi: `Proje_Onerisi_Kredi_Risk.docx` (depo dışında).
 - Proje adım adım ve her adımın **nedeni** açıklanarak ilerliyor; amaç olabildiğince çok şey öğrenmek.
 - Her adımda tek bir konu ele alınıyor.
 - Kod ve klasör adları Türkçe (ör. `veri_hazirlama.py`, `rapor/sekiller`).
-- **Adım 2'den itibaren Claude Code ile çalışılıyor:** komutları ve dosya işlemlerini Claude Code yapar,
-  ama her adımda ne yaptığını ve neden yaptığını kısaca açıklar, kullanıcının öğrenmesi önceliklidir.
+- **Adım 2–5 Claude Code ile yapıldı** (komutları Claude çalıştırdı, açıkladı).
+- **2026-11-20'den itibaren (belge paketiyle):** Claude öğretmen-eş çalışan rolünde (`CLAUDE.md` §3). Komutları öğrenci
+  kendi makinesinde çalıştırır; kritik parçaları (bölme, AHP, TOPSIS, bootstrap, kalibrasyon grafiği) öğrenci sıfırdan yazar.
+  Her adım: amaç → neden → alternatifler → uygulama → doğrulama → savunma kartı (`docs/06`) → kayıt (`docs/03`, bu günlük) → commit.
 - Günlük her adımın sonunda güncellenir ve commit'e dahil edilir.
 - **Obsidian notları (2026-10-06'dan itibaren):** Günlüğün bağlantılı, öğrenmeye yönelik hâli Obsidian kasasında
   tutuluyor: `C:\Users\Egemen\OneDrive\Belgeler\Obsidian Vault\Kredi Risk KDS\`. İçinde ana sayfa
@@ -44,8 +53,18 @@ kredi-risk-kds/
 ├── notebooks/         keşif defterleri
 ├── src/               yeniden kullanılan kod
 ├── tests/             testler
-└── rapor/sekiller/    rapor grafikleri
+├── rapor/sekiller/    rapor grafikleri
+├── docs/              belge paketi (kararlar, plan, literatür, savunma)
+└── CLAUDE.md          Claude oturumları için kurallar ve bağlam
 ```
+
+## Test kümesi erişim sayacı (sızıntı disiplini)
+
+Test kümesi henüz oluşturulmadı. Her açılış buraya yazılır: tarih · neden · hangi kapı (K-B/K-C/...) · sonuç.
+
+| Tarih | Neden | Kapı | Not |
+|---|---|---|---|
+| | | | |
 
 ## Tamamlanan adımlar
 
@@ -102,6 +121,14 @@ kalıcı kod `src/`'de, denemeler `notebooks/`'ta tutulur.
     `application_train`'den ayrılacak.
   - Büyük dosyalar `chunksize` ile parça parça okunabilir; bellek yetmezse bu yöntem kullanılır.
 
+### Adım 6: Belge paketi depoya alındı (2026-11-20)
+- `CLAUDE.md` köke, `docs/00–07` ve öneri (`docs/kaynaklar/`) depoya eklendi. Paket daha önce OneDrive'da ayrı duruyordu;
+  karar geçmişinin tarihli commit'lerle izlenebilmesi için depoya taşındı (ön-kayıt K-A bunu gerektirir).
+- Paketteki eski durum bilgileri gerçek duruma göre güncellendi (A1–A4, V1 ✅; `docs/02`, `docs/07` §1).
+- Veri sözlüğünden okunanlar (`docs/07` §3, `docs/03` D32): `TARGET` tanımındaki gün (X) ve taksit (Y) sayıları sözlükte **yok**;
+  `AMT_INCOME_TOTAL` ve `AMT_ANNUITY` için **dönem belirtilmemiş** (öneri "yıllık/aylık" diyor → öneride ifade hatası).
+- Yeni kararlar: D31 (kapsam daraltma, 🟡), D32 (öneri hataları, 🟢).
+
 ## Açık konular / kararlar
 
 - **TOPSIS tek başvuruda tanımsız:** İdeal/anti-ideal noktalar eğitim verisinden (ör. %5 ve %95 yüzdelikleri)
@@ -111,9 +138,19 @@ kalıcı kod `src/`'de, denemeler `notebooks/`'ta tutulur.
 - **Veri sızıntısı:** Eksik doldurma, ölçekleme ve kodlama yalnızca eğitim kümesine göre (sklearn Pipeline) yapılacak.
 - Önceki sohbette bitmiş bir veri hazırlama + EDA sürümü üretildi (`kredi-risk-kds.zip`).
   Proje sıfırdan yeniden kuruluyor; o sürüm yalnızca başvuru kaynağı.
-- **Literatür:** Öneride 8-10 akademik kaynak eklenmesi gerektiği not edildi (Kaynakça henüz boş).
+- **Literatür:** Hoca makalede "literatürde X vardı, bu çalışma Y'yi ekledi" yapısını istiyor → sistematik tarama (`docs/04` §9) L1'de başlıyor.
+- **Kararlar ve ayrıntılar:** `docs/03` (D01–D32). Bilinen zayıf noktalar: `docs/01` §2.
+- **Sorulacaklar:** makale şablonu/dili/tarihi, değerlendirme kriterleri, AHP yargıçları, cinsiyet değişkeni (D16), RAM (`docs/01` §6).
 
 ## Sıradaki adım
 
-Adım 6: ilk keşif defteri (`notebooks/01_kesif.ipynb`): application_train'in yapısı, sütun tipleri,
-eksik değer oranları, `TARGET` dengesizliği (~%8 temerrüt beklenir), bellek kullanımı.
+1. Belge paketinin commit'i: `docs: proje belge paketi ve sıkıştırılmış takvim`.
+2. Seviye tespiti (5 kısa soru), ardından **V2:** `notebooks/01_kesif.ipynb` — `application_train` yapısı, sütun tipleri,
+   eksik oranları, `TARGET` oranı (≈%8 beklenir, doğrula), `DAYS_EMPLOYED` anomalisi, bellek. Paralelde **L1** arama protokolü.
+
+## Değişiklik kaydı
+
+| Tarih | Değişiklik |
+|---|---|
+| 2026-10-05/06 | Adım 1–5 (iskelet, Git, GitHub, venv, veri) |
+| 2026-11-20 | Belge paketi depoya alındı; takvim (sunum 7 Aralık) eklendi; çalışma biçimi öğretmen-eş çalışan olarak güncellendi |
