@@ -62,7 +62,7 @@ Test kümesine kural dışı bakılırsa bu `GELISTIRME_GUNLUGU.md` içine yazı
 | # | Adım | Çıktı | Bitti sayılır | Öğrenilen / savunma konusu |
 |---|---|---|---|---|
 | V1 ✅ | Veri indirme + veri sözlüğü | `data/raw/*.csv`; `docs/07` §1 doğrulandı (satır/sütun) | 7 dosya mevcut, boyutlar `docs/07` ile karşılaştırıldı | Kaggle kuralları, lisans |
-| V2 | `application_train` EDA | Defter + `rapor/sekiller/` | Hedef dağılımı, eksiklik, anomali, aykırı değer, hedefe göre dağılımlar | Sınıf dengesizliği, eksiklik mekanizması |
+| V2 ✅ | `application_train` EDA | Defter + `rapor/sekiller/` | Hedef dağılımı, eksiklik, anomali, aykırı değer, hedefe göre dağılımlar | Sınıf dengesizliği, eksiklik mekanizması |
 | V3 ✅ | **Bölme** → **K-B** | `src/bolme.py`, kayıtlı indeksler, testler | %80/%20 katmanlı bölme; sınıf oranları iki tarafta eşit; test indeksleri dosyada, kimse açmadı | Neden katmanlı, neden zaman bazlı değil |
 | V4 | Ek tabloların EDA'sı | Tablo başına özet | İlişkiler (SK_ID_CURR/PREV/BUREAU), anahtar tekilliği ve anomaliler not edildi | İlişkisel veri, 1-N ilişki |
 

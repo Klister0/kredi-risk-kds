@@ -1,7 +1,7 @@
 # 07 · Veri Notları: Home Credit Default Risk
 
 **Doğrulama durumu (2026-11-20):** §1'deki satır/sütun sayıları V1'de ham veriyle **doğrulandı** (kaynak: `data/README.md`,
-SHA-256 parmak izleri orada). §3'teki tanımlar veri sözlüğünden okundu. `TARGET` oranı ve §2'deki anomali oranları henüz **doğrulanmadı** (V2).
+SHA-256 parmak izleri orada). §3 tanımları sözlükten okundu. **V2 (2026-11-20, yalnız eğitim kümesi n=246.009):** `TARGET` oranı **%8,07**; `DAYS_EMPLOYED=365243` oranı **%17,9**.
 
 ## 1. Tablolar ve ilişkiler
 
@@ -21,14 +21,14 @@ Veri sözlüğü `HomeCredit_columns_description.csv` **latin-1** kodlamalıdır
 İlişki: `application` (1) → (N) `bureau` → (N) `bureau_balance`; `application` (1) → (N) `previous_application` → (N) `POS_CASH_balance`,
 `credit_card_balance`, `installments_payments`. **Toplulaştırma, `SK_ID_CURR` düzeyinde yapılır; sonuçta satır sayısı 307.511 kalmalıdır** (birleştirme testi).
 
-**`TARGET` oranı:** ≈%8 (≈24,8 bin pozitif); doğrula.
+**`TARGET` oranı:** eğitimde **%8,07** (19.860 pozitif / 246.009) ✅ V2. Tam veride ≈%8.
 
 ## 2. Bilinen anomaliler ve kararlar
 
 | Konu | Gözlem | Karar |
 |---|---|---|
-| `DAYS_EMPLOYED = 365243` | ≈%18 satırda yapay kod (≈1000 yıl); çoğunlukla emekli/çalışmayan | NaN + `ISTIHDAM_ANOMALI` bayrağı (D05) |
-| `CODE_GENDER = 'XNA'` | Birkaç satır | NaN yap |
+| `DAYS_EMPLOYED = 365243` | **%17,9** (44.075/246.009); emekli/çalışmayan. Bu grupta temerrüt **%5,4**, normalde %8,7 → bayrak bilgi taşıyor | NaN + `ISTIHDAM_ANOMALI` bayrağı (D05) |
+| `CODE_GENDER = 'XNA'` | Eğitimde **4** satır | NaN yap |
 | `ORGANIZATION_TYPE = 'XNA'` | Genelde aynı emekli grubu | Kategori olarak bırak veya "Bilinmiyor" |
 | Konut sütunları (`*_AVG`, `*_MODE`, `*_MEDI`) | Yüksek eksiklik; üçlü aynı bilginin özeti | Yalnız `*_AVG` tut; eksiklik göstergesi düşün |
 | `FLAG_DOCUMENT_*` (20 sütun) | Çoğu neredeyse sabit | `BELGE_SAYISI` özetine indirge |
@@ -97,6 +97,6 @@ Oradan alınabilecek ders: (i) Büyük tablolarda yalnız gereken sütunları ok
 | `TARGET` oranı | ≈%8 | Bu belge §1 (doğrula) |
 | Yalnız `application` + LR | AUC ≈0,74–0,76 | Yazarın hatırası (⚠️ doğrula) |
 | Tüm tablolar + GBDT | AUC ≈0,77–0,80 | Bir doğrulanmış gösterge: LightGBM ≈0,79 (`docs/05` §2); yarışma üst skorları ≈0,80 civarı (⚠️ doğrula) |
-| `EXT_SOURCE`'suz model | Belirgin düşüş | Ölçülecek (D17) |
+| `EXT_SOURCE`'suz model | Belirgin düşüş bekleniyor | Ölçülecek (D17). V2: `EXT_SOURCE_1/2/3` TARGET ile en güçlü korelasyonlar (−0,155 / −0,161 / −0,177); eksik %56 / %0,2 / %20 |
 
 Beklentiden **çok iyi** çıkarsa sızıntıdan şüphelen; **çok kötü** çıkarsa ön işleme/birleştirme hatasından şüphelen.

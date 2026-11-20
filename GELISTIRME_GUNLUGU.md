@@ -139,6 +139,13 @@ kalıcı kod `src/`'de, denemeler `notebooks/`'ta tutulur.
 - **Karar verildi:** bölme indeksleri commit'lenir; `.gitignore`'a `!data/processed/bolme/` istisnası eklendi (D03 🟢).
 - **D33 (🟢):** EDA bölmeden sonra, yalnız eğitim kümesinde (sızıntı).
 
+### Adım 8: V2 EDA (yalnız eğitim kümesi) ✅
+- `notebooks/01_kesif.py`: eğitim kimlikleriyle `application_train`; konsol özeti + 3 grafik (`rapor/sekiller/`).
+- **Doğrulanan sayılar (n=246.009):** `TARGET` %8,07 (19.860 pozitif); `DAYS_EMPLOYED=365243` %17,9 (bu grupta temerrüt %5,4 < normal %8,7);
+  >%50 eksik 41 sütun (çoğu konut `*_AVG/*_MODE/*_MEDI` üçlüsü → yalnız `*_AVG` tutma kararını destekler); `EXT_SOURCE_1/2/3` TARGET ile en güçlü korelasyonlar.
+  Eğitim belleği 426 MB (float32 ile 362 MB).
+- `docs/07` §1-§2 bu sayılarla güncellendi.
+
 ## Açık konular / kararlar
 
 - **TOPSIS tek başvuruda tanımsız:** İdeal/anti-ideal noktalar eğitim verisinden (ör. %5 ve %95 yüzdelikleri)
@@ -154,8 +161,8 @@ kalıcı kod `src/`'de, denemeler `notebooks/`'ta tutulur.
 
 ## Sıradaki adım
 
-**V2 — EDA (yalnız eğitim kümesi, D33).** `notebooks/01_kesif.ipynb`: eğitim kimlikleriyle `application_train`;
-sütun tipleri, eksik oranları, `TARGET` oranı (≈%8 doğrula), `DAYS_EMPLOYED=365243` anomali oranı, bellek kullanımı,
-oran değişkenleri için ilk bakış. EDA bulguları `docs/07`'ye işlenir. Paralel: **L1** literatür arama protokolü (`docs/04` §9).
+**F1 — Başvuru temizleme (`src/veri_hazirlama.py`).** V2 bulgularına göre: `DAYS_EMPLOYED=365243` → NaN + `ISTIHDAM_ANOMALI` bayrağı (D05);
+`CODE_GENDER='XNA'` → NaN; `DAYS_*` sütunlarını yıla çevir. Her dönüşüme birim test. Fonksiyonlar `fit/transform` mantığına uygun yazılacak (sonra `Pipeline`, F4).
+Paralel: **L1** literatür arama protokolü (`docs/04` §9) — hoca "literatürde X vardı, ben Y'yi ekledim" cümlesi için gerekli.
 
 ## Değişiklik kaydı
