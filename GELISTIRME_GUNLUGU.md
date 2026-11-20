@@ -146,6 +146,10 @@ kalıcı kod `src/`'de, denemeler `notebooks/`'ta tutulur.
   Eğitim belleği 426 MB (float32 ile 362 MB).
 - `docs/07` §1-§2 bu sayılarla güncellendi.
 
+### Adım 9: F1 Başvuru temizleme ✅
+- `src/veri_hazirlama.py`: `istihdam_anomalisini_isaretle` (365243→NaN + bayrak, idempotent), `cinsiyet_xna_nan`, `gunleri_yila_cevir` (negatif gün → pozitif yıl), `temizle_basvuru` (orkestratör, satır sayısını assert'ler). Durumsuz dönüşümler → sızıntı yok.
+- `tests/test_veri_hazirlama.py`: 5/5 yeşil. Gerçek eğitim verisinde: 44.075 anomali, 4 cinsiyet NaN, YAS_YIL 20,5–69,1, satır 246.009 korundu.
+
 ## Açık konular / kararlar
 
 - **TOPSIS tek başvuruda tanımsız:** İdeal/anti-ideal noktalar eğitim verisinden (ör. %5 ve %95 yüzdelikleri)
@@ -161,8 +165,8 @@ kalıcı kod `src/`'de, denemeler `notebooks/`'ta tutulur.
 
 ## Sıradaki adım
 
-**F1 — Başvuru temizleme (`src/veri_hazirlama.py`).** V2 bulgularına göre: `DAYS_EMPLOYED=365243` → NaN + `ISTIHDAM_ANOMALI` bayrağı (D05);
-`CODE_GENDER='XNA'` → NaN; `DAYS_*` sütunlarını yıla çevir. Her dönüşüme birim test. Fonksiyonlar `fit/transform` mantığına uygun yazılacak (sonra `Pipeline`, F4).
-Paralel: **L1** literatür arama protokolü (`docs/04` §9) — hoca "literatürde X vardı, ben Y'yi ekledim" cümlesi için gerekli.
+**F2 — Oran/türev özellikler.** `KREDI_GELIR` (AMT_CREDIT/AMT_INCOME_TOTAL), `TAKSIT_GELIR` (AMT_ANNUITY/AMT_INCOME_TOTAL),
+`ODEME_ORANI` (AMT_ANNUITY/AMT_CREDIT), `EXT_ORT`/`EXT_STD`/`EXT_EKSIK_SAYISI`. Sıfıra bölme güvenli olmalı; her oran test edilir.
+Not: gelir/taksit dönemi belirsiz (D32) → oranlar göreli gösterge. Paralel: **L1** literatür arama protokolü.
 
 ## Değişiklik kaydı

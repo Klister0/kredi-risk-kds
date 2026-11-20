@@ -54,7 +54,7 @@ gerçek veri bölmesi `data/processed/bolme/` (n_egitim=246009, n_test=61502, to
 ### D05 · `DAYS_EMPLOYED = 365243` anomalisi: NaN + bayrak   [🟢]
 **Seçenekler:** NaN + `ISTIHDAM_ANOMALI` bayrağı (seçilen) / satırı sil / medyanla doldur / olduğu gibi bırak.
 **Gerekçe:** Değer ≈1000 yıllık yapay kod (çoğunlukla emekli/çalışmayan); silmek yüzde ≈18'lik bir grubu kaybettirir; olduğu gibi bırakmak doğrusal modelleri bozar.
-**Kanıt:** (V2: anomali oranı ve gruba göre temerrüt oranı).
+**Kanıt:** V2 (anomali %17,9, bu grupta temerrüt %5,4 < normal %8,7); `src/veri_hazirlama.py` + `tests/test_veri_hazirlama.py` (5/5, 2026-11-20); gerçek veride 44.075 satır işaretlendi, satır sayısı korundu.
 
 ### D06 · Kategorik kodlama   [🟡]
 **Seçenekler:** One-hot (LR/RF) + yerel/sıralı kodlama (XGB) (seçilen) / target encoding / WoE / frekans kodlaması.

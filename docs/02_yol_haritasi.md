@@ -70,7 +70,7 @@ Test kümesine kural dışı bakılırsa bu `GELISTIRME_GUNLUGU.md` içine yazı
 
 | # | Adım | Çıktı | Bitti sayılır | Öğrenilen / savunma konusu |
 |---|---|---|---|---|
-| F1 | Başvuru temizleme | `src/veri_hazirlama.py` | Anomali kodları düzeltilmiş (`docs/07` §2), birim testli | Anomali ≠ eksik; bayrak değişkeni |
+| F1 ✅ | Başvuru temizleme | `src/veri_hazirlama.py` | Anomali kodları düzeltilmiş (`docs/07` §2), birim testli | Anomali ≠ eksik; bayrak değişkeni |
 | F2 | Oran/türev özellikler | Kredi/gelir, taksit/gelir vb. | Sıfıra bölme güvenli; testli | Oran değişkenlerinin anlamı |
 | F3 | Ek tablo toplulaştırma | Her tablo için ayrı fonksiyon + test | Satır sayısı değişmedi; kayıt yoksa 0/NaN kuralı kayıtlı | Toplulaştırma, "kayıt yok" ≠ "0 gecikme" |
 | F4 | sklearn `Pipeline` | `src/boru_hatti.py` | Imputer/encoder/scaler yalnızca eğitime fit; testli sızıntı kontrolü | Veri sızıntısı |
