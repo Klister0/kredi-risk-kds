@@ -4,6 +4,10 @@ data/raw/*
 data/processed/*
 !data/processed/.gitkeep
 
+# İstisna: bölme indeksleri commit'lenir (sızıntı disiplininin tarihli kanıtı, D03)
+!data/processed/bolme/
+!data/processed/bolme/**
+
 # Python sanal ortamı ve önbellekler
 .venv/
 __pycache__/

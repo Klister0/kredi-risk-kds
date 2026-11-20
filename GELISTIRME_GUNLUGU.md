@@ -27,8 +27,10 @@ Son güncelleme: 2026-11-20
 - Her adımda tek bir konu ele alınıyor.
 - Kod ve klasör adları Türkçe (ör. `veri_hazirlama.py`, `rapor/sekiller`).
 - **Adım 2–5 Claude Code ile yapıldı** (komutları Claude çalıştırdı, açıkladı).
-- **2026-11-20'den itibaren (belge paketiyle):** Claude öğretmen-eş çalışan rolünde (`CLAUDE.md` §3). Komutları öğrenci
-  kendi makinesinde çalıştırır; kritik parçaları (bölme, AHP, TOPSIS, bootstrap, kalibrasyon grafiği) öğrenci sıfırdan yazar.
+- **2026-11-20'den itibaren (belge paketiyle):** Claude öğretmen-eş çalışan rolünde (`CLAUDE.md` §3).
+  **Öğrencinin tercihi (2026-11-20):** kodu çoğunlukla **Claude yazar**; öğrenci sunumda savunabilmek için her parçayı anlar.
+  Bu yüzden Claude her kod parçasının yanına "sunumda şunu söyle" notu verir ve savunma kartlarını (`docs/06`) doldurur.
+  Komutları (git, pytest, python) öğrenci kendi makinesinde çalıştırır (Claude'un yerel kabuğu yok; dosya okuyup yazabilir).
   Her adım: amaç → neden → alternatifler → uygulama → doğrulama → savunma kartı (`docs/06`) → kayıt (`docs/03`, bu günlük) → commit.
 - Günlük her adımın sonunda güncellenir ve commit'e dahil edilir.
 - **Obsidian notları (2026-10-06'dan itibaren):** Günlüğün bağlantılı, öğrenmeye yönelik hâli Obsidian kasasında
@@ -64,7 +66,7 @@ Test kümesi henüz oluşturulmadı. Her açılış buraya yazılır: tarih · n
 
 | Tarih | Neden | Kapı | Not |
 |---|---|---|---|
-| | | | |
+| 2026-11-20 | Bölme üretimi: SK_ID_CURR'lar teste atandı | K-B | Yalnız SK_ID_CURR+TARGET okundu; test ÖZELLİKLERİNE bakılmadı. n_test=61502 |
 
 ## Tamamlanan adımlar
 
@@ -129,6 +131,14 @@ kalıcı kod `src/`'de, denemeler `notebooks/`'ta tutulur.
   `AMT_INCOME_TOTAL` ve `AMT_ANNUITY` için **dönem belirtilmemiş** (öneri "yıllık/aylık" diyor → öneride ifade hatası).
 - Yeni kararlar: D31 (kapsam daraltma, 🟡), D32 (öneri hataları, 🟢).
 
+### Adım 7: V3 Bölme ✅
+- `src/bolme.py`: katmanlı holdout **sıfırdan** (`katmanli_bol`), bölmeyi kaydetme (`bolmeyi_kaydet`), `__main__` ile gerçek veri koşusu.
+- `src/__init__.py` (boş, paket olsun diye). `tests/test_bolme.py`: 7 test (ayrıklık, bütünlük, oran koruma, belirlenircilik, sıralılık, sklearn ile sınıf bazında uyum, tekil-olmayan kimlik hatası).
+- Claude ortamında 7/7, öğrencinin makinesinde `python -m pytest` 7/7 **yeşil**.
+- Gerçek veri (kapı K-B): `python -m src.bolme` → `data/processed/bolme/` (n_egitim=246009, n_test=61502, tohum=42, %20). 246009+61502=307511 ✓.
+- **Karar verildi:** bölme indeksleri commit'lenir; `.gitignore`'a `!data/processed/bolme/` istisnası eklendi (D03 🟢).
+- **D33 (🟢):** EDA bölmeden sonra, yalnız eğitim kümesinde (sızıntı).
+
 ## Açık konular / kararlar
 
 - **TOPSIS tek başvuruda tanımsız:** İdeal/anti-ideal noktalar eğitim verisinden (ör. %5 ve %95 yüzdelikleri)
@@ -144,13 +154,8 @@ kalıcı kod `src/`'de, denemeler `notebooks/`'ta tutulur.
 
 ## Sıradaki adım
 
-1. Belge paketinin commit'i: `docs: proje belge paketi ve sıkıştırılmış takvim`.
-2. Seviye tespiti (5 kısa soru), ardından **V2:** `notebooks/01_kesif.ipynb` — `application_train` yapısı, sütun tipleri,
-   eksik oranları, `TARGET` oranı (≈%8 beklenir, doğrula), `DAYS_EMPLOYED` anomalisi, bellek. Paralelde **L1** arama protokolü.
+**V2 — EDA (yalnız eğitim kümesi, D33).** `notebooks/01_kesif.ipynb`: eğitim kimlikleriyle `application_train`;
+sütun tipleri, eksik oranları, `TARGET` oranı (≈%8 doğrula), `DAYS_EMPLOYED=365243` anomali oranı, bellek kullanımı,
+oran değişkenleri için ilk bakış. EDA bulguları `docs/07`'ye işlenir. Paralel: **L1** literatür arama protokolü (`docs/04` §9).
 
 ## Değişiklik kaydı
-
-| Tarih | Değişiklik |
-|---|---|
-| 2026-10-05/06 | Adım 1–5 (iskelet, Git, GitHub, venv, veri) |
-| 2026-11-20 | Belge paketi depoya alındı; takvim (sunum 7 Aralık) eklendi; çalışma biçimi öğretmen-eş çalışan olarak güncellendi |

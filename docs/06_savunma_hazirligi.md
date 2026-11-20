@@ -29,6 +29,12 @@ Hazırlık durumu: ⬜ boş · 🟨 iskelet · ✅ öğrenci kendi kelimeleriyle
 
 ## B. Veri hazırlama
 
+**S5b. Bölmeyi nasıl yaptınız? Neden kimlikle sakladınız, katmanlama gerekli miydi?** 🟨
+İskelet: `src/bolme.py` katmanlı holdout (sıfırdan, sklearn ile doğrulandı); `SK_ID_CURR` sabit kimlik, satır sırası kırılgan;
+katmanlama 61 bin satırlık holdout'ta kozmetik ama 5 katlı CV'de gerçekten gerekli (küçük katlarda azınlık oranı sapar).
+Bölme bir kez yapıldı, indeksler commit'lendi (tohum 42). `[KANIT: test_bolme.py 7/7; bolme_meta.json]`
+*(Öğrenci kendi kelimeleriyle yazacak → ✅)*
+
 **S6. `DAYS_EMPLOYED = 365243` ile ne yaptınız, neden?** ⬜
 İskelet: NaN + bayrak (D05). Alternatifler: sil, medyanla doldur. `[KANIT: anomali oranı, gruba göre temerrüt oranı]`
 
@@ -36,7 +42,7 @@ Hazırlık durumu: ⬜ boş · 🟨 iskelet · ✅ öğrenci kendi kelimeleriyle
 İskelet: D04. Eksikliğin kendisi bilgi taşıyor; XGB yerel NaN; maliyet. `[KANIT: strateji karşılaştırması]`
 
 **S8. Veri sızıntısı olmadığını nasıl biliyorsunuz?** ⬜
-İskelet: Tüm dönüşümler `Pipeline` içinde, yalnız eğitime fit; SMOTE/kalibrasyon yalnız CV/OOF içinde; test kilit noktalarda açıldı (K-B/K-C); sızıntı testi. `[KANIT: boru hattı testi]`
+İskelet: Tüm dönüşümler `Pipeline` içinde, yalnız eğitime fit; SMOTE/kalibrasyon yalnız CV/OOF içinde; test kilit noktalarda açıldı (K-B/K-C); sızıntı testi. Bölme EDA'dan önce yapıldı (D33), indeksler commit'li. `[KANIT: boru hattı testi; data/processed/bolme/ commit'i]`
 
 **S9. Ek tabloları neden bu şekilde toplulaştırdınız? Başka özellik olabilirdi.** ⬜
 İskelet: Sayı/oran/maksimum özetleri, "kayıt yok" ≠ 0 (F3). Alternatif: zaman pencereli özellikler, daha fazla agregasyon; zaman kısıtı.

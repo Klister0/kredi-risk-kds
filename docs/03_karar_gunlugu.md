@@ -38,11 +38,13 @@ Lending Club'da zaman değişkeni var, ancak veri erişimi ve kullanım koşulla
 **Gerekçe:** Veride tek bir ikili etiket var, başvuru tarihi yok (zaman modeli kurulamaz). **Alternatif:** Sağkalım modeli daha zengin ama gerekli zaman bilgisi yok.
 **Kanıt:** `docs/07` §3. **Sınırlılık:** `TARGET` resmi temerrüt değil, ilk taksitlerde gecikme (ödeme güçlüğü); raporda "temerrüt/ödeme güçlüğü" ifadesi ve tanım açıkça verilir.
 
-### D03 · Bölme: %80/%20 katmanlı holdout + eğitim üzerinde 5 katlı katmanlı CV   [🟡]
+### D03 · Bölme: %80/%20 katmanlı holdout + eğitim üzerinde 5 katlı katmanlı CV   [🟢]
 **Seçenekler:** Katmanlı holdout + CV (seçilen) / iç içe (nested) CV / tekrarlı CV / bootstrap / zaman bazlı bölme.
 **Gerekçe:** Kaggle `test.csv` etiketsiz olduğu için kendi test kümemiz gerekir. Katmanlama %8'lik azınlığın her parçada korunmasını sağlar.
 **Alternatif seçilseydi:** Nested CV tahminleri daha tarafsız ama maliyeti ~5× (tam veride pahalı); zaman bazlı bölme için tarih yok.
-**Kanıt:** (V3 sonrası: sınıf oranlarının eşitliği, indeks dosyası). **Sınırlılık:** Aynı test kümesi birden fazla deneyde kullanılır → çoklu karşılaştırma uyarısı; kilit noktalar K-B/K-C.
+**Kanıt:** `src/bolme.py` (sıfırdan katmanlı bölme) + `tests/test_bolme.py` (7 test, sklearn ile sınıf bazında uyum dahil, 2026-11-20 yeşil);
+gerçek veri bölmesi `data/processed/bolme/` (n_egitim=246009, n_test=61502, tohum=42, %20), **commit'lendi** (`.gitignore` istisnası).
+**Sınırlılık:** Aynı test kümesi birden fazla deneyde kullanılır → çoklu karşılaştırma uyarısı; kilit noktalar K-B/K-C.
 
 ### D04 · Eksik değer stratejisi: modele göre   [🟡]
 **Seçenekler:** XGBoost yerel NaN + LR/RF için medyan + "eksik" göstergesi (seçilen) / MICE / KNN imputer / satır silme / tek tip sabit doldurma.
@@ -213,6 +215,14 @@ Makale sunumdan sonra teslim edileceği için bazı işler sunum sonrasına kaya
 **Kanıt:** `data/raw/HomeCredit_columns_description.csv` (latin-1), okunma tarihi 2026-11-20; öneri belgesi.
 
 ---
+
+### D33 · EDA, bölmeden SONRA ve yalnız eğitim kümesinde   [🟢]
+**Bağlam:** `docs/02` sıralaması V2 (EDA) → V3 (bölme) idi. Tüm veride EDA, test kümesinin dağılımını görmemize yol açar;
+sonra eksik doldurma/aykırı değer kararlarını farkında olmadan bu bilgiye göre veririz (araştırmacı kaynaklı sızıntı).
+**Seçenekler:** Önce böl, EDA'yı yalnız eğitimde yap (seçilen) / tüm veride EDA (önerideki örtük sıra) / EDA'yı tümden atla.
+**Gerekçe:** Kapı K-B koşulu "test setine hiç bakılmadı"; dürüst kalabilmek için bölme EDA'dan önce gelir. Fark küçük olsa da savunulabilir tek sıra budur.
+**Alternatif seçilseydi:** Tüm veride EDA sonuçları biraz daha "temiz" görünür ama "test setine baktınız mı?" sorusuna dürüst cevap "evet" olur.
+**Kanıt:** V3 bölme (D03) EDA'dan (V2) önce tamamlandı. **Sınırlılık:** Eğitimdeki aykırı/eksik desenleri tüm veriyi temsil etmeyebilir; test dağılımı final değerlendirmede görülür.
 
 ## Bilinen açık sorular (hocaya/öğrenciye)
 
