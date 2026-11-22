@@ -3,26 +3,10 @@
 Durum işaretleri: ✅ tamam · ⏳ sürüyor · ⬜ bekliyor. Claude, adım bitince burayı günceller.
 Süreler önerinin 13 haftalık çizelgesine göre **göreceli**; gerçek teslim tarihi öğrenilince yeniden dağıtılır.
 
-## Sıkıştırılmış takvim (2026-11-20 itibarıyla; yerine geçti: 13 haftalık çizelge)
+## Sıkıştırılmış takvim
 
-**Sunum: 7 Aralık 2026 (Pzt).** Makale sunumdan sonra teslim (tarih bilinmiyor). Sunuma kadar hedef:
-çalışan sızıntısız boru hattı + 3 model + AHP-TOPSIS + RQ1 (ve mümkünse RQ2) sonuçları + literatür özeti + slaytlar.
-Kapsam daraltmaları `docs/03` D31'de (🟡, öğrenci onayı bekliyor).
-
-| Tarih | Teknik iş | Paralel: literatür / yazım |
-|---|---|---|
-| 20 Kas Cu | Belge paketi depoya; seviye tespiti; V2 başlangıç | L1: arama protokolü |
-| 21–22 Kas | V2 kısa EDA; **V3 bölme (sıfırdan) → K-B** | L1: aramalar ve kayıt tablosu |
-| 23–25 Kas | F1–F4: temizleme, oranlar, büro toplulaştırma, `Pipeline` | L2: çekirdek okuma, literatür matrisi; AHP yargıçlarına form gönder |
-| 26 Kas | (tampon) | **L3 boşluk analizi + L4 ön-kayıt → K-A** (modellemeden önce) |
-| 27–29 Kas | M1–M3, dar M4, M6 kalibrasyon, **M7 → K-C**, M8 SHAP | Veri ve Yöntem taslağı |
-| 30 Kas–1 Ara | K1–K4: **AHP ve TOPSIS sıfırdan**, eşikler → K-D | Karar katmanı yöntemi |
-| 2 Ara | E1 (RQ1), E2 (RQ2) | Bulgular tabloları/şekilleri |
-| 3–4 Ara | Streamlit D1–D3 (minimal) | |
-| 5 Ara | | Slaytlar (R2) |
-| 6 Ara | | **Savunma provası (R3)** |
-| 7 Ara | **Sunum** | |
-| Sonrası | (İsteğe bağlı) kapsam genişletme: ek tablolar, RQ3 tam | Makale (R1), R4 |
+**Güncel sıralı plan `GELISTIRME_GUNLUGU.md` → "Sıradaki adım" tablosunda** (2026-11-22 sürümü). İlk takvim (2026-11-20) geçmiş olarak
+Git geçmişinde duruyor. Durum: A1–A4, V1–V3, F1–F2, F4, M1–M3, M5–M6, K1–K3 ✅; F3, M4 kısmen. Kalan kritik yol: K-A → M7 (K-C) → K4 (K-D) → E1 → dashboard → slaytlar.
 
 ## Kapı kontrolleri (geri dönüşü zor noktalar)
 
@@ -84,7 +68,7 @@ Test kümesine kural dışı bakılırsa bu `GELISTIRME_GUNLUGU.md` içine yazı
 | M2 ✅ | Random Forest | CV sonuçları | Aynı CV şeması | Bagging, aşırı uyum |
 | M3 ✅ | XGBoost | CV sonuçları | Aynı CV şeması, erken durdurma doğru kullanıldı (sızıntısız) | Boosting, hiperparametreler |
 | M4 ◐ | Dengesizlik stratejileri | Yok / `class_weight` / SMOTE / undersampling karşılaştırması | SMOTE yalnızca CV içinde; olasılık kalibrasyonu da raporlandı | Neden AUC kalibrasyonu göstermez |
-| M5 ⏳ | Hiperparametre arama | Arama bütçesi + sonuçlar | Aynı bütçe tüm modellere; en iyi parametreler kayıtlı | Aşırı uyum, arama stratejisi |
+| M5 ✅ | Hiperparametre arama | Arama bütçesi + sonuçlar | Aynı bütçe tüm modellere; en iyi parametreler kayıtlı | Aşırı uyum, arama stratejisi |
 | M6 ✅ | Kalibrasyon | Güvenilirlik eğrileri, Brier/ECE; isotonic/Platt/prior-shift | Kalibrasyon **OOF tahmin** üzerinde öğrenildi | Kalibrasyon ≠ ayırt edicilik |
 | M7 | Test değerlendirmesi → **K-C** | AUC, Gini, KS, PR-AUC, Brier, F1@eşik, maliyet; bootstrap %95 GA | Model seçimi CV'ye göre, test tek sefer | Güven aralığı, model karşılaştırma testi |
 | M8 | Açıklanabilirlik | Önem sıralaması, permutation importance, SHAP (global + yerel) | SHAP sınırlamaları yazıldı (korele özellikler, nedensellik değil) | Açıklanabilirlik ≠ nedensellik |
@@ -93,9 +77,9 @@ Test kümesine kural dışı bakılırsa bu `GELISTIRME_GUNLUGU.md` içine yazı
 
 | # | Adım | Çıktı | Bitti sayılır | Öğrenilen / savunma konusu |
 |---|---|---|---|---|
-| K1 | Kriter tablosu | 6 kriter: tanım, yön, ölçek, eksik değer kuralı | Her kriter koddan türetildi ve doğrulandı | Fayda/maliyet kriteri |
-| K2 | **AHP sıfırdan** | `src/ahp.py`: özvektör yöntemi, CR, grup birleştirme (geometrik ortalama) | Saaty örneğiyle ve bir kütüphaneyle (ör. `pymcdm`) çapraz doğrulandı; CR < 0,10 | AHP matematiği, tutarlılık |
-| K3 | **TOPSIS sıfırdan** | `src/topsis.py`: normalizasyon, ağırlıklı matris, ideal/anti-ideal, C* | Kitap örneği ve kütüphane ile aynı sonuç; **sabit referans** (eğitimden) desteği | TOPSIS adımları, rank reversal |
+| K1 ✅ | Kriter tablosu | 6 kriter: tanım, yön, ölçek, eksik değer kuralı | Her kriter koddan türetildi ve doğrulandı | Fayda/maliyet kriteri |
+| K2 ✅ | **AHP sıfırdan** | `src/ahp.py`: özvektör yöntemi, CR, grup birleştirme (geometrik ortalama) | Saaty örneğiyle ve bir kütüphaneyle (ör. `pymcdm`) çapraz doğrulandı; CR < 0,10 | AHP matematiği, tutarlılık |
+| K3 ✅ | **TOPSIS sıfırdan** | `src/topsis.py`: normalizasyon, ağırlıklı matris, ideal/anti-ideal, C* | Kitap örneği ve kütüphane ile aynı sonuç; **sabit referans** (eğitimden) desteği | TOPSIS adımları, rank reversal |
 | K4 | Bantlar ve eşikler → **K-D** | Onayla/Şartlı Onayla/Reddet tanımı | Eşikler eğitim OOF'unda kilitli; hedef onay oranı parametrik | Eşik seçimi, maliyet |
 | K5 | Karar gerekçesi | Kriter katkıları + SHAP özeti | Her karar için "neden" metni üretilebiliyor | Açıklama biçimi |
 

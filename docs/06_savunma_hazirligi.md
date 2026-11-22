@@ -56,13 +56,13 @@ Bölme bir kez yapıldı, indeksler commit'lendi (tohum 42). `[KANIT: test_bolme
 ## C. Modelleme
 
 **S12. Neden bu üç model? LightGBM/CatBoost/sinir ağı neden değil?** ⬜
-İskelet: D09: baseline + bagging + boosting; LightGBM ≈ XGBoost beklenir; tabular veride ağaçlar güçlü. **Sonuç:** XGB 0,769 > LR 0,753 > RF 0,749 (CV). RF'nin LR'yi geçememesi dürüstçe raporlanır (kısıtlı bütçe). `[KANIT: deneyler/m2_m3_*_tam.json]`
+İskelet: D09: baseline + bagging + boosting; LightGBM ≈ XGBoost beklenir; tabular veride ağaçlar güçlü. **Sonuç:** XGB 0,769 > LR 0,753 > RF 0,749 (CV). RF'nin LR'yi geçememesi dürüstçe raporlanır; M5'te eşit bütçeli aramadan sonra da sonuç aynı (RF 0,750 < LR 0,753) → bu özellik setinde bagging'in doğrusal modele üstünlüğü yok. XGB ayarlı 0,770 (seçilen). `[KANIT: deneyler/m2_m3_*_tam.json]`
 
 **S13. AUC'niz 0,7x. Düşük değil mi?** ⬜
 İskelet: Bu veri setinde literatürde ≈0,76–0,80 aralığı (LightGBM ≈0,79, `docs/05` §2); kredi riskinde AUC 0,9 şüphelidir (sızıntı). **Bizim M1 LR CV AUC = 0,753 ± 0,002** (temel+büro), beklenen aralıkta → sağlama tuttu. Hedef modelin mutlak skoru değil karar katmanı. `[KANIT: deneyler/m1_baseline_*_tam.json]`
 
 **S14. Hiperparametreleri nasıl seçtiniz? Aşırı uyum yok mu?** ⬜
-İskelet: Rastgele arama, eşit bütçe, CV, test kilitli (D10). Aşırı uyum göstergesi eğitim-CV farkı: RF 0,04, XGB 0,10 → XGB'de düzenlileştirme (M5). `[KANIT: CV-test farkı M7]`
+İskelet: Rastgele arama, eşit bütçe, CV, test kilitli (D10). Aşırı uyum göstergesi eğitim-CV farkı: XGB ayarsız 0,10 → ayarlı 0,06 (L2, min_child_weight, düşük öğrenme hızı). Seçim kuralı aramadan ÖNCE commit'lendi. `[KANIT: CV-test farkı M7]`
 
 **S15. Modeller arasındaki fark istatistiksel olarak anlamlı mı?** ⬜
 İskelet: Bootstrap GA + eşleştirilmiş fark; Friedman/Nemenyi tek veri setinde uygulanamaz (D14). `[KANIT: GA'lar]`
@@ -84,6 +84,9 @@ Bölme bir kez yapıldı, indeksler commit'lendi (tohum 42). `[KANIT: test_bolme
 **S20. Neden AHP? Eşit ağırlık ya da entropi neden olmasın?** ⬜
 İskelet: Politika önceliklerini yansıtır (karar verici müdahalesi); entropi/CRITIC veriden gelir ama politikayı bilmez. RQ2 ile karşılaştırdık (D19). `[KANIT: τ/κ]`
 
+**S20b. AHP ağırlığı nasıl hesaplanıyor? CR ne demek?** 🟨
+İskelet: İkili karşılaştırma matrisinin en büyük özdeğerine ait özvektör = ağırlıklar (kuvvet yinelemesiyle hesapladık, numpy ile doğruladık). Tam tutarlı yargıda a_ij = w_i/w_j ve λmax = n olur; tutarsızlık λmax'ı n'nin üstüne çıkarır. CI = (λmax−n)/(n−1); CR = CI/RI, RI rastgele doldurulmuş matrislerin ortalama CI'sı (n=6 → 1,24). CR < 0,10 → yargılar rastgeleye göre yeterince tutarlı. `[KANIT: test_ahp.py]`
+
 **S21. AHP ikili karşılaştırmalarını kim yaptı? Banka uzmanı mıydı?** ⬜
 İskelet: Dürüst cevap: yargıçlar `[... ]`, CR `[...]`, geometrik ortalama; uzman olmayan yargı sınırlılık; bu yüzden ağırlık duyarlılığını (RQ2) ana deney yaptık. Uydurma "uzman" yok.
 
@@ -91,7 +94,7 @@ Bölme bir kez yapıldı, indeksler commit'lendi (tohum 42). `[KANIT: test_bolme
 İskelet: D20: bağımsız başvuru puanı, sezgisel. Alternatifler farklı telafi varsayımları; "ek" duyarlılık karşılaştırması `[KANIT, varsa]`.
 
 **S23. TOPSIS'te rank reversal sorunu yok mu? Tek başvuruda nasıl çalışıyor?** ⬜
-İskelet: Eğitimden **sabit** ideal/anti-ideal; García-Cascales & Lamata 2012 ✅; batch'e karşı fark RQ4 (D21).
+İskelet: Eğitimden **sabit** ideal/anti-ideal; García-Cascales & Lamata 2012 ✅; batch'e karşı fark RQ4 (D21). Testle gösterdik: klasik TOPSIS'te kümeye aşırı iyi bir alternatif eklenince diğerlerinin puanı değişiyor; sabit referansta bir başvurunun puanı yanında kim olursa olsun aynı. Tek başvuru (dashboard) böylece tanımlı. Kodu pymcdm ile çapraz doğruladık. `[KANIT: test_topsis.py]`
 
 **S24. PD zaten gelir, kredi/gelir vb. özellikleri kullanıyor; aynı bilgiyi ikinci kez saymıyor musunuz?** ⬜
 İskelet: Evet, risk. Gerekçe: PD "istatistik", kriterler "politika". Ablation: politika-kör PD; nominal-etkin ağırlık analizi (D18). **Bu savunmanın en önemli sorusudur.** `[KANIT]`

@@ -164,7 +164,7 @@ kalıcı kod `src/`'de, denemeler `notebooks/`'ta tutulur.
 
 ### Adım 12: F3 bureau toplulaştırma ◐ (bureau ✅, bureau_balance bekliyor)
 - `src/ek_tablolar.py`: `buro_ozellikleri` (SK_ID_CURR düzeyinde: kayıt/aktif/gecikmeli/uzatma sayısı, maks gecikme gün/tutar, toplam borç/kredi, borç oranı, son kredi günü), `basvuruya_birlestir` ("kayıt yok" kuralı: sayım 0, oran/tutar NaN, `BURO_KAYDI_VAR`). `tests/test_ek_tablolar.py` 4/4.
-- Gerçek veri: büro özet 305.811 başvuru; eğitime birleşince **246.009 satır korundu**. **Başvuruların %14,3'ü büro kaydı yok** (35.244). Gecikme izi %0,2, borç oranı medyan 0,22.
+- Gerçek veri: büro özet 305.811 başvuru; eğitime birleşince **246.009 satır korundu**. **Başvuruların %14,3'ü büro kaydı yok** (35.244). Gecikme izi **%23,6** (düzeltildi: ilk kayıttaki %0,2 bir yazdırma hatasıydı, `docs/07`), borç oranı medyan 0,22.
 - bureau_balance (aylık STATUS/DPD) sunum kapsamında **opsiyonel**; zaman kalırsa eklenir (D31).
 
 ### Adım 13: F4 sızıntısız Pipeline ✅
@@ -194,6 +194,23 @@ kalıcı kod `src/`'de, denemeler `notebooks/`'ta tutulur.
 - Claude ortamında 20 bin satır × 2 adayla duman testi geçti (kod çalışıyor; sayılar anlamsız).
 - Tam koşu öğrencinin makinesinde (12 iş parçacığı); tahmini süre kaba olarak 1–3 saat. Çıktı `deneyler/m5_arama_<tarih>_tam.json`.
 
+### Adım 18: K1 kriter tablosu (öneri) + K2 AHP sıfırdan ✅
+- **Düzeltme:** F3'te başvuru düzeyi gecikme izi %0,2 yazılmıştı; doğrusu **%23,6** (yazdırma hatası). `docs/07` düzeltildi. 6. kriter gerçekten ayırt edici.
+- `src/ahp.py`: matris doğrulama, üst üçgenden matris, kuvvet yinelemesiyle ağırlık + λmax, CI/CR (RI web'de doğrulandı), geometrik ortalama grup birleştirme. `tests/test_ahp.py` 7/7 (numpy.linalg.eig ile çapraz doğrulama dahil).
+- **D34 (🟡):** 6 kriter, yönler, eksik kuralları (K5 emekli → eğitim medyanı; K6 kayıtsız → 0; tümü eğitim p1–p99 kırpma).
+- `docs/ahp_yargi_formu.md` (15 ikili karşılaştırma) + `docs/kaynaklar/ahp_yargilar_sablon.csv`.
+- **D19 (🟡):** Birincil yargıç öğrencinin babası (bankacı); mümkünse 1–2 meslektaşı. Bağımsız doldurma; CR>0,10 ise yeniden değerlendirme.
+
+### Adım 19: K3 TOPSIS sıfırdan + K1 kriter hazırlayıcı ✅
+- `src/topsis.py`: `batch_topsis` (klasik) + `SabitTopsis` (eğitimden kırpma/norm/ideal; tek başvuruda tanımlı, rank reversal yok). `tests/test_topsis.py` 7/7, **pymcdm 1.4 ile çapraz doğrulama** dahil.
+- `src/kriterler.py`: D34 kuralları (K5 eksik → eğitim medyanı, K6 kayıt yok → 0), fit yalnız eğitimde; `tests/test_kriterler.py`.
+- `src/ahp.py::en_tutarsiz_ciftler` (yargıca yeniden sorulacak çiftler). Öğrenilen: n=3'te tutarsızlığın yeri tespit edilemez (tek döngü); n=6'da edilir — testli.
+- Gerçek veride uçtan uca sağlama (eşit ağırlık, **raporlanmaz**): boru hattı çalışıyor, C* ile PD negatif ilişkili. Tüm testler: 45.
+
+### Adım 20: M5 eşit bütçeli arama ✅
+- Tam eğitim, öğrencinin makinesi (~35 dk). LR 0,7528 · RF 0,7503 · **XGB 0,7704 ± 0,001** → kurala göre **XGBoost seçildi**. XGB eğitim-CV farkı 0,10→0,06. RF ayarlı hâliyle de LR'nin altında.
+- Protokol sapması kaydı: K-A ön-kaydı modellemeden sonra, karar katmanı deneylerinden önce (`docs/04` §10).
+
 ## Açık konular / kararlar
 
 - **TOPSIS tek başvuruda tanımsız:** İdeal/anti-ideal noktalar eğitim verisinden (ör. %5 ve %95 yüzdelikleri)
@@ -207,10 +224,30 @@ kalıcı kod `src/`'de, denemeler `notebooks/`'ta tutulur.
 - **Kararlar ve ayrıntılar:** `docs/03` (D01–D32). Bilinen zayıf noktalar: `docs/01` §2.
 - **Sorulacaklar:** makale şablonu/dili/tarihi, değerlendirme kriterleri, AHP yargıçları, cinsiyet değişkeni (D16), RAM (`docs/01` §6).
 
-## Sıradaki adım
+## Sıradaki adım — güncel plan (2026-11-22, sunum 7 Aralık Pzt)
 
-1. **Öğrenci:** `deneyler\m5_arama.py`'yi tam veride çalıştır (uzun sürer), JSON'u commit'le.
-2. **Paralel (M5'i beklemez):** **K1 kriter tablosu + K2 AHP sıfırdan** (`src/ahp.py`: özvektör, CR, geometrik ortalama ile grup birleştirme; Saaty örneğiyle test). AHP, PD değerlerine bağlı değil.
-3. M5 bitince: **M7 → K-C** (seçilen model, test tek sefer, bootstrap GA). Sonra K3 TOPSIS, K4 eşikler (OOF üzerinde, K-D).
+Sahip: **Sen** = Egemen · **Ben** = Claude · **Birlikte**. Kritik yol kalın.
+
+| # | Ne zaman | İş | Sahip | Kapı / not |
+|---|---|---|---|---|
+| 1 | 22 Kas | Bekleyen commit'ler + `m5_arama_*_tam.json` commit | Sen | — |
+| 2 | 22–23 Kas | **AHP formunu babana ver** (bağımsız doldursun; mümkünse 1–2 meslektaş) | Sen | Dönüş hedefi 25 Kas |
+| 3 | 22 Kas | **L4 ön-kayıt** (E1–E3 hipotez, metrik, istatistik) taslağı → sen onayla, commit | Ben → Sen | **K-A** (sapma kayıtlı, `docs/04` §10) |
+| 4 | 22–23 Kas | Final XGB (M5 parametreleri) OOF + D13 kalibrasyon kuralı (ECE) + tüm eğitimle final fit | Ben | Test açılmaz |
+| 5 | 23 Kas | **M7: test kümesi TEK SEFER** — LR/RF/XGB: AUC, Gini, KS, PR-AUC, Brier + bootstrap %95 GA | Ben, sen onayla | **K-C**, erişim sayacına yaz |
+| 6 | 23–24 Kas | M8 SHAP (global + yerel), permutation importance | Ben | T9 taahhüdü |
+| 7 | 25 Kas | AHP yargıları → ağırlıklar, CR; gerekirse en tutarsız çiftler yeniden sorulur | Birlikte | D19 |
+| 8 | 25–26 Kas | **K4 bantlar/eşikler** (Onayla/Şartlı/Reddet) eğitim OOF'unda | Ben | **K-D** |
+| 9 | 26–27 Kas | **E1 (RQ1)**: eşit onay oranında PD-tek vs AHP-TOPSIS; swap-set; politika ihlali; w_PD taraması; bootstrap | Ben | Çekirdek katkı |
+| 10 | 28–29 Kas | E2 (RQ2) ağırlık dayanıklılığı (Dirichlet MC, karar kararlılığı); zaman kalırsa E3 dar | Ben | Hedef katman |
+| 11 | 30 Kas–2 Ara | Streamlit dashboard D1–D3 (tek başvuru, ağırlık kaydırıcı, SHAP + kriter katkısı) | Ben | T8/T9 |
+| 12 | 23 Kas–2 Ara (günde ~1 sa) | **L2 sistematik literatür taraması** (Scopus/WoS/IEEE + atıf zinciri), `docs/05` §7 | Sen | Katkı cümlesinin dayanağı |
+| 13 | 3–4 Ara | Sonuç tabloları/şekilleri, literatür + katkı slaytları | Birlikte | — |
+| 14 | 5 Ara | Slaytlar (R2) | Birlikte | — |
+| 15 | 6 Ara | **Savunma provası** (R3): ben hoca rolünde | Birlikte | `docs/06` |
+| 16 | 7 Ara | **Sunum** | Sen | — |
+| 17 | Sunum sonrası | Makale (R1), kapsam genişletme (ek tablolar, bureau_balance, RQ3 tam), R4 | Birlikte | — |
+
+Tampon: 3–4 Aralık kısmen tampondur; gecikme olursa önce #10 (RQ2) daraltılır, #9 (RQ1) ve #11 (dashboard) düşmez.
 
 ## Değişiklik kaydı

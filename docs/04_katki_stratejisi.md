@@ -126,7 +126,7 @@ Neden ön-kayıt? Sonuçları gördükten sonra hipotez veya metrik değiştirme
 
 | Tarih | Sapma | Neden | Etkisi |
 |---|---|---|---|
-| | | | |
+| 2026-11-22 | K-A (ön-kayıt) modelleme ÖNCESİ değil, modelleme SONRASI / karar katmanı deneyleri (E1–E3) ÖNCESİ yapılıyor | 17 günlük takvim; modelleme ile literatür paralel yürüdü | Model düzeyindeki seçimler yine sonuç görülmeden yazıldı (D10 seçim kuralı, D13 kalibrasyon kuralı; tarihli commit'ler). Karar katmanı hipotezleri (H1–H3) E-fazından önce dondurulur. Raporda açıkça belirtilir. |
 
 ## 11. Katkı iddiası cümle şablonları (dikkatli)
 

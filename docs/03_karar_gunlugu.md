@@ -95,11 +95,12 @@ CatBoost kategorik veride avantajlı; ikisi de "ek" katmanda duyarlılık olarak
 | XGBoost | **0,769 ± 0,002** | **0,257** | 0,869 | 165 sn |
 Gözlem: XGB > LR ≈ +0,017 AUC (CV std'nin ~8 katı; resmî test M7 bootstrap). **RF, LR'nin biraz altında** (kısıtlı ayar: derinlik 12, max_samples 0,3) — gizlenmez, M5'te eşit bütçeli aramayla yeniden bakılacak. XGB eğitim-CV farkı 0,10 → düzenlileştirme M5. `deneyler/m1_*`, `deneyler/m2_m3_*`
 
-### D10 · Hiperparametre arama   [🟡]
+### D10 · Hiperparametre arama   [🟢]
 **Seçenekler:** Rastgele arama (seçilen) / grid / Optuna (Bayes) / elle ayar.
 **Gerekçe:** Eşit bütçeyle adil karşılaştırma; rastgele arama grid'e göre geniş uzayda daha verimli (⚠️ Bergstra & Bengio 2012, doğrulanacak). **Alternatif:** Optuna daha az denemede iyi sonuç verir; öğrenme açısından "ek".
 **Tasarım (2026-11-22, arama ÖNCESİ yazıldı):** `deneyler/m5_arama.py` — her model 12 aday × 3 katlı CV (eşit bütçe), ölçüt ROC-AUC; en iyi parametreler M1–M3 ile aynı 5 katlı CV'de yeniden ölçülür. **Seçim kuralı:** en yüksek 5 katlı CV ROC-AUC. Test kümesi seçime karışmaz. Uzaylar betikte kayıtlı (LR: C; RF: ağaç sayısı/derinlik/yaprak/özellik/örnek oranı; XGB: ağaç, öğrenme hızı, derinlik, min_child_weight, subsample, colsample, L1/L2).
-**Kanıt:** M2/M3 şimdilik **sabit, makul** parametrelerle (betikte kayıtlı); erken durdurma kullanılmadı (ayrı doğrulama katı gerektirir, sızıntı riski). Arama M5'te eşit bütçeyle. (M5: bütçe, aranan uzay, CV skor dağılımı.)
+**Sonuç (M5, 2026-11-22, tam eğitim, öğrencinin makinesi ~35 dk):** LR 0,7528±0,002 (C≈0,031; aday aralığı 0,7518–0,7526) · RF 0,7503±0,002 (aday 0,7467–0,7498) · **XGB 0,7704±0,001** (aday 0,7509–0,7692; lr≈0,024, derinlik 6, 754 ağaç, min_child_weight 15, L2≈4,6). Kurala göre **XGBoost seçildi**. Ayar kazancı küçük (XGB +0,001) ama eğitim-CV farkı 0,10→0,06. RF ayarlı hâliyle de LR'nin altında → ilk bulgu ayar eksikliğinden değil. `deneyler/m5_arama_2026-11-22_tam.json`
+**Önceki not:** M2/M3 şimdilik **sabit, makul** parametrelerle (betikte kayıtlı); erken durdurma kullanılmadı (ayrı doğrulama katı gerektirir, sızıntı riski). Arama M5'te eşit bütçeyle. (M5: bütçe, aranan uzay, CV skor dağılımı.)
 
 ### D11 · Metrik seti   [🟢]
 **Seçenekler:** ROC-AUC (+Gini), PR-AUC, KS, Brier, ECE, F1@eşik, beklenen maliyet (seçilen) / doğruluk.
@@ -148,22 +149,24 @@ Gözlem: XGB > LR ≈ +0,017 AUC (CV std'nin ~8 katı; resmî test M7 bootstrap)
 **Gerekçe (savunma):** PD "istatistiksel risk", diğer kriterler "banka politikası/ödeme gücü" kısıtını temsil eder; amaç tam da bu iki dilin birleşiminin bedelini ölçmek (RQ1).
 **Kanıt:** F2 (2026-11-22): `KREDI_GELIR`/`TAKSIT_GELIR` TARGET ile korelasyon ≈0 (−0,009/+0,013) → politika kriterleri risk sinyali taşımıyor, ayrı dil oldukları savunmasını destekler. (Ek: kriter korelasyon matrisi, "politika-kör PD" ablation, etkin-nominal ağırlık analizi — model fazında.)
 
-### D19 · Ağırlıklandırma: AHP, yargıçlar kim?   [🔴]
+### D19 · Ağırlıklandırma: AHP, yargıçlar kim?   [🟡]
+**Güncelleme (2026-11-22):** Birincil yargıç: **bir banka çalışanı** (öğrencinin babası; kredi değerlendirme deneyimi formda kayıt altına alınacak). Mümkünse 1–2 meslektaşı da eklenecek → grup AHP (geometrik ortalama). Yargıç **bağımsız** doldurur: model sonuçları ve öğrencinin görüşü önceden paylaşılmaz. CR > 0,10 ise en tutarsız çiftler gösterilip yeniden değerlendirme istenir (standart AHP uygulaması). Raporda yargıcın rolü ve deneyimi yazılır; yakınlık ilişkisi sorulursa açıkça belirtilir. Tek yargıç kalırsa RQ2 ağırlık dayanıklılığı bu sınırlılığı telafi eden ana analizdir.
 **Seçenekler:** AHP, grup yargısı (seçilen) / tek kişilik AHP / eşit ağırlık / entropi / CRITIC / BWM (en iyi-en kötü).
 **Gerekçe:** Öneri T7 AHP der. AHP öznel yargı ister; "banka uzmanı" yoksa vekil gerekir: ≥ 3 yargıç (bankacı, finans öğretim üyesi, finans öğrencisi), geometrik ortalamayla birleştirme (⚠️ Aczél & Saaty 1983), CR < 0,10 koşulu. Yargı toplanamazsa literatür temelli ağırlıklar + geniş duyarlılık analizi, ve bu açıkça sınırlılık yazılır.
 **Alternatif seçilseydi:** Entropi/CRITIC objektif (veriden) ama "politika önceliklerini" yansıtmaz; BWM daha az karşılaştırma ister (⚠️ Rezaei 2015) ve KOBİ kredi literatüründe kullanıldı (Roy & Shaw ✅).
-**Kanıt:** (yargı tabloları, CR değerleri, RQ2 karşılaştırması).
+**Kanıt:** `src/ahp.py` sıfırdan (kuvvet yinelemesi özvektör, CI/CR, geometrik ortalama grup birleştirme), `tests/test_ahp.py` 7/7: tutarlı matristen ağırlığı geri verir (CR=0, λmax=n), `numpy.linalg.eig` ile aynı özvektör, döngüsel yargıda CR>0,10. RI değerleri web'de doğrulandı (n=6 → 1,24). Yargı formu `docs/ahp_yargi_formu.md`. **Yargıçlar henüz belirlenmedi.** (Yargı tabloları, CR değerleri, RQ2 karşılaştırması.)
 
 ### D20 · MCDM yöntemi: TOPSIS   [🟢]
 **Seçenekler:** TOPSIS (öneri, seçilen) / VIKOR / PROMETHEE / ELECTRE / SAW (ağırlıklı toplam) / MARCOS.
 **Gerekçe:** Mesafe tabanlı, sezgisel, her alternatifi bağımsız bir puana indirgiyor (başvuru bazlı puan lazım). **Alternatif seçilseydi:** SAW şeffaf ve rank reversal'a daha az açık ama uç değerlerde telafi edici (bir kriterin kötülüğü diğeriyle kapanır); VIKOR "uzlaşı çözümü" ve grup faydası/pişmanlık kavramıyla sınırlı telafiye izin verir (⚠️ Opricovic & Tzeng 2004).
 **Kanıt:** (RQ2'de SAW/VIKOR duyarlılık karşılaştırması "ek").
 
-### D21 · TOPSIS referans noktaları ve normalizasyon   [🔴]
+### D21 · TOPSIS referans noktaları ve normalizasyon   [🟢]
 **Seçenekler:** Vektör normalizasyon + **eğitim verisinden sabitlenmiş** ideal/anti-ideal (eğitim yüzdelikleri) (önerilen) / batch min-max / vektör normalizasyon (batch).
 **Gerekçe:** Dashboard tek başvuru değerlendirir; batch TOPSIS tek alternatifte tanımsızdır. Küme değişince sıralamanın değişmesi (rank reversal; ✅ García-Cascales & Lamata 2012) bağımsız karar için istenmez. Sabit referans bu sorunu yok eder ama referans seçimi (p1/p99 mu, p5/p95 mi?) yeni bir parametre.
 **Alternatif seçilseydi:** Batch TOPSIS aynı başvuruya farklı grupta farklı puan verir; bunu RQ4'te ölçmek mümkün.
-**Kanıt:** (K3 birim testi; E4 batch-vs-sabit deneyi).
+**Karar:** Vektör normalizasyonu; kırpma sınırları (p1/p99), normalizasyon paydası ve A+/A− **yalnız eğitimden** (`src/topsis.py::SabitTopsis`).
+**Kanıt:** `tests/test_topsis.py` 7/7: (i) baskın alternatif C*=1, baskın olunan C*=0; (ii) klasik TOPSIS **pymcdm 1.4** ile aynı (korelasyon > 0,999, sıralama uyumu > %99); (iii) eğitim kümesinde SabitTopsis = batch TOPSIS (kırpılmış); (iv) sabit referansta başvuru tek tek ya da toplu puanlansa da aynı puan (rank reversal yok); (v) batch TOPSIS'te yeni alternatif eklenince mevcut puanlar değişiyor (rank reversal var). Gerçek veride uçtan uca çalıştı (kriter hazırlayıcı + SabitTopsis). (E4 batch-vs-sabit deneyi: ek kapsam.)
 
 ### D22 · Karar bantları ve eşikler   [🔴]
 **Seçenekler:** Hedef onay oranına göre eğitim OOF C* niceliklerinden eşik (önerilen) / sabit puan eşikleri (örn. 0,6/0,4) / maliyet tabanlı eşik / karar vericinin dashboard'da ayarladığı eşikler.
@@ -232,6 +235,25 @@ sonra eksik doldurma/aykırı değer kararlarını farkında olmadan bu bilgiye 
 **Gerekçe:** Kapı K-B koşulu "test setine hiç bakılmadı"; dürüst kalabilmek için bölme EDA'dan önce gelir. Fark küçük olsa da savunulabilir tek sıra budur.
 **Alternatif seçilseydi:** Tüm veride EDA sonuçları biraz daha "temiz" görünür ama "test setine baktınız mı?" sorusuna dürüst cevap "evet" olur.
 **Kanıt:** V3 bölme (D03) EDA'dan (V2) önce tamamlandı. **Sınırlılık:** Eğitimdeki aykırı/eksik desenleri tüm veriyi temsil etmeyebilir; test dağılımı final değerlendirmede görülür.
+
+### D34 · Karar kriterleri tablosu (K1)   [🟡]
+**Bağlam:** T6'daki 6 kriterin koddan türetilmesi, yönü ve eksik değer kuralı. TOPSIS'te yön ve aykırı değerler sonucu doğrudan etkiler.
+
+| Kod | Kriter | Sütun (kod) | Yön | Eksik / özel durum kuralı (önerilen) |
+|---|---|---|---|---|
+| K1 | Temerrüt olasılığı | seçilen modelin PD'si (eğitimde OOF) | maliyet | yok |
+| K2 | Kredi/gelir | `KREDI_GELIR` | maliyet | eksik yok (eğitimde %0) |
+| K3 | Taksit/gelir | `TAKSIT_GELIR` | maliyet | eksik ≈0; kalırsa eğitim medyanı |
+| K4 | Gelir | `AMT_INCOME_TOTAL` | fayda | eksik yok |
+| K5 | İstihdam süresi | `ISTIHDAM_YIL` | fayda | **anomali grubu (%17,9, emekli/çalışmayan) → eğitim medyanı** |
+| K6 | Geçmiş gecikme | `BURO_GECIKMELI_SAYISI` | maliyet | **büro kaydı yok (%14,3) → 0** |
+
+**Ek kural:** Her kriter TOPSIS öncesi **eğitimin p1–p99** aralığına kırpılır (sınırlar eğitimden, D21 sabit referansın temeli).
+Gerekçe: gelirde aşırı uçlar var; vektör normalizasyonu uçlara duyarlı, tek bir aşırı gelir tüm diğerlerini sıkıştırır.
+**Gerekçe (K5):** Emekli grubu verinin gösterdiği gibi daha **düşük** riskli (temerrüt %5,4 vs %8,7, V2). 0 yıl vermek onları cezalandırır ve kanıtla çelişir; medyan "ne ödül ne ceza"dır.
+**Gerekçe (K6):** Politika kriteri olarak "gözlenmiş gecikme yok" ile "kayıt yok" ikisi de gecikme kanıtı içermez; kanıt olmadan ceza verilmez. Not: **model** tarafında bu iki durum ayrı tutulur (`BURO_KAYDI_VAR`, F3); karar katmanında ayrım PD üzerinden zaten yansır.
+**Alternatifler:** K5 için 0 (cezalandırıcı) / ayrı "emekli" kriteri; K6 için kayıtsızlara medyan ya da ceza; kırpma yerine log dönüşümü.
+**Kanıt:** V2/F3 bulguları (`docs/07`). Duyarlılık: RQ2'de bu kurallar değiştirilerek karar değişim oranı ölçülebilir.
 
 ## Bilinen açık sorular (hocaya/öğrenciye)
 
