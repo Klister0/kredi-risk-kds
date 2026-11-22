@@ -67,6 +67,7 @@ Test kümesi henüz oluşturulmadı. Her açılış buraya yazılır: tarih · n
 | Tarih | Neden | Kapı | Not |
 |---|---|---|---|
 | 2026-11-20 | Bölme üretimi: SK_ID_CURR'lar teste atandı | K-B | Yalnız SK_ID_CURR+TARGET okundu; test ÖZELLİKLERİNE bakılmadı. n_test=61502 |
+| 2026-11-22 | M7: üç modelin test değerlendirmesi (tek sefer) | K-C | XGB AUC 0,777. İlk deneme test kimlik dosyası eksik olduğu için veri okunmadan durdu (açılış sayılmaz). Kilit dosyası `deneyler/m7_test_sonuc.json`. Test tahminleri E1 için `data/processed/test_tahmin/` |
 
 ## Tamamlanan adımlar
 
@@ -215,6 +216,12 @@ kalıcı kod `src/`'de, denemeler `notebooks/`'ta tutulur.
 - `deneyler/final_model.py`: M5 parametreleri JSON'dan okunur; 5 katlı OOF (AUC 0,7705, Brier 0,0671, **ECE 0,0023 → D13 kuralı: ham PD**); tüm eğitimle final fit. Model `data/processed/model/final_model.joblib`, OOF `data/processed/oof/final_oof.csv` (git dışı, betikle yeniden üretilir). Test açılmadı.
 - `docs/08_on_kayit_v1.md`: E1 (RQ1, doğrulayıcı: birincil Δ = ortalama kötü oranı farkı a∈0,2–0,8, eşleştirilmiş bootstrap B=1000), E2 (RQ2, keşifsel), E3-dar (RQ3, eğitim OOF). Bantlar %15/%15/%70 (politika parametresi). **Öğrenci onayı + commit = K-A.**
 
+### Adım 22: K-A ✅ + M7 test değerlendirmesi (K-C) ✅
+- Ön-kayıt `docs/08_on_kayit_v1.md` commit'lendi (3a6c1ee) → **K-A**.
+- `src/degerlendirme.py` (KS, eşleştirilmiş bootstrap sıfırdan; `tests/test_degerlendirme.py`), `deneyler/m7_test.py` (deneme modu + ikinci açılışı engelleyen kilit).
+- **Test (n=61.502):** XGB AUC **0,777 [0,770–0,784]**, Gini 0,554, KS 0,417, PR-AUC 0,265, Brier 0,0667, ECE 0,0032. LR 0,757, RF 0,756. XGB−LR +0,019 [+0,017; +0,022] → anlamlı. CV→test 0,770→0,777.
+- `commit_bekleyen.cmd`: Claude push edemiyor (izin reddedildi); öğrenci bu betikle commit'liyor.
+
 ## Açık konular / kararlar
 
 - **TOPSIS tek başvuruda tanımsız:** İdeal/anti-ideal noktalar eğitim verisinden (ör. %5 ve %95 yüzdelikleri)
@@ -236,9 +243,9 @@ Sahip: **Sen** = Egemen · **Ben** = Claude · **Birlikte**. Kritik yol kalın.
 |---|---|---|---|---|
 | 1 | 22 Kas | Bekleyen commit'ler + `m5_arama_*_tam.json` commit | Sen | — |
 | 2 | 22–23 Kas | **AHP formunu babana ver** (bağımsız doldursun; mümkünse 1–2 meslektaş) | Sen | Dönüş hedefi 25 Kas |
-| 3 | 22 Kas | **L4 ön-kayıt** `docs/08_on_kayit_v1.md` — taslak hazır ✅, öğrenci onayı + commit bekliyor | Ben → Sen | **K-A** (sapma kayıtlı, `docs/04` §10) |
+| 3 | 22 Kas ✅ | **L4 ön-kayıt** `docs/08_on_kayit_v1.md` commit'lendi | Ben → Sen | **K-A** ✅ |
 | 4 | 22 Kas ✅ | Final XGB OOF (AUC 0,7705, ECE 0,0023 → ham PD) + tüm eğitimle final fit | Ben | Test açılmadı |
-| 5 | 23 Kas | **M7: test kümesi TEK SEFER** — LR/RF/XGB: AUC, Gini, KS, PR-AUC, Brier + bootstrap %95 GA | Ben, sen onayla | **K-C**, erişim sayacına yaz |
+| 5 | 22 Kas ✅ | **M7: test kümesi TEK SEFER** — XGB AUC 0,777 [0,770–0,784] | Ben | **K-C** ✅ |
 | 6 | 23–24 Kas | M8 SHAP (global + yerel), permutation importance | Ben | T9 taahhüdü |
 | 7 | 25 Kas | AHP yargıları → ağırlıklar, CR; gerekirse en tutarsız çiftler yeniden sorulur | Birlikte | D19 |
 | 8 | 25–26 Kas | **K4 bantlar/eşikler** (Onayla/Şartlı/Reddet) eğitim OOF'unda | Ben | **K-D** |

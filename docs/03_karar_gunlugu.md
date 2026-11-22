@@ -103,6 +103,14 @@ Gözlem: XGB > LR ≈ +0,017 AUC (CV std'nin ~8 katı; resmî test M7 bootstrap)
 **Önceki not:** M2/M3 şimdilik **sabit, makul** parametrelerle (betikte kayıtlı); erken durdurma kullanılmadı (ayrı doğrulama katı gerektirir, sızıntı riski). Arama M5'te eşit bütçeyle. (M5: bütçe, aranan uzay, CV skor dağılımı.)
 
 ### D11 · Metrik seti   [🟢]
+**Test sonuçları (M7, K-C, 2026-11-22; n=61.502, pozitif %8,07; eşleştirilmiş bootstrap B=1000, %95 GA):**
+| Model | ROC-AUC | Gini | KS | PR-AUC | Brier | ECE |
+|---|---|---|---|---|---|---|
+| **XGBoost (seçilen)** | **0,777** [0,770–0,784] | 0,554 [0,541–0,567] | 0,417 [0,406–0,431] | 0,265 [0,254–0,277] | 0,0667 | 0,0032 |
+| LR | 0,757 [0,750–0,764] | 0,515 | 0,387 | 0,238 | 0,0680 | 0,0033 |
+| RF | 0,756 [0,749–0,763] | 0,512 | 0,382 | 0,233 | 0,0688 | 0,0160 |
+Eşleştirilmiş farklar: XGB−LR AUC **+0,019 [+0,017; +0,022]**, XGB−RF **+0,021 [+0,018; +0,024]** (GA'lar 0'ı içermiyor). CV→test: XGB 0,770→0,777 (aşırı uyum işareti yok; final model verinin %100'üyle eğitildi). `deneyler/m7_test_sonuc.json`
+
 **Seçenekler:** ROC-AUC (+Gini), PR-AUC, KS, Brier, ECE, F1@eşik, beklenen maliyet (seçilen) / doğruluk.
 **Gerekçe:** %8 pozitif oranında "herkes ödeyecek" modeli ≈%92 doğruluk alır; doğruluk anlamsız. AUC eşikten bağımsız ayırt edicilik, PR-AUC dengesiz veri duyarlılığı (⚠️ Saito & Rehmsmeier 2015), KS/Gini sektör dili, Brier/ECE kalibrasyon (karar katmanı için kritik).
 **Kanıt:** (M7 tablosu).
@@ -119,7 +127,7 @@ Gözlem: XGB > LR ≈ +0,017 AUC (CV std'nin ~8 katı; resmî test M7 bootstrap)
 **Ön-belirlenmiş kural (K-C öncesi yazıldı):** Seçilen final modelin OOF ECE'si < 0,01 ise **ham** PD kullanılır; değilse **isotonic**, tüm eğitim OOF'una fit edilip teste uygulanır. Sızıntısız: kalibrasyon yalnız OOF'tan öğrenilir.
 **Uygulama (2026-11-22):** Final XGB (M5 parametreleri) OOF ECE = **0,0023** < 0,01 → **ham PD** kullanılır. OOF AUC 0,7705, Brier 0,0671. `deneyler/final_model_2026-11-22.json`
 
-### D14 · Modeller arası istatistiksel karşılaştırma   [🟡]
+### D14 · Modeller arası istatistiksel karşılaştırma   [🟢] (eşleştirilmiş bootstrap uygulandı, D11 tablosu)
 **Seçenekler:** Bootstrap %95 GA + eşleştirilmiş fark (seçilen) / DeLong AUC testi / katlar üzerinde eşleştirilmiş t-testi (düzeltmeli) / Friedman+Nemenyi (çoklu veri seti).
 **Gerekçe:** Tek veri setinde Friedman/Nemenyi uygulanamaz; test kümesi büyük (≈61 bin) olduğundan bootstrap ve DeLong uygulanabilir. Kat bazlı t-testi bağımsızlık varsayımını ihlal eder (⚠️ Nadeau & Bengio 2003).
 **Kanıt:** (M7).

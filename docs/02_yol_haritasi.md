@@ -70,7 +70,7 @@ Test kümesine kural dışı bakılırsa bu `GELISTIRME_GUNLUGU.md` içine yazı
 | M4 ◐ | Dengesizlik stratejileri | Yok / `class_weight` / SMOTE / undersampling karşılaştırması | SMOTE yalnızca CV içinde; olasılık kalibrasyonu da raporlandı | Neden AUC kalibrasyonu göstermez |
 | M5 ✅ | Hiperparametre arama | Arama bütçesi + sonuçlar | Aynı bütçe tüm modellere; en iyi parametreler kayıtlı | Aşırı uyum, arama stratejisi |
 | M6 ✅ | Kalibrasyon | Güvenilirlik eğrileri, Brier/ECE; isotonic/Platt/prior-shift | Kalibrasyon **OOF tahmin** üzerinde öğrenildi | Kalibrasyon ≠ ayırt edicilik |
-| M7 | Test değerlendirmesi → **K-C** | AUC, Gini, KS, PR-AUC, Brier, F1@eşik, maliyet; bootstrap %95 GA | Model seçimi CV'ye göre, test tek sefer | Güven aralığı, model karşılaştırma testi |
+| M7 ✅ | Test değerlendirmesi → **K-C** | AUC, Gini, KS, PR-AUC, Brier, F1@eşik, maliyet; bootstrap %95 GA | Model seçimi CV'ye göre, test tek sefer | Güven aralığı, model karşılaştırma testi |
 | M8 | Açıklanabilirlik | Önem sıralaması, permutation importance, SHAP (global + yerel) | SHAP sınırlamaları yazıldı (korele özellikler, nedensellik değil) | Açıklanabilirlik ≠ nedensellik |
 
 ## Faz 5 · Karar katmanı (hf 8-9)

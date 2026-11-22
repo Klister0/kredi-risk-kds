@@ -59,13 +59,13 @@ Bölme bir kez yapıldı, indeksler commit'lendi (tohum 42). `[KANIT: test_bolme
 İskelet: D09: baseline + bagging + boosting; LightGBM ≈ XGBoost beklenir; tabular veride ağaçlar güçlü. **Sonuç:** XGB 0,769 > LR 0,753 > RF 0,749 (CV). RF'nin LR'yi geçememesi dürüstçe raporlanır; M5'te eşit bütçeli aramadan sonra da sonuç aynı (RF 0,750 < LR 0,753) → bu özellik setinde bagging'in doğrusal modele üstünlüğü yok. XGB ayarlı 0,770 (seçilen). `[KANIT: deneyler/m2_m3_*_tam.json]`
 
 **S13. AUC'niz 0,7x. Düşük değil mi?** ⬜
-İskelet: Bu veri setinde literatürde ≈0,76–0,80 aralığı (LightGBM ≈0,79, `docs/05` §2); kredi riskinde AUC 0,9 şüphelidir (sızıntı). **Bizim M1 LR CV AUC = 0,753 ± 0,002** (temel+büro), beklenen aralıkta → sağlama tuttu. Hedef modelin mutlak skoru değil karar katmanı. `[KANIT: deneyler/m1_baseline_*_tam.json]`
+İskelet: Bu veri setinde literatürde ≈0,76–0,80 aralığı (LightGBM ≈0,79, `docs/05` §2); kredi riskinde AUC 0,9 şüphelidir (sızıntı). **Bizim M1 LR CV AUC = 0,753 ± 0,002** (temel+büro), beklenen aralıkta → sağlama tuttu. **Test (M7): XGB 0,777 [0,770–0,784], Gini 0,554, KS 0,417.** Hedef modelin mutlak skoru değil karar katmanı. `[KANIT: deneyler/m1_baseline_*_tam.json]`
 
 **S14. Hiperparametreleri nasıl seçtiniz? Aşırı uyum yok mu?** ⬜
 İskelet: Rastgele arama, eşit bütçe, CV, test kilitli (D10). Aşırı uyum göstergesi eğitim-CV farkı: XGB ayarsız 0,10 → ayarlı 0,06 (L2, min_child_weight, düşük öğrenme hızı). Seçim kuralı aramadan ÖNCE commit'lendi. `[KANIT: CV-test farkı M7]`
 
 **S15. Modeller arasındaki fark istatistiksel olarak anlamlı mı?** ⬜
-İskelet: Bootstrap GA + eşleştirilmiş fark; Friedman/Nemenyi tek veri setinde uygulanamaz (D14). `[KANIT: GA'lar]`
+İskelet: Eşleştirilmiş bootstrap (B=1000; her yeniden örneklemde aynı başvurular üç modele) → XGB−LR AUC +0,019 [+0,017; +0,022], XGB−RF +0,021 [+0,018; +0,024]: GA'lar 0'ı içermiyor → fark anlamlı. Friedman/Nemenyi tek veri setinde uygulanamaz (D14). LR ile RF arasında fark yok. `[KANIT: deneyler/m7_test_sonuc.json]`
 
 **S16. Sınıf dengesizliği için ne yaptınız? SMOTE neden/neden değil?** ⬜
 İskelet: D08, RQ3. Ölçtük: `scale_pos_weight` AUC 0,769→0,766 (≈aynı), ortalama PD 0,08→0,37, ECE 0,003→0,286. Yani ağırlık sıralamayı korudu, olasılığı bozdu (Dal Pozzolo 2015 ✅). TOPSIS değeri kullandığı için ağırlıksız model seçildi. SMOTE kapsam dışı (D31). `[KANIT: m4_m6 json, şekil 04]`
@@ -136,7 +136,7 @@ Bölme bir kez yapıldı, indeksler commit'lendi (tohum 42). `[KANIT: test_bolme
 
 ## F. Tuzak ve zorlayıcı sorular
 
-- "Test setine kaç kez baktınız?" → Sayıyı bil: `GELISTIRME_GUNLUGU.md`'de kayıtlı olmalı (hedef: final değerlendirmede tek sefer).
+- "Test setine kaç kez baktınız?" → Bölmede kimlik ataması (K-B, özelliklere bakılmadı) + M7'de bir kez (K-C, betikte ikinci açılışı engelleyen kilit dosyası var). E1/E2 ön-kayıtlı son analizler. Sayaç: `GELISTIRME_GUNLUGU.md`.
 - "AUC farkı 0,002; neden XGBoost?" → GA'lara bak; fark anlamsızsa dürüstçe söyle ve yorumlanabilirlik/maliyet gibi ikincil kriterlere dayan.
 - "SHAP yanlış olabilir mi?" → Evet: korele özelliklerde, bağımlılık varsayımlarında; nedensellik iddia etmiyoruz.
 - "Ağırlıkları değiştirince karar değişiyorsa sistem güvenilmez" → Bu RQ2: değişimin boyutu ölçüldü; kararsız başvurular işaretleniyor (varsa).
