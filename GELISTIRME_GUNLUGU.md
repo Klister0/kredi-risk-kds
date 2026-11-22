@@ -150,6 +150,18 @@ kalıcı kod `src/`'de, denemeler `notebooks/`'ta tutulur.
 - `src/veri_hazirlama.py`: `istihdam_anomalisini_isaretle` (365243→NaN + bayrak, idempotent), `cinsiyet_xna_nan`, `gunleri_yila_cevir` (negatif gün → pozitif yıl), `temizle_basvuru` (orkestratör, satır sayısını assert'ler). Durumsuz dönüşümler → sızıntı yok.
 - `tests/test_veri_hazirlama.py`: 5/5 yeşil. Gerçek eğitim verisinde: 44.075 anomali, 4 cinsiyet NaN, YAS_YIL 20,5–69,1, satır 246.009 korundu.
 
+### Adım 10: L1 literatür ön taraması ⏳
+- Web araması (ön katman) ile 5 dizgi; doğrulanan künyeler `docs/05`'e işlendi:
+  - **L-06** Roy & Shaw 2021 (Financial Innovation 7(1), Art.77) ✅ tam doğrulandı; **Rezaei 2015** (Omega 53, 49–57) ✅.
+  - Yeni: **L-14** Ignatius ve ark. 2018 (NCAA 29(10)) — bulanık AHP-TOPSIS ile **başvuran** sıralama; **L-15** Roy & Shaw 2022 (Complex & Intelligent Systems).
+- **ÖNEMLİ (kural 4 bildirimi):** AHP/TOPSIS'i kredi **başvurusuna** uygulamak literatürde zaten var (Ignatius 2018; Roy & Shaw). "Başvuru sıralamak" tek başına katkı değil.
+  Katkı **daraltıldı** (`docs/04` §3/§13, `docs/05` §3, `docs/06` S29): eğitilmiş **ML PD'sini** TOPSIS kriteri yapmak + **büyük gerçek veri + gerçek etiket** + **PD-tek baseline (eşit onay oranı)** + kalibrasyon.
+- **Kalan iş (öğrenci):** `docs/04` §9 sistematik tarama (Scopus/WoS/IEEE/ScienceDirect + atıf zinciri). Ön tarama boşluğu "kanıtlamaz", daraltır.
+
+### Adım 11: F2 Oran/türev özellikler ✅
+- `src/oran_ozellikleri.py`: `KREDI_GELIR`, `TAKSIT_GELIR`, `ODEME_ORANI`, `KREDI_MAL_ORANI`, `KISI_BASI_GELIR`, `EXT_ORT/STD/EKSIK_SAYISI`. Sıfıra bölme güvenli (payda 0/NaN → NaN, inf yok). `tests/test_oran_ozellikleri.py` 4/4.
+- Gerçek veride (eğitim): medyanlar makul, inf yok, eksik <%0,2. **Bulgu:** `KREDI_GELIR`/`TAKSIT_GELIR` TARGET ile korelasyon ≈0; `EXT_ORT` −0,221. → politika kriterleri risk sinyali değil (D18 savunmasını destekler). `docs/07` §5, `docs/03` D18 güncellendi.
+
 ## Açık konular / kararlar
 
 - **TOPSIS tek başvuruda tanımsız:** İdeal/anti-ideal noktalar eğitim verisinden (ör. %5 ve %95 yüzdelikleri)
@@ -165,8 +177,8 @@ kalıcı kod `src/`'de, denemeler `notebooks/`'ta tutulur.
 
 ## Sıradaki adım
 
-**F2 — Oran/türev özellikler.** `KREDI_GELIR` (AMT_CREDIT/AMT_INCOME_TOTAL), `TAKSIT_GELIR` (AMT_ANNUITY/AMT_INCOME_TOTAL),
-`ODEME_ORANI` (AMT_ANNUITY/AMT_CREDIT), `EXT_ORT`/`EXT_STD`/`EXT_EKSIK_SAYISI`. Sıfıra bölme güvenli olmalı; her oran test edilir.
-Not: gelir/taksit dönemi belirsiz (D32) → oranlar göreli gösterge. Paralel: **L1** literatür arama protokolü.
+**F3 — Ek tablo toplulaştırma (`bureau` + `bureau_balance`).** 6. kriter "geçmiş gecikme" bunlara dayanıyor (D31 kapsamı).
+`SK_ID_CURR` düzeyinde: kayıt sayısı, aktif sayısı, gecikmeli kredi/ay sayısı, maks. gecikme; birleştirme sonrası satır sayısı 246.009 kalmalı (assert).
+"Kayıt yok" = 0 (sayım) / NaN (oran) kuralı (D/F3). Her fonksiyona test. Paralel: L2 sistematik tarama (öğrenci).
 
 ## Değişiklik kaydı

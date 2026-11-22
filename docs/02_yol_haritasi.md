@@ -52,7 +52,7 @@ Test kümesine kural dışı bakılırsa bu `GELISTIRME_GUNLUGU.md` içine yazı
 
 | # | Adım | Çıktı | Bitti sayılır | Öğrenilen / savunma konusu |
 |---|---|---|---|---|
-| L1 | Arama protokolü | `docs/05` içinde veritabanı, arama dizgisi, dahil etme/dışlama, tarih, sonuç sayısı kaydı | Protokol tekrarlanabilir | Sistematik tarama mantığı |
+| L1 ⏳ | Arama protokolü | `docs/05` içinde veritabanı, arama dizgisi, dahil etme/dışlama, tarih, sonuç sayısı kaydı | Protokol tekrarlanabilir | Sistematik tarama mantığı |
 | L2 | Literatür matrisi | ≥ 25 kaynak taranmış, **≥ 12 çekirdek kaynak** okunmuş; her biri 3 satır not (ne yaptı, veri, bulgu/sınır) | Tablo dolu; her künye doğrulanmış | Kaynak okuma, atıf disiplini |
 | L3 | Boşluk analizi + RQ kesinleştirme | `docs/04` §3'ün güncel hâli; hocayla görüşme notu | Boşluk, kaynaklarla gerekçeli; hocanın "katkı" beklentisi netleşti | Katkı iddiasının sınırı |
 | L4 | **Deney protokolü ön-kaydı** → **K-A** | `docs/04` §8 şablonu dolduruldu, tarihli commit | Hipotezler, metrikler, istatistiksel plan yazılı | Ön-kayıt, p-hacking'den kaçınma |
@@ -71,7 +71,7 @@ Test kümesine kural dışı bakılırsa bu `GELISTIRME_GUNLUGU.md` içine yazı
 | # | Adım | Çıktı | Bitti sayılır | Öğrenilen / savunma konusu |
 |---|---|---|---|---|
 | F1 ✅ | Başvuru temizleme | `src/veri_hazirlama.py` | Anomali kodları düzeltilmiş (`docs/07` §2), birim testli | Anomali ≠ eksik; bayrak değişkeni |
-| F2 | Oran/türev özellikler | Kredi/gelir, taksit/gelir vb. | Sıfıra bölme güvenli; testli | Oran değişkenlerinin anlamı |
+| F2 ✅ | Oran/türev özellikler | Kredi/gelir, taksit/gelir vb. | Sıfıra bölme güvenli; testli | Oran değişkenlerinin anlamı |
 | F3 | Ek tablo toplulaştırma | Her tablo için ayrı fonksiyon + test | Satır sayısı değişmedi; kayıt yoksa 0/NaN kuralı kayıtlı | Toplulaştırma, "kayıt yok" ≠ "0 gecikme" |
 | F4 | sklearn `Pipeline` | `src/boru_hatti.py` | Imputer/encoder/scaler yalnızca eğitime fit; testli sızıntı kontrolü | Veri sızıntısı |
 | F5 | Özellik seti sürümleri | `temel` (yalnız application), `tam` (+ ek tablolar), `politika-kör`, `ext-siz` | Her sürüm adlandırılmış ve yeniden üretilebilir | Ablation mantığı (RQ1/D17 için) |

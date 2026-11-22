@@ -74,6 +74,7 @@ Veri sözlüğü `HomeCredit_columns_description.csv` **latin-1** kodlamalıdır
 - **Önceki başvuru:** sayı, onay/ret sayısı ve oranı, ortalama tutar, verilen/istenen oranı, son karar günü; `ONCEKI_BASVURU_VAR`.
 - **Taksit:** geç ödeme oranı, ortalama/maks. gecikme günü, eksik ödeme oranı.
 - **POS / kart:** gecikmeli ay oranı, maks. DPD, kart kullanım oranı.
+- **V2/F2 bulgusu (2026-11-20/22, eğitim):** `KREDI_GELIR` medyan 3,27 (p99≈13), `TAKSIT_GELIR` medyan 0,163, `ODEME_ORANI` 0,05, `KREDI_MAL_ORANI` 1,12, `EXT_ORT` 0,52. **Önemli:** `KREDI_GELIR`/`TAKSIT_GELIR`'in TARGET ile korelasyonu ≈0 (−0,009 / +0,013); `EXT_ORT` −0,221 (en güçlü). Yorum: kredi/gelir, taksit/gelir bu booked popülasyonda **tek başına risk tahmin etmiyor** → bunlar "politika/ödeme gücü" kriteri, "istatistiksel risk" değil (D18 çift sayım savunmasını **destekler**: MCDM'in kattığı şey ayırt edicilik değil politika kısıtı).
 - **Kural:** sayım türü sütunlarda "kayıt yok" = 0; oran/ortalama sütunlarında "kayıt yok" = NaN (+ varlık bayrağı). Gerekçesini `docs/03` içine yaz.
 
 ## 6. Önceki referans sürümden doğrulanmış çıkarımlar

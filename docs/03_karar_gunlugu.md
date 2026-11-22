@@ -137,7 +137,7 @@ CatBoost kategorik veride avantajlı; ikisi de "ek" katmanda duyarlılık olarak
 **Seçenekler:** Öneri Tablo 5'teki 6 kriter (seçilen, T6) / PD'siz politika kriterleri / PD'yi politika-kör özelliklerle eğitmek / kriterleri PD'ye ortogonalleştirmek.
 **Bağlam:** PD modeli gelir, kredi/gelir, istihdam ve gecikme bilgisini zaten kullanıyor. Aynı bilgi ikinci kez ağırlıklanıyor; bu da *nominal* AHP ağırlığı ile *etkin* ağırlığın farklı olmasına yol açar (⚠️ Choo ve ark. 1999: ağırlıkların yorumu).
 **Gerekçe (savunma):** PD "istatistiksel risk", diğer kriterler "banka politikası/ödeme gücü" kısıtını temsil eder; amaç tam da bu iki dilin birleşiminin bedelini ölçmek (RQ1).
-**Kanıt:** (kriter korelasyon matrisi; "politika-kör PD" ablation; etkin-nominal ağırlık analizi).
+**Kanıt:** F2 (2026-11-22): `KREDI_GELIR`/`TAKSIT_GELIR` TARGET ile korelasyon ≈0 (−0,009/+0,013) → politika kriterleri risk sinyali taşımıyor, ayrı dil oldukları savunmasını destekler. (Ek: kriter korelasyon matrisi, "politika-kör PD" ablation, etkin-nominal ağırlık analizi — model fazında.)
 
 ### D19 · Ağırlıklandırma: AHP, yargıçlar kim?   [🔴]
 **Seçenekler:** AHP, grup yargısı (seçilen) / tek kişilik AHP / eşit ağırlık / entropi / CRITIC / BWM (en iyi-en kötü).
