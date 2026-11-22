@@ -182,6 +182,13 @@ kalıcı kod `src/`'de, denemeler `notebooks/`'ta tutulur.
 - **Sonuç (tam veri):** XGB **0,769 ± 0,002** (PR-AUC 0,257) > LR 0,753 > RF 0,749. RF'nin LR'nin altında kalması kısıtlı ayardan (derinlik 12, max_samples 0,3); gizlenmedi. XGB eğitim-CV farkı 0,10 (aşırı uyum → M5).
 - Beklenen aralık (0,77–0,80) alt sınırında: yalnız temel+büro özellikleri (diğer 4 tablo kapsam dışı, D31). Sızıntı işareti yok.
 
+### Adım 16: M4 (dar) + M6 kalibrasyon ✅
+- `src/kalibrasyon.py`: `ece` (eşit frekanslı), `prior_duzeltme`, `cv_isotonic` (sızıntısız); `tests/test_kalibrasyon.py` 5/5 (bilinen sonuçlarla).
+- `deneyler/m4_m6_kalibrasyon.py`: XGB {ağırlık yok, scale_pos_weight≈11,4} × {ham, prior, isotonic}, 5 katlı OOF.
+- **Bulgu (RQ3 model düzeyi):** ağırlık AUC'yi ~0,003 değiştiriyor, ortalama PD'yi 0,080→0,367 şişiriyor (ECE 0,003→0,286). Prior düzeltme aşırı düzeltiyor (0,068). Ağırlıksız ham model zaten kalibre (ECE 0,0025).
+- Kararlar: **D08 🟢** (ağırlıklandırma yok), **D13 🟡** ön-belirlenmiş kural (ECE<0,01 → ham, aksi isotonic).
+- OOF tahminleri `data/processed/oof/xgb_oof_tam.csv` (git dışı; betikle yeniden üretilir). Şekil `rapor/sekiller/04_guvenilirlik_egrisi.png`.
+
 ## Açık konular / kararlar
 
 - **TOPSIS tek başvuruda tanımsız:** İdeal/anti-ideal noktalar eğitim verisinden (ör. %5 ve %95 yüzdelikleri)
@@ -197,8 +204,9 @@ kalıcı kod `src/`'de, denemeler `notebooks/`'ta tutulur.
 
 ## Sıradaki adım
 
-**M4 (dar) + M6 kalibrasyon** — karar katmanı için kritik, çünkü TOPSIS PD'nin **değerini** kullanır.
-XGBoost için {dengeleme yok, `scale_pos_weight`} × {ham, isotonic}: OOF tahminlerinde AUC, Brier, ECE, güvenilirlik eğrisi.
-Kalibrasyon **OOF** üzerinde öğrenilir (sızıntısız). Ardından küçük M5 araması ve **M7 → K-C** (test tek sefer). Paralel: L2.
+**M5 (küçük, eşit bütçeli rastgele arama) → M7 test değerlendirmesi (K-C).**
+M5: LR/RF/XGB için eşit bütçe (ör. 10 aday × 3 katlı CV), en iyi parametreler `deneyler/`. Hesaplama ağır → öğrencinin makinesinde (12 iş parçacığı) gece koşusu önerilir.
+M7: model seçimi CV'ye göre; test kümesi **tek sefer** açılır; AUC/Gini/KS/PR-AUC/Brier + bootstrap %95 GA; test erişim sayacına yazılır.
+Sonra **AHP + TOPSIS** (karar katmanı). Paralel: L2.
 
 ## Değişiklik kaydı

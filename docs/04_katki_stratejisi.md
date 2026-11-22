@@ -85,6 +85,7 @@ H1a yanlışlanırsa (MCDM daha iyi ayırıyorsa) önce nedeni araştır: sızı
 - **Varyantlar:** yok / `class_weight` / SMOTE / undersampling; her biri ham ve kalibre (isotonic, Platt, prior-shift) olarak. Aynı model ve hiperparametreler.
 - **Model düzeyi:** AUC, PR-AUC, Brier, ECE, güvenilirlik eğrisi. **Beklenti (⚠️ literatür):** AUC ≈ sabit; Brier/ECE bozuluyor (Dal Pozzolo ve ark. 2015 ✅).
 - **Karar düzeyi:** PD'nin farklı varyantları aynı AHP-TOPSIS'e verilir. Çıktılar: (i) karar değişim oranı (referans = kalibre model), (ii) eşit onay oranında kötü oranı, (iii) **mutlak PD eşikli** politika (ör. "PD > %X ise reddet") altında hatalı onay/ret.
+- **İlk kanıt (M4/M6, 2026-11-22, model düzeyi):** XGB'de sınıf ağırlığı AUC'yi ~0,003 değiştirirken ortalama PD'yi ~4,5 kat şişirdi (ECE 0,0025→0,286). Model-düzeyi beklenti doğrulandı; **karar düzeyi** etkisi E3'te (aynı AHP-TOPSIS'e farklı PD varyantları).
 - **Hipotez H3:** Sıralamaya dayalı karar (eşit onay oranı) kalibrasyona az duyarlı; **mutlak eşikli** ve **TOPSIS (doğrusal olmayan birleştirme)** kararları duyarlı. Yani AUC'ye göre model seçmek, olasılığı karar girdisi yapan sistemler için yetersiz kalabilir.
 
 ## 7. RQ4/RQ5 (ek)

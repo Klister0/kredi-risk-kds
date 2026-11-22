@@ -67,11 +67,11 @@ gerçek veri bölmesi `data/processed/bolme/` (n_egitim=246009, n_test=61502, to
 **Gerekçe:** Ağaçlar tekdüze dönüşümlere duyarsız; LR uç değerlere duyarlı. Kırpma sınırları **yalnızca eğitimden** öğrenilir.
 **Kanıt:** (V2 aykırı değer analizi; M1 sonuçları).
 
-### D08 · Sınıf dengesizliği   [🔴]
+### D08 · Sınıf dengesizliği   [🟢] (sunum kapsamı: ağırlıklandırma yok)
 **Seçenekler:** Yok / `class_weight`·`scale_pos_weight` / SMOTE / rastgele undersampling / eşik kaydırma.
 **Gerekçe (neden açık):** Öneri T5 "denenecek" der. Bu seçim **AUC'yi neredeyse değiştirmez ama olasılık ölçeğini bozar** (Dal Pozzolo ve ark. 2015: undersampling sıralamayı korur, kalibrasyonu bozar); TOPSIS ise PD'nin değerini kullanır. Bu yüzden RQ3 konusu.
 **Alternatif seçilseydi:** SMOTE yüksek boyutlu, karma tipli tabloda ağaç modellerinde çoğu zaman kazanç getirmez; sentetik örnekler kategorik/anomali kodlarıyla uyumsuz olabilir.
-**Kanıt:** (M4 + E3).
+**Kanıt (M4/M6, 2026-11-22, XGBoost OOF, tam eğitim):** `scale_pos_weight`≈11,4 AUC'yi neredeyse değiştirmiyor (0,769→0,766) ama ortalama PD'yi 0,080'den **0,367**'ye şişiriyor (gözlenen 0,081); ECE 0,0025→**0,286**, Brier 0,067→0,170. → Ağırlıklandırma ayırt edicilik kazandırmıyor, olasılığı bozuyor (Dal Pozzolo ve ark. 2015 ✅ ile tutarlı). **Karar:** TOPSIS'e giden PD **ağırlıklandırmasız** modelden. SMOTE/undersampling sunum kapsamı dışı (D31). `deneyler/m4_m6_kalibrasyon_*_tam.json`, `rapor/sekiller/04_guvenilirlik_egrisi.png`
 
 ### D29 · Reject inference uygulanmaz   [🟡]
 **Seçenekler:** Uygulama / parseling / augmentation / kapsam dışı bırak (seçilen).
@@ -110,10 +110,11 @@ Gözlem: XGB > LR ≈ +0,017 AUC (CV std'nin ~8 katı; resmî test M7 bootstrap)
 **Gerekçe:** F1 eşiğe bağımlı; eşik **test üzerinde seçilmez**, eğitim OOF tahminlerinde seçilir. Maliyet oranı (ör. 5:1, 10:1) **varsayımdır**; tek bir sayı yerine senaryo aralığı raporlanır (⚠️ Elkan 2001; Verbraken ve ark. 2014).
 **Kanıt:** (M7/E1 duyarlılık tablosu).
 
-### D13 · Kalibrasyon yöntemi   [🔴]
+### D13 · Kalibrasyon yöntemi   [🟡] (ön-belirlenmiş kural)
 **Seçenekler:** Isotonic / Platt (sigmoid) / prior-shift düzeltmesi (undersampling için analitik) / kalibrasyonsuz.
 **Gerekçe:** TOPSIS PD'yi doğrudan kullanır → olasılıkların güvenilir olması gerekir. **Alternatif:** Isotonic esnek ama az veride aşırı uyum; Platt basit ama tek parametreli biçim varsayar. Veri büyük olduğu için isotonic beklenir.
-**Kanıt:** (M6 güvenilirlik eğrileri, Brier/ECE; E3).
+**Kanıt (M6):** Ağırlıksız XGB ham OOF zaten kalibre (ECE 0,0025, ort. tahmin 0,080 vs 0,081). Isotonic (CV'li) ECE'yi 0,0006'ya indiriyor, AUC'yi 0,0007 düşürüyor (bağ/tie etkisi). Ağırlıklı modelde analitik **prior düzeltme** ECE'yi 0,286→0,013'e indiriyor ama **aşırı düzeltiyor** (ort. 0,068 < 0,081): ağırlıklandırma, düzenlileştirilmiş ağaçlarda tam olarak yeniden örneklemeye denk değil. Isotonic her iki durumda ECE≈0,001.
+**Ön-belirlenmiş kural (K-C öncesi yazıldı):** Seçilen final modelin OOF ECE'si < 0,01 ise **ham** PD kullanılır; değilse **isotonic**, tüm eğitim OOF'una fit edilip teste uygulanır. Sızıntısız: kalibrasyon yalnız OOF'tan öğrenilir.
 
 ### D14 · Modeller arası istatistiksel karşılaştırma   [🟡]
 **Seçenekler:** Bootstrap %95 GA + eşleştirilmiş fark (seçilen) / DeLong AUC testi / katlar üzerinde eşleştirilmiş t-testi (düzeltmeli) / Friedman+Nemenyi (çoklu veri seti).

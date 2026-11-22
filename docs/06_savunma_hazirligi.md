@@ -68,10 +68,10 @@ Bölme bir kez yapıldı, indeksler commit'lendi (tohum 42). `[KANIT: test_bolme
 İskelet: Bootstrap GA + eşleştirilmiş fark; Friedman/Nemenyi tek veri setinde uygulanamaz (D14). `[KANIT: GA'lar]`
 
 **S16. Sınıf dengesizliği için ne yaptınız? SMOTE neden/neden değil?** ⬜
-İskelet: D08, RQ3: ağırlıklandırma/SMOTE/undersampling karşılaştırması; AUC'yi koruyup kalibrasyonu bozar (Dal Pozzolo 2015 ✅). `[KANIT: Brier/ECE tablosu]`
+İskelet: D08, RQ3. Ölçtük: `scale_pos_weight` AUC 0,769→0,766 (≈aynı), ortalama PD 0,08→0,37, ECE 0,003→0,286. Yani ağırlık sıralamayı korudu, olasılığı bozdu (Dal Pozzolo 2015 ✅). TOPSIS değeri kullandığı için ağırlıksız model seçildi. SMOTE kapsam dışı (D31). `[KANIT: m4_m6 json, şekil 04]`
 
 **S17. Olasılıklarınız kalibre mi? Neden önemli?** ⬜
-İskelet: TOPSIS PD'nin değerini kullanır; mutlak eşikli politikalar da. Güvenilirlik eğrisi + Brier/ECE (D13). `[KANIT: eğri]`
+İskelet: TOPSIS PD'nin değerini kullanır; mutlak eşikli politikalar da. Ağırlıksız XGB OOF'ta ECE 0,0025 (ort. tahmin 0,080, gözlenen 0,081) → kalibre. Kural ön-belirlendi: ECE<0,01 ise ham, değilse isotonic (D13). `[KANIT: şekil 04_guvenilirlik_egrisi.png]`
 
 **S18. F1 eşiğini nasıl seçtiniz?** ⬜
 İskelet: Test üzerinde seçilmedi; eğitim OOF'unda, maliyet senaryolarıyla (D12). `[KANIT]`
