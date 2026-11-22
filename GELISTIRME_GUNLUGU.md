@@ -222,6 +222,11 @@ kalıcı kod `src/`'de, denemeler `notebooks/`'ta tutulur.
 - **Test (n=61.502):** XGB AUC **0,777 [0,770–0,784]**, Gini 0,554, KS 0,417, PR-AUC 0,265, Brier 0,0667, ECE 0,0032. LR 0,757, RF 0,756. XGB−LR +0,019 [+0,017; +0,022] → anlamlı. CV→test 0,770→0,777.
 - `commit_bekleyen.cmd`: Claude push edemiyor (izin reddedildi); öğrenci bu betikle commit'liyor.
 
+### Adım 23: M8 SHAP ✅ + D16 cinsiyet bulgusu
+- `src/aciklama.py` + testler (toplanabilirlik, XGBoost `pred_contribs` ile uyum); `deneyler/m8_shap.py` → şekiller 05 (global), 06 (dağılım), 07 (iki örnek başvuru). LR–SHAP yön uyumu %100, önem sırası ρ=0,41.
+- **CODE_GENDER 4. en önemli değişken.** Cinsiyetsiz modelin CV maliyeti AUC −0,0016 (yalnız eğitim).
+- **D16 kararı (öğrenci): cinsiyetsiz final model.** `on_isleme_boru_hatti(dislanan=...)` parametresi (varsayılan boş → M1–M5 değişmez). Final OOF AUC 0,7689, ECE 0,0023 → ham PD. SHAP yeniden üretildi (cinsiyetli şekiller `*_cinsiyetli.png` olarak saklı). Cinsiyetli kayıtlar: eksiz JSON'lar + `*_cinsiyetli.png` + yerel `*_cinsiyetli_m7.*`. Sapma `docs/04` §10; cinsiyetsiz modelin test AUC'si E1'de bir kez.
+
 ## Açık konular / kararlar
 
 - **TOPSIS tek başvuruda tanımsız:** İdeal/anti-ideal noktalar eğitim verisinden (ör. %5 ve %95 yüzdelikleri)
@@ -246,7 +251,7 @@ Sahip: **Sen** = Egemen · **Ben** = Claude · **Birlikte**. Kritik yol kalın.
 | 3 | 22 Kas ✅ | **L4 ön-kayıt** `docs/08_on_kayit_v1.md` commit'lendi | Ben → Sen | **K-A** ✅ |
 | 4 | 22 Kas ✅ | Final XGB OOF (AUC 0,7705, ECE 0,0023 → ham PD) + tüm eğitimle final fit | Ben | Test açılmadı |
 | 5 | 22 Kas ✅ | **M7: test kümesi TEK SEFER** — XGB AUC 0,777 [0,770–0,784] | Ben | **K-C** ✅ |
-| 6 | 23–24 Kas | M8 SHAP (global + yerel), permutation importance | Ben | T9 taahhüdü |
+| 6 | 22 Kas ✅ | M8 SHAP (global + yerel); D16: final model cinsiyetsiz | Ben | T9 ✅, D16 ✅ |
 | 7 | 25 Kas | AHP yargıları → ağırlıklar, CR; gerekirse en tutarsız çiftler yeniden sorulur | Birlikte | D19 |
 | 8 | 25–26 Kas | **K4 bantlar/eşikler** (Onayla/Şartlı/Reddet) eğitim OOF'unda | Ben | **K-D** |
 | 9 | 26–27 Kas | **E1 (RQ1)**: eşit onay oranında PD-tek vs AHP-TOPSIS; swap-set; politika ihlali; w_PD taraması; bootstrap | Ben | Çekirdek katkı |

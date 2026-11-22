@@ -51,7 +51,7 @@ Bölme bir kez yapıldı, indeksler commit'lendi (tohum 42). `[KANIT: test_bolme
 İskelet: Dış kaynaklı normalize skorlar, en güçlü sinyaller (D17). `ext-siz` sürüm sonucu. `[KANIT]`
 
 **S11. Cinsiyet ve yaş modelde mi? Adil mi?** ⬜
-İskelet: D16: cinsiyet dışlandı/test edildi; yaş için adalet analizi. Hukuki çerçeve tartışması. `[KANIT: AUC maliyeti]`
+İskelet: SHAP'ta cinsiyet 4. önemli değişken çıktı (şekil 07_cinsiyetli: iki örnekte de riski artırıyor). Çıkarmanın CV maliyeti yalnız 0,0016 AUC → final modelden çıkardık (D16). Karar teste bakılmadan, CV ile verildi; sapma kayıtlı. Sınırlılık: vekil değişkenler bilgiyi taşıyabilir, cinsiyeti çıkarmak tek başına adaleti garanti etmez; yaş modelde (adalet analizi ek kapsam). Hukuki çerçeve doğrulanmadan iddia yok. `[KANIT: d16_cinsiyetsiz json]`
 
 ## C. Modelleme
 
