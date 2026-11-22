@@ -40,13 +40,17 @@ farklı sonuç veriyor, bu fark neye mal oluyor ve ağırlık belirsizliği kar�
 | Çalışma türü | Örnek (✅ doğrulanmış) | Neyi yapıyor | Bizim farkımız |
 |---|---|---|---|
 | MCDM ile model sıralama | Kou, Peng, Lu (2014) | TOPSIS ile **modelleri** metriklerine göre sıralar | Biz **başvuruları** sıralıyoruz |
-| Bağımsız MCDM skorlama | Roy & Shaw (2023); Roy & Shaw (2021, BWM-TOPSIS; duyarlılık analizi içeriyor) | KOBİ kredilerini uzman ağırlıklı kriterlerle puanlar | Biz ML PD'yi bir kriter yapıyor, büyük perakende verisinde gerçek etiketle doğruluyoruz |
+| Bağımsız MCDM skorlama (başvuran) | Roy & Shaw (2021 BWM-TOPSIS ✅, 2022 fuzzy-TOPSIS-Sort-C ✅, 2023 AHP-TOPSIS ✅); **Ignatius ve ark. (2018) bulanık AHP-TOPSIS ✅** | KOBİ/başvuranları uzman-bulanık ya da finansal-oran kriterleriyle puanlar; ticari dereceyle karşılaştırır | Biz **eğitilmiş ML PD'sini** kriter yapıyor, **büyük perakende verisinde gerçek temerrüt etiketiyle** ve **PD-tek baseline'a karşı** doğruluyoruz |
 | Türkçe literatür | Oral & Engin (2024) Bulanık AHP-TOPSIS | 10 ticari firma | Ölçek ve doğrulama farkı |
 | ML + AHP hibrit | AHP-SVM çalışmaları (⚠️ künye eksik) | AHP öznitelik ağırlığı, SVM sınıflandırma | Biz AHP'yi karar katmanında, ML'den sonra kullanıyoruz |
 | Home Credit ML çalışmaları | arXiv 2505.20815, Coşkun & Turanlı (2023) (⚠️ teyit) | Model karşılaştırma, SHAP | Karar katmanı yok |
 
-**Boşluk hipotezi (kanıtlanacak):** *PD'yi MCDM kriteri olarak kullanan, büyük ölçekli perakende verisinde, PD-tek baseline'a karşı eşit onay oranında
-karşılaştıran ve ağırlık dayanıklılığını + kalibrasyon etkisini ölçen çalışma eksiktir.* Bunu iddia etmeden önce §9 gerekir.
+**Boşluk hipotezi (L1 ön taramasıyla DARALTILDI, 2026-11-20):** AHP/BWM-TOPSIS'i **başvurana** uygulamak literatürde **mevcut**
+(Ignatius ve ark. 2018; Roy & Shaw 2021/2022/2023). Dolayısıyla "MCDM ile başvuru sıralamak" katkı değildir. Geriye kalan, taradığımız kayıtlarda
+rastlamadığımız boşluk: *(i) bir TOPSIS kriteri olarak **eğitilmiş ML temerrüt olasılığı** (bu çalışmalar uzman/bulanık ya da finansal-oran kriterleri kullanıyor);
+(ii) **büyük ölçekli gerçek perakende verisi + gözlenen temerrüt etiketi** (bunlar KOBİ/küçük örneklem, ticari dereceyle karşılaştırıyor);
+(iii) **PD-tek baseline'a karşı eşit onay oranında** "politika bedeli"; (iv) **ağırlık dayanıklılığı + kalibrasyonun karara etkisi**.*
+Bu dar iddiayı yazmadan önce §9 tam taraması gerekir.
 
 ## 4. RQ1 deney tasarımı: PD-tek vs AHP-TOPSIS
 
@@ -143,7 +147,7 @@ Neden ön-kayıt? Sonuçları gördükten sonra hipotez veya metrik değiştirme
 | Sonuçlar "sıkıcı" çıkar (fark yok) | Sıfır sonuç da bulgudur; güven aralığıyla raporla, "farkı tespit edemedik (GA: ...)" |
 | Zaman yetmez | Çekirdek (RQ1) tamamlanmadan RQ2/RQ3'e geçme; RQ3 dar tutulabilir (yalnız XGBoost, 3 varyant) |
 | AHP yargıcı bulunamaz | Literatür temelli ağırlık + RQ2 geniş duyarlılık; sınırlılık olarak yaz |
-| Boşluk iddiası çürür (benzer çalışma bulunur) | İddiayı daralt ("büyük ölçek + PD-tek baseline + kalibrasyon"), bulunan çalışmayı yakın kaynak olarak ele al |
+| Boşluk iddiası çürür (benzer çalışma bulunur) | **Kısmen gerçekleşti (L1, 2026-11-20):** MCDM-başvuran mevcut (Ignatius 2018, Roy & Shaw). İddia **daraltıldı**: ML-PD kriteri + büyük gerçek veri + PD-tek baseline + kalibrasyon. Bulunanlar yakın kaynak olarak ele alınıyor |
 | Sızıntı ya da hata iyi sonucu üretir | Beklenmedik derecede iyi sonuçta önce hata ara (`docs/07` §4) |
 | Hoca beklentisi daha geniş | §3 sorusu (`docs/01` §6) ile erkenden netleştir |
 

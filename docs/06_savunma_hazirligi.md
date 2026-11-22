@@ -111,7 +111,7 @@ Bölme bir kez yapıldı, indeksler commit'lendi (tohum 42). `[KANIT: test_bolme
 ## E. Katkı ve genel
 
 **S29. Literatüre katkınız nedir?** ⬜
-İskelet (`docs/04` §11 cümleleriyle): "Taradığımız kayıtlarda [tarih/dizgi]... rastlamadık; biz PD-tek ile AHP-TOPSIS'in bedelini ve dayanıklılığını büyük veride ölçtük." **"İlk" deme.** Sınırlılıklar: tek veri seti, booked popülasyon.
+İskelet (`docs/04` §11): "AHP/TOPSIS'i kredi başvurusuna uygulamak literatürde **var** (Ignatius ve ark. 2018 bulanık AHP-TOPSIS; Roy & Shaw 2021/2022 BWM/fuzzy-TOPSIS). Bizim farkımız ve [tarih/dizgi] ile taradığımız kayıtlarda rastlamadığımız: **eğitilmiş bir ML temerrüt olasılığını** TOPSIS kriteri yapıp **büyük gerçek veride gerçek etiketle**, **PD-tek baseline'a karşı eşit onay oranında** bedelini ve ağırlık dayanıklılığını ölçmek." **"İlk" deme.** Sınırlılıklar: tek veri seti, booked popülasyon, ön tarama (tam tarama öğrenci tarafından).
 
 **S30. Bu sonuçlar gerçek bankada geçerli olur mu?** ⬜
 İskelet: Hayır, iddia etmiyoruz; akademik prototip, tek veri seti, zaman doğrulaması yok, reject inference yok, adalet/yasal gereksinimler eksik.

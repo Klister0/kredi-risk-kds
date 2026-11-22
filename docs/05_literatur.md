@@ -39,10 +39,10 @@ Atıf biçimi (APA 7 mi IEEE mi) hocaya sorulacak; künyeler bu yüzden alan ala
 *Ne yapıyor:* KOBİ kredi skorlaması için kriterleri literatür ve uzman görüşünden belirleyip AHP ile ağırlıklandırıyor, TOPSIS ile skor üretiyor.
 *Projede:* En yakın "AHP-TOPSIS kredi" referansı; farkımız: ML-PD, büyük veri, gerçek etiketle doğrulama (§3).
 
-**[L-06] ◐ Roy, P. K., & Shaw, K. (2021).** A multicriteria credit scoring model for SMEs using hybrid BWM and TOPSIS.
+**[L-06] ✅ Roy, P. K., & Shaw, K. (2021).** A multicriteria credit scoring model for SMEs using hybrid BWM and TOPSIS.
 *Financial Innovation, 7*, 77. https://doi.org/10.1186/s40854-021-00295-5
 *Ne yapıyor:* En iyi-en kötü yöntemiyle (BWM) ağırlıkları, TOPSIS ile skoru üretiyor; ağırlık duyarlılık analizi yapıyor.
-*Projede:* D19 (BWM alternatifi), RQ2'nin yakın öncülü: onlar ağırlık duyarlılığına bakıyor, biz **karar kararlılığı ve PD baseline** ile genişletiyoruz. *(Yazar sırası kaynak sayfasında farklı görünebilir; yayıncı sayfasından teyit et.)*
+*Projede:* D19 (BWM alternatifi), RQ2'nin yakın öncülü: onlar ağırlık duyarlılığına bakıyor, biz **karar kararlılığı ve PD baseline** ile genişletiyoruz. *(✅ 2026-11-20: Financial Innovation 7(1), Art. 77, s. 1–27, DOI yayıncı + DOAJ + RePEc ile doğrulandı; yazarlar Pranith Kumar Roy & Krishnendu Shaw.)*
 
 **[L-07] Kou, G., Peng, Y., & Lu, C. (2014).** MCDM approach to evaluating bank loan default models.
 *Technological and Economic Development of Economy, 20*(2), 292–311. https://doi.org/10.3846/20294913.2014.913275
@@ -72,6 +72,16 @@ Atıf biçimi (APA 7 mi IEEE mi) hocaya sorulacak; künyeler bu yüzden alan ala
 **[L-13] ◐** *Machine learning-driven credit risk: a systemic review.* *Neural Computing and Applications, 34*(17), 14327–14339 (2022).
 *(Dergi, cilt, sayı, sayfa ve yıl görüldü; **yazarlar ve DOI teyit edilsin**.)* 76 çalışmanın taraması; topluluk yöntemleri, dengesiz veri ve şeffaflık sorunları.
 
+**[L-14] Ignatius, J., Hatami-Marbini, A., Rahman, A., Dhamotharan, L., & Khoshnevis, P. (2018).** A fuzzy decision support system for credit scoring.
+*Neural Computing and Applications, 29*(10), 921–941. https://doi.org/10.1007/s00521-016-2592-1  (✅ 2026-11-20: NCAA 29(10), DOI yayıncı sayfasından; sayfa aralığı teyit edilebilir ~921–941)
+*Ne yapıyor:* Kriter ağırlıklarını **bulanık AHP** ile üretip TOPSIS'le başvuranları risk uzaklığına göre sıralayan bir KDS kuruyor (FICO bağlamı), duyarlılık analizi dahil.
+*Projede:* **En yakın çalışma.** AHP-TOPSIS'i model sıralamaya değil **başvuranlara** uyguluyor → "biz başvuranları sıralıyoruz" ayrımı artık tek başına katkı değil. Farkımız: ML tabanlı PD'yi kriter yapmak, büyük gerçek veri + gerçek temerrüt etiketi, PD-tek baseline, kalibrasyon. Katkı buna göre daraltıldı (`docs/04` §3, §13).
+
+**[L-15] Roy, P. K., & Shaw, K. (2022).** An integrated fuzzy credit rating model using fuzzy-BWM and new fuzzy-TOPSIS-Sort-C.
+*Complex & Intelligent Systems, 8*(4), 3581–3600. https://doi.org/10.1007/s40747-022-00823-5  (✅ 2026-11-20)
+*Ne yapıyor:* Bulanık-BWM ağırlık + fuzzy-TOPSIS-Sort-C ile firmaları sınıflandırıyor; TOPSIS-Sort'un rank reversal'ı ele aldığını belirtiyor; sonuçları ticari derecelerle karşılaştırıyor.
+*Projede:* MCDM-kredi ailesinin güncel hâli; rank reversal (D21) ve sınıflandırma bandı tartışmasına yakın.
+
 ## 2. Yakın çalışmalar, künyesi eksik (⚠️/◐): bağlam kaynağı olarak tut, eksik alanları tamamla
 
 | Kısa ad | Gördüğümüz | Eksik |
@@ -94,7 +104,8 @@ Atıf biçimi (APA 7 mi IEEE mi) hocaya sorulacak; künyeler bu yüzden alan ala
 | AHP/BWM + TOPSIS ile kredi skorlama | Çoğu KOBİ/ticari kredi, küçük örneklem, uzman ağırlıklı, ML-PD yok; doğrulama genelde vaka sınırlı |
 | MCDM'in ML ile birlikte kullanımı | Ağırlıklı olarak **model seçimi** (sınıflandırıcıları sıralama) ve **öznitelik ağırlıklandırma** (AHP→SVM) |
 | Kalibrasyon ve dengesizlik | Teorik sonuç var (L-04); **karar katmanı etkisi** bizim aradığımız bağlantı |
-| **Önerilen boşluk** | PD'yi MCDM kriteri yapan, büyük ölçekli perakende verisinde, PD-tek baseline'a karşı eşit onay oranında karşılaştıran, ağırlık dayanıklılığı ve kalibrasyon etkisini ölçen çalışma → **§9 taramasıyla teyit edilecek** |
+| MCDM'i **başvurana** uygulama | **Mevcut** (Ignatius ve ark. 2018 bulanık AHP-TOPSIS; Roy & Shaw 2021/2022 BWM/fuzzy-TOPSIS) → "başvuru sıralamak" tek başına katkı **değil** |
+| **Daraltılmış boşluk** | Bu çalışmalar uzman/bulanık ya da finansal-oran kriterleri kullanır, **eğitilmiş ML PD'sini bir TOPSIS kriteri yapmaz**; çoğu KOBİ/küçük örneklem, ticari dereceyle karşılaştırır, **gerçek temerrüt etiketi + PD-tek baseline + eşit onay oranı** kurgusu yoktur. Boşluk: ML-PD'yi kriter yapıp büyük gerçek veride PD-tek'e karşı ölçmek, ağırlık dayanıklılığı + kalibrasyon → **§9 tam taramasıyla teyit edilecek** |
 
 Bu tablo, **birkaç aramaya** dayanıyor; kesin değildir. Aynı fikri yapmış bir çalışma çıkarsa kaynak olarak ele alınıp katkı daraltılır (`docs/04` §13).
 
@@ -103,7 +114,7 @@ Bu tablo, **birkaç aramaya** dayanıyor; kesin değildir. Aynı fikri yapmış 
 **AHP / çok kriterli karar**
 - Saaty, T. L. (1980). *The Analytic Hierarchy Process.* McGraw-Hill. · Saaty, T. L. (1990). How to make a decision: The analytic hierarchy process. *EJOR, 48*(1), 9–26.
 - Aczél, J., & Saaty, T. L. (1983). Procedures for synthesizing ratio judgements. *J. Math. Psychol., 27*, 93–102. *(Grup AHP geometrik ortalama; D19)*
-- Rezaei, J. (2015). Best-worst multi-criteria decision-making method. *Omega, 53*, 49–57. *(BWM; kısmi doğrulama: L-06 içinde anılıyor)*
+- Rezaei, J. (2015). Best-worst multi-criteria decision-making method. *Omega, 53*, 49–57. https://doi.org/10.1016/j.omega.2014.11.009 *(✅ 2026-11-20: Omega 53(C) 49–57, DOI RePEc/Elsevier ile doğrulandı)*
 - Diakoulaki, D., Mavrotas, G., & Papayannakis, L. (1995). Determining objective weights in multiple criteria problems: The CRITIC method. *Computers & Operations Research, 22*(7), 763–770.
 - Opricovic, S., & Tzeng, G.-H. (2004). Compromise solution by MCDM methods: A comparative analysis of VIKOR and TOPSIS. *EJOR, 156*(2), 445–455.
 - Choo, E. U., Schoner, B., & Wedley, W. C. (1999). Interpretation of criteria weights in multicriteria decision making. *Computers & Industrial Engineering, 37*(3), 527–541. *(Nominal ≠ etkin ağırlık; D18)*
@@ -160,4 +171,12 @@ Okuma durumu: özet / tam metin
 
 | Tarih | Veritabanı | Dizgi | Sonuç sayısı | Taranan | Seçilen | Not |
 |---|---|---|---|---|---|---|
-| | | | | | | |
+| 2026-11-20 | Web (genel arama, Claude oturumu — ön tarama) | "probability of default" TOPSIS credit scoring machine learning | ~10 görüldü | 10 | L-07, García | Çoğu model sıralama; García ve ark. sınıflandırıcı sıralıyor |
+| 2026-11-20 | Web (ön tarama) | Home Credit Default Risk AHP TOPSIS | ~10 | 10 | — | Home Credit'e özgü AHP-TOPSIS karar katmanı görülmedi (teyit: tam tarama) |
+| 2026-11-20 | Web (ön tarama) | fuzzy AHP TOPSIS credit scoring (Ignatius) | ~10 | 10 | L-14 | Bulanık AHP-TOPSIS başvuran sıralama (FICO) — en yakın çalışma |
+| 2026-11-20 | Web (ön tarama) | BWM TOPSIS SME credit scoring (Roy & Shaw) | ~10 | 10 | L-06, L-15 | BWM/fuzzy-TOPSIS KOBİ skorlama |
+| 2026-11-20 | Web (ön tarama) | Rezaei best-worst method Omega 2015 | ~10 | 10 | Rezaei 2015 | BWM temel kaynağı doğrulandı |
+
+**Not (dürüstlük):** Bunlar Claude oturumunda yapılan **ön** web aramalarıdır. Katkı iddiası için `docs/04` §9'daki
+sistematik tarama (Scopus/WoS/IEEE/ScienceDirect + atıf zinciri) **öğrenci tarafından** yapılıp buraya eklenmelidir.
+
