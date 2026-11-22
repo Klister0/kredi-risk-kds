@@ -162,6 +162,11 @@ kalıcı kod `src/`'de, denemeler `notebooks/`'ta tutulur.
 - `src/oran_ozellikleri.py`: `KREDI_GELIR`, `TAKSIT_GELIR`, `ODEME_ORANI`, `KREDI_MAL_ORANI`, `KISI_BASI_GELIR`, `EXT_ORT/STD/EKSIK_SAYISI`. Sıfıra bölme güvenli (payda 0/NaN → NaN, inf yok). `tests/test_oran_ozellikleri.py` 4/4.
 - Gerçek veride (eğitim): medyanlar makul, inf yok, eksik <%0,2. **Bulgu:** `KREDI_GELIR`/`TAKSIT_GELIR` TARGET ile korelasyon ≈0; `EXT_ORT` −0,221. → politika kriterleri risk sinyali değil (D18 savunmasını destekler). `docs/07` §5, `docs/03` D18 güncellendi.
 
+### Adım 12: F3 bureau toplulaştırma ◐ (bureau ✅, bureau_balance bekliyor)
+- `src/ek_tablolar.py`: `buro_ozellikleri` (SK_ID_CURR düzeyinde: kayıt/aktif/gecikmeli/uzatma sayısı, maks gecikme gün/tutar, toplam borç/kredi, borç oranı, son kredi günü), `basvuruya_birlestir` ("kayıt yok" kuralı: sayım 0, oran/tutar NaN, `BURO_KAYDI_VAR`). `tests/test_ek_tablolar.py` 4/4.
+- Gerçek veri: büro özet 305.811 başvuru; eğitime birleşince **246.009 satır korundu**. **Başvuruların %14,3'ü büro kaydı yok** (35.244). Gecikme izi %0,2, borç oranı medyan 0,22.
+- bureau_balance (aylık STATUS/DPD) sunum kapsamında **opsiyonel**; zaman kalırsa eklenir (D31).
+
 ## Açık konular / kararlar
 
 - **TOPSIS tek başvuruda tanımsız:** İdeal/anti-ideal noktalar eğitim verisinden (ör. %5 ve %95 yüzdelikleri)
@@ -177,8 +182,8 @@ kalıcı kod `src/`'de, denemeler `notebooks/`'ta tutulur.
 
 ## Sıradaki adım
 
-**F3 — Ek tablo toplulaştırma (`bureau` + `bureau_balance`).** 6. kriter "geçmiş gecikme" bunlara dayanıyor (D31 kapsamı).
-`SK_ID_CURR` düzeyinde: kayıt sayısı, aktif sayısı, gecikmeli kredi/ay sayısı, maks. gecikme; birleştirme sonrası satır sayısı 246.009 kalmalı (assert).
-"Kayıt yok" = 0 (sayım) / NaN (oran) kuralı (D/F3). Her fonksiyona test. Paralel: L2 sistematik tarama (öğrenci).
+**F4 — sklearn `Pipeline` (`src/boru_hatti.py`).** F1+F2 (ve F3 büro özellikleri) tek bir sızıntısız boru hattında:
+imputer/encoder/scaler **yalnız eğitime fit**. Sızıntı kontrolü testi (fit sadece eğitim katında). Bu, modelleme (M-fazı) ve K-C kapısı için ön koşul.
+Açık karar (K1): büro kaydı olmayan %14 için 6. kriter eksik-değer kuralı. Paralel: L2 (öğrenci).
 
 ## Değişiklik kaydı
