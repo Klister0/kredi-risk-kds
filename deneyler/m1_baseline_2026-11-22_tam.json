@@ -1,0 +1,19 @@
+{
+  "tarih": "2026-11-22",
+  "tohum": 42,
+  "ornek": null,
+  "n": 246009,
+  "cv": "StratifiedKFold(5)",
+  "sonuclar": {
+    "dummy": {
+      "roc_auc_ort": 0.4988538143943888,
+      "roc_auc_std": 0.0015979292339666534,
+      "pr_auc_ort": 0.08057172452238001
+    },
+    "logreg": {
+      "roc_auc_ort": 0.752568757453195,
+      "roc_auc_std": 0.0021709502625846307,
+      "pr_auc_ort": 0.2349109421235427
+    }
+  }
+}

@@ -172,6 +172,11 @@ kalıcı kod `src/`'de, denemeler `notebooks/`'ta tutulur.
 - `tests/test_boru_hatti.py` 3/3. **Sızıntı kanıtı:** imputer istatistiği eğitim medyanı (test değil) — sayısal test yeşil; görülmemiş kategori patlamıyor.
 - Gerçek veri (büro birleşik, iç doğrulama bölmesi): 267 özellik, çıktıda NaN/inf yok, ölçekli ortalama~0/std~1, test sütunları eğitimle hizalı.
 
+### Adım 14: M1 Dummy + Logistic Regression baseline ✅
+- `src/veri_yukle.py` (`egitim_matrisi`: app+bureau birleşik eğitim X/y, `ornek` ile hızlı mod) + `deneyler/m1_baseline.py` (Dummy + LR, 5 katlı StratifiedKFold, boru hattı CV içinde → sızıntısız).
+- **Sonuç (tam veri 246.009, temel+büro):** LR **ROC-AUC 0,7526 ± 0,0022**, PR-AUC 0,235; Dummy 0,499 / 0,081. Beklenen aralıkta (0,74–0,76), sızıntı işareti yok.
+- Sonuç `deneyler/m1_baseline_2026-11-22_tam.json`. Test kümesine BAKILMADI.
+
 ## Açık konular / kararlar
 
 - **TOPSIS tek başvuruda tanımsız:** İdeal/anti-ideal noktalar eğitim verisinden (ör. %5 ve %95 yüzdelikleri)
@@ -187,8 +192,7 @@ kalıcı kod `src/`'de, denemeler `notebooks/`'ta tutulur.
 
 ## Sıradaki adım
 
-**M-fazı başlangıcı (M1):** Dummy baseline + Logistic Regression, 5 katlı katmanlı CV, `on_isleme_boru_hatti(olcekle=True)` ile.
-Metrik: ROC-AUC (±std), PR-AUC. Önce bir veri yükleme yardımcı fonksiyonu (`src/veri_yukle.py`: app+bureau birleştir, eğitim X/y döndür).
-CV AUC'yi kaydet (`deneyler/`), test kümesine BAKMA (K-C'ye kadar). Beklenti: LR ≈0,74–0,76 (`docs/07` §8). Paralel: L2.
+**M2 — Random Forest, aynı CV şeması** (`on_isleme_boru_hatti(olcekle=False)`). Sonra **M3 XGBoost**. Hepsi aynı 5 katlı
+StratifiedKFold, aynı metrikler; sonuçlar `deneyler/`. Beklenti: GBDT ≈0,77–0,80. Çok yüksekse (>0,85) sızıntı ara. Paralel: L2.
 
 ## Değişiklik kaydı

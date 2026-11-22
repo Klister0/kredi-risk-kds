@@ -19,7 +19,7 @@ Hazırlık durumu: ⬜ boş · 🟨 iskelet · ✅ öğrenci kendi kelimeleriyle
 İskelet: `TARGET` resmî temerrüt değil, ilk taksitlerde belirli gün üzeri gecikme (ödeme güçlüğü) tanımı (`docs/07` §3; sözlük dosyasından teyit et). Raporda "temerrüt/ödeme güçlüğü".
 
 **S3. Veride sınıf dengesizliği var; doğruluk neden kullanmadınız?** ⬜
-İskelet: ≈%8 pozitifte "herkes öder" ≈%92 doğruluk; AUC/PR-AUC/KS/Brier (D11). `[KANIT: kendi sınıf oranı, dummy model]`
+İskelet: ≈%8 pozitifte "herkes öder" ≈%92 doğruluk; AUC/PR-AUC/KS/Brier (D11). Dummy (stratified) CV ROC-AUC ≈0,50, PR-AUC ≈0,08 (taban oran) → baseline anlamsızlığı gösterildi. `[KANIT: m1_baseline json; TARGET %8,07]`
 
 **S4. Veri kimlerden oluşuyor? Reddedilenler yok mu?** ⬜
 İskelet: Kredisi verilmiş (booked) başvuruların sonuçları; reject inference yapmadık (D29). Sonuçlar bu popülasyon için. Sınırlılık olarak yazılı.
@@ -59,7 +59,7 @@ Bölme bir kez yapıldı, indeksler commit'lendi (tohum 42). `[KANIT: test_bolme
 İskelet: D09: baseline + bagging + boosting; LightGBM ≈ XGBoost beklenir; tabular veride ağaçlar güçlü. Duyarlılık olarak eklenebilir.
 
 **S13. AUC'niz 0,7x. Düşük değil mi?** ⬜
-İskelet: Bu veri setinde literatürde ≈0,76–0,80 aralığı (bir doğrulanmış gösterge: LightGBM ≈0,79, `docs/05` §2); kredi riskinde AUC 0,9 şüphelidir (sızıntı). Hedef modelin mutlak skoru değil karar katmanının incelenmesi.
+İskelet: Bu veri setinde literatürde ≈0,76–0,80 aralığı (LightGBM ≈0,79, `docs/05` §2); kredi riskinde AUC 0,9 şüphelidir (sızıntı). **Bizim M1 LR CV AUC = 0,753 ± 0,002** (temel+büro), beklenen aralıkta → sağlama tuttu. Hedef modelin mutlak skoru değil karar katmanı. `[KANIT: deneyler/m1_baseline_*_tam.json]`
 
 **S14. Hiperparametreleri nasıl seçtiniz? Aşırı uyum yok mu?** ⬜
 İskelet: Rastgele arama, eşit bütçe, CV, test kilitli (D10). `[KANIT: CV-test farkı]`

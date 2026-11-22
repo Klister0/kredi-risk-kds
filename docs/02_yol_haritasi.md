@@ -80,7 +80,7 @@ Test kümesine kural dışı bakılırsa bu `GELISTIRME_GUNLUGU.md` içine yazı
 
 | # | Adım | Çıktı | Bitti sayılır | Öğrenilen / savunma konusu |
 |---|---|---|---|---|
-| M1 | Dummy + Logistic Regression | Baseline sonuçları (CV) | CV AUC ± std kaydedildi | Baseline neden gerekli |
+| M1 ✅ | Dummy + Logistic Regression | Baseline sonuçları (CV) | CV AUC ± std kaydedildi | Baseline neden gerekli |
 | M2 | Random Forest | CV sonuçları | Aynı CV şeması | Bagging, aşırı uyum |
 | M3 | XGBoost | CV sonuçları | Aynı CV şeması, erken durdurma doğru kullanıldı (sızıntısız) | Boosting, hiperparametreler |
 | M4 | Dengesizlik stratejileri | Yok / `class_weight` / SMOTE / undersampling karşılaştırması | SMOTE yalnızca CV içinde; olasılık kalibrasyonu da raporlandı | Neden AUC kalibrasyonu göstermez |
