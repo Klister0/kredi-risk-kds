@@ -1,0 +1,25 @@
+{
+  "tarih": "2026-11-22",
+  "tohum": 42,
+  "n": 246009,
+  "parametre_kaynagi": "m5_arama_2026-11-22_tam.json",
+  "parametreler": {
+    "colsample_bytree": 0.5827682615040224,
+    "learning_rate": 0.02435000636897718,
+    "max_depth": 6,
+    "min_child_weight": 15,
+    "n_estimators": 754,
+    "reg_alpha": 0.1804510194306136,
+    "reg_lambda": 4.638630972397279,
+    "subsample": 0.6693458614031088
+  },
+  "oof": {
+    "roc_auc": 0.7705103986442612,
+    "brier": 0.06708749383687973,
+    "ece": 0.002329367913003784,
+    "ort_pd": 0.08035656064748764,
+    "gozlenen": 0.08072875382607954
+  },
+  "kalibrasyon_karari": "ham",
+  "kural": "ECE < 0.01 → ham (D13)"
+}
