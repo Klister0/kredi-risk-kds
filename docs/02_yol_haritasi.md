@@ -39,7 +39,7 @@ Test kümesine kural dışı bakılırsa bu `GELISTIRME_GUNLUGU.md` içine yazı
 | L1 ⏳ | Arama protokolü | `docs/05` içinde veritabanı, arama dizgisi, dahil etme/dışlama, tarih, sonuç sayısı kaydı | Protokol tekrarlanabilir | Sistematik tarama mantığı |
 | L2 | Literatür matrisi | ≥ 25 kaynak taranmış, **≥ 12 çekirdek kaynak** okunmuş; her biri 3 satır not (ne yaptı, veri, bulgu/sınır) | Tablo dolu; her künye doğrulanmış | Kaynak okuma, atıf disiplini |
 | L3 | Boşluk analizi + RQ kesinleştirme | `docs/04` §3'ün güncel hâli; hocayla görüşme notu | Boşluk, kaynaklarla gerekçeli; hocanın "katkı" beklentisi netleşti | Katkı iddiasının sınırı |
-| L4 | **Deney protokolü ön-kaydı** → **K-A** | `docs/04` §8 şablonu dolduruldu, tarihli commit | Hipotezler, metrikler, istatistiksel plan yazılı | Ön-kayıt, p-hacking'den kaçınma |
+| L4 ✅ | **Deney protokolü ön-kaydı** → **K-A** | `docs/04` §8 şablonu dolduruldu, tarihli commit | Hipotezler, metrikler, istatistiksel plan yazılı | Ön-kayıt, p-hacking'den kaçınma |
 
 ## Faz 2 · Veri (hf 1-2)
 

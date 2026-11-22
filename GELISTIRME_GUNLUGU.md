@@ -211,6 +211,10 @@ kalıcı kod `src/`'de, denemeler `notebooks/`'ta tutulur.
 - Tam eğitim, öğrencinin makinesi (~35 dk). LR 0,7528 · RF 0,7503 · **XGB 0,7704 ± 0,001** → kurala göre **XGBoost seçildi**. XGB eğitim-CV farkı 0,10→0,06. RF ayarlı hâliyle de LR'nin altında.
 - Protokol sapması kaydı: K-A ön-kaydı modellemeden sonra, karar katmanı deneylerinden önce (`docs/04` §10).
 
+### Adım 21: Final model + ön-kayıt (K-A) taslağı
+- `deneyler/final_model.py`: M5 parametreleri JSON'dan okunur; 5 katlı OOF (AUC 0,7705, Brier 0,0671, **ECE 0,0023 → D13 kuralı: ham PD**); tüm eğitimle final fit. Model `data/processed/model/final_model.joblib`, OOF `data/processed/oof/final_oof.csv` (git dışı, betikle yeniden üretilir). Test açılmadı.
+- `docs/08_on_kayit_v1.md`: E1 (RQ1, doğrulayıcı: birincil Δ = ortalama kötü oranı farkı a∈0,2–0,8, eşleştirilmiş bootstrap B=1000), E2 (RQ2, keşifsel), E3-dar (RQ3, eğitim OOF). Bantlar %15/%15/%70 (politika parametresi). **Öğrenci onayı + commit = K-A.**
+
 ## Açık konular / kararlar
 
 - **TOPSIS tek başvuruda tanımsız:** İdeal/anti-ideal noktalar eğitim verisinden (ör. %5 ve %95 yüzdelikleri)
@@ -232,8 +236,8 @@ Sahip: **Sen** = Egemen · **Ben** = Claude · **Birlikte**. Kritik yol kalın.
 |---|---|---|---|---|
 | 1 | 22 Kas | Bekleyen commit'ler + `m5_arama_*_tam.json` commit | Sen | — |
 | 2 | 22–23 Kas | **AHP formunu babana ver** (bağımsız doldursun; mümkünse 1–2 meslektaş) | Sen | Dönüş hedefi 25 Kas |
-| 3 | 22 Kas | **L4 ön-kayıt** (E1–E3 hipotez, metrik, istatistik) taslağı → sen onayla, commit | Ben → Sen | **K-A** (sapma kayıtlı, `docs/04` §10) |
-| 4 | 22–23 Kas | Final XGB (M5 parametreleri) OOF + D13 kalibrasyon kuralı (ECE) + tüm eğitimle final fit | Ben | Test açılmaz |
+| 3 | 22 Kas | **L4 ön-kayıt** `docs/08_on_kayit_v1.md` — taslak hazır ✅, öğrenci onayı + commit bekliyor | Ben → Sen | **K-A** (sapma kayıtlı, `docs/04` §10) |
+| 4 | 22 Kas ✅ | Final XGB OOF (AUC 0,7705, ECE 0,0023 → ham PD) + tüm eğitimle final fit | Ben | Test açılmadı |
 | 5 | 23 Kas | **M7: test kümesi TEK SEFER** — LR/RF/XGB: AUC, Gini, KS, PR-AUC, Brier + bootstrap %95 GA | Ben, sen onayla | **K-C**, erişim sayacına yaz |
 | 6 | 23–24 Kas | M8 SHAP (global + yerel), permutation importance | Ben | T9 taahhüdü |
 | 7 | 25 Kas | AHP yargıları → ağırlıklar, CR; gerekirse en tutarsız çiftler yeniden sorulur | Birlikte | D19 |

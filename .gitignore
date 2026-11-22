@@ -17,3 +17,6 @@ __pycache__/
 
 # Gizli bilgiler
 .env
+
+# Yerel yardimci betik (Claude her adimda gunceller)
+commit_bekleyen.cmd

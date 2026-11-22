@@ -112,11 +112,12 @@ Gözlem: XGB > LR ≈ +0,017 AUC (CV std'nin ~8 katı; resmî test M7 bootstrap)
 **Gerekçe:** F1 eşiğe bağımlı; eşik **test üzerinde seçilmez**, eğitim OOF tahminlerinde seçilir. Maliyet oranı (ör. 5:1, 10:1) **varsayımdır**; tek bir sayı yerine senaryo aralığı raporlanır (⚠️ Elkan 2001; Verbraken ve ark. 2014).
 **Kanıt:** (M7/E1 duyarlılık tablosu).
 
-### D13 · Kalibrasyon yöntemi   [🟡] (ön-belirlenmiş kural)
+### D13 · Kalibrasyon yöntemi   [🟢] (kural uygulandı: ham PD)
 **Seçenekler:** Isotonic / Platt (sigmoid) / prior-shift düzeltmesi (undersampling için analitik) / kalibrasyonsuz.
 **Gerekçe:** TOPSIS PD'yi doğrudan kullanır → olasılıkların güvenilir olması gerekir. **Alternatif:** Isotonic esnek ama az veride aşırı uyum; Platt basit ama tek parametreli biçim varsayar. Veri büyük olduğu için isotonic beklenir.
 **Kanıt (M6):** Ağırlıksız XGB ham OOF zaten kalibre (ECE 0,0025, ort. tahmin 0,080 vs 0,081). Isotonic (CV'li) ECE'yi 0,0006'ya indiriyor, AUC'yi 0,0007 düşürüyor (bağ/tie etkisi). Ağırlıklı modelde analitik **prior düzeltme** ECE'yi 0,286→0,013'e indiriyor ama **aşırı düzeltiyor** (ort. 0,068 < 0,081): ağırlıklandırma, düzenlileştirilmiş ağaçlarda tam olarak yeniden örneklemeye denk değil. Isotonic her iki durumda ECE≈0,001.
 **Ön-belirlenmiş kural (K-C öncesi yazıldı):** Seçilen final modelin OOF ECE'si < 0,01 ise **ham** PD kullanılır; değilse **isotonic**, tüm eğitim OOF'una fit edilip teste uygulanır. Sızıntısız: kalibrasyon yalnız OOF'tan öğrenilir.
+**Uygulama (2026-11-22):** Final XGB (M5 parametreleri) OOF ECE = **0,0023** < 0,01 → **ham PD** kullanılır. OOF AUC 0,7705, Brier 0,0671. `deneyler/final_model_2026-11-22.json`
 
 ### D14 · Modeller arası istatistiksel karşılaştırma   [🟡]
 **Seçenekler:** Bootstrap %95 GA + eşleştirilmiş fark (seçilen) / DeLong AUC testi / katlar üzerinde eşleştirilmiş t-testi (düzeltmeli) / Friedman+Nemenyi (çoklu veri seti).

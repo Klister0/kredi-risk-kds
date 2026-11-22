@@ -95,6 +95,8 @@ H1a yanlışlanırsa (MCDM daha iyi ayırıyorsa) önce nedeni araştır: sızı
 
 ## 8. Deney protokolü ön-kaydı (şablon: L4'te doldurulacak)
 
+**Doldurulmuş sürüm: `docs/08_on_kayit_v1.md` (2026-11-22).** Aşağıdaki şablon tarihsel kayıt olarak korunuyor.
+
 ```
 Protokol sürümü: v1   Tarih: ____   Commit: ____   Hoca onayı: evet/hayır/tarih
 1. Veri ve bölme: (tohum, oranlar, indeks dosyası yolu)
