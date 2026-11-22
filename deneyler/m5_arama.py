@@ -83,14 +83,15 @@ def calistir(ornek=None, n_aday=12):
     for ad, (boru, uzay) in adaylar().items():
         _yazdir(f"{ad}: arama başlıyor ({n_aday} aday × 3 kat)")
         t0 = time.time()
+        # verbose=3: her deneme (aday × kat) bittiğinde skor ve süreyle bir satır yazar (ilerleme takibi)
         arama = RandomizedSearchCV(boru, uzay, n_iter=n_aday, scoring="roc_auc", cv=cv3,
-                                   random_state=TOHUM, n_jobs=1, refit=False)
+                                   random_state=TOHUM, n_jobs=1, refit=False, verbose=3)
         arama.fit(X, y)
         en_iyi = arama.best_params_
         _yazdir(f"{ad}: en iyi 3-kat AUC {arama.best_score_:.4f} → 5 katlı yeniden ölçüm")
         boru.set_params(**en_iyi)
         cvr = cross_validate(boru, X, y, cv=cv5, scoring=["roc_auc", "average_precision"],
-                             return_train_score=True, n_jobs=1)
+                             return_train_score=True, n_jobs=1, verbose=2)
         sonuc[ad] = {
             "arama_en_iyi_3kat_auc": float(arama.best_score_),
             "aday_auc_dagilimi": [float(s) for s in arama.cv_results_["mean_test_score"]],
