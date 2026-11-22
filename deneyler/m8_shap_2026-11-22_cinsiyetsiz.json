@@ -1,0 +1,138 @@
+{
+  "tarih": "2026-11-22",
+  "n_ornek": 10000,
+  "taban_log_odds": -2.438833475112915,
+  "global_onem_ilk20": {
+    "EXT_ORT": 0.4202970811242398,
+    "ODEME_ORANI": 0.14271575898403827,
+    "KREDI_MAL_ORANI": 0.11978529185464867,
+    "EXT_SOURCE_3": 0.09494895840932131,
+    "NAME_EDUCATION_TYPE": 0.08736868177466067,
+    "AMT_ANNUITY": 0.0797461267663617,
+    "EXT_SOURCE_2": 0.07838221540151354,
+    "BURO_BORC_ORANI": 0.07826432691607278,
+    "DAYS_EMPLOYED": 0.06640282365226086,
+    "AMT_GOODS_PRICE": 0.06002455512881497,
+    "EXT_SOURCE_1": 0.050653792102900476,
+    "BURO_MAKS_GECIKME_TUTAR": 0.04866481635247183,
+    "FLAG_OWN_CAR": 0.04510431139976136,
+    "NAME_FAMILY_STATUS": 0.04324542220963976,
+    "ISTIHDAM_YIL": 0.042525413690089775,
+    "NAME_INCOME_TYPE": 0.041512857109314426,
+    "ORGANIZATION_TYPE": 0.040945653815277344,
+    "BURO_AKTIF_SAYISI": 0.04066321505797605,
+    "OCCUPATION_TYPE": 0.03958711680759889,
+    "DAYS_BIRTH": 0.037951143181205405
+  },
+  "ornek_basvurular": {
+    "Düşük riskli başvuru": {
+      "SK_ID_CURR": 169778,
+      "PD": 0.01610647886991501,
+      "en_buyuk_katkilar": {
+        "ODEME_ORANI": -0.5215020775794983,
+        "EXT_ORT": -0.5188432931900024,
+        "EXT_SOURCE_3": -0.12585096061229706,
+        "DAYS_EMPLOYED": 0.10816216468811035,
+        "KREDI_MAL_ORANI": -0.09346155822277069,
+        "ISTIHDAM_YIL": 0.08964955806732178,
+        "BURO_BORC_ORANI": -0.07636517286300659,
+        "NAME_FAMILY_STATUS": 0.07366593222832307
+      }
+    },
+    "Yüksek riskli başvuru": {
+      "SK_ID_CURR": 362358,
+      "PD": 0.3506149351596832,
+      "en_buyuk_katkilar": {
+        "EXT_ORT": 0.960320234298706,
+        "EXT_SOURCE_2": 0.3899920582771301,
+        "ODEME_ORANI": 0.1367293745279312,
+        "KREDI_MAL_ORANI": 0.12232256680727005,
+        "NAME_INCOME_TYPE": -0.11634978077927371,
+        "EXT_SOURCE_3": -0.0995895192027092,
+        "FLAG_DOCUMENT_3": -0.09610706567764282,
+        "NAME_FAMILY_STATUS": 0.07895803058636375
+      }
+    }
+  },
+  "lr_tutarlilik": {
+    "yon_uyumu_ilk15": 1.0,
+    "spearman_onem_ilk15": 0.34642857142857136,
+    "ayrinti": {
+      "EXT_ORT": {
+        "lr_katsayi": -0.1581830580868795,
+        "shap_yon_korelasyon": -0.9867515839008179,
+        "ort_abs_shap": 0.4202970811242398
+      },
+      "ODEME_ORANI": {
+        "lr_katsayi": -0.17882082097690383,
+        "shap_yon_korelasyon": -0.125274342170628,
+        "ort_abs_shap": 0.14271575898403827
+      },
+      "KREDI_MAL_ORANI": {
+        "lr_katsayi": 0.09790991877274259,
+        "shap_yon_korelasyon": 0.9218903424550423,
+        "ort_abs_shap": 0.11978529185464867
+      },
+      "EXT_SOURCE_3": {
+        "lr_katsayi": -0.3360967659384537,
+        "shap_yon_korelasyon": -0.9130134396932064,
+        "ort_abs_shap": 0.09494895840932131
+      },
+      "AMT_ANNUITY": {
+        "lr_katsayi": 0.1627475557059361,
+        "shap_yon_korelasyon": 0.7548558411989351,
+        "ort_abs_shap": 0.0797461267663617
+      },
+      "EXT_SOURCE_2": {
+        "lr_katsayi": -0.27085393734865243,
+        "shap_yon_korelasyon": -0.8581068354045502,
+        "ort_abs_shap": 0.07838221540151354
+      },
+      "BURO_BORC_ORANI": {
+        "lr_katsayi": 0.20163481437177153,
+        "shap_yon_korelasyon": 0.9159619662804865,
+        "ort_abs_shap": 0.07826432691607278
+      },
+      "DAYS_EMPLOYED": {
+        "lr_katsayi": 0.0696746324246155,
+        "shap_yon_korelasyon": 0.8092037801301414,
+        "ort_abs_shap": 0.06640282365226086
+      },
+      "AMT_GOODS_PRICE": {
+        "lr_katsayi": -0.33571601156063174,
+        "shap_yon_korelasyon": -0.6645160321298788,
+        "ort_abs_shap": 0.06002455512881497
+      },
+      "EXT_SOURCE_1": {
+        "lr_katsayi": -0.139106429572643,
+        "shap_yon_korelasyon": -0.6757591111289215,
+        "ort_abs_shap": 0.050653792102900476
+      },
+      "BURO_MAKS_GECIKME_TUTAR": {
+        "lr_katsayi": 0.00444387697827162,
+        "shap_yon_korelasyon": 0.33117840585398445,
+        "ort_abs_shap": 0.04866481635247183
+      },
+      "ISTIHDAM_YIL": {
+        "lr_katsayi": -0.06967463242461448,
+        "shap_yon_korelasyon": -0.8908840714546301,
+        "ort_abs_shap": 0.042525413690089775
+      },
+      "BURO_AKTIF_SAYISI": {
+        "lr_katsayi": 0.16288604636557055,
+        "shap_yon_korelasyon": 0.7407355131636798,
+        "ort_abs_shap": 0.04066321505797605
+      },
+      "DAYS_BIRTH": {
+        "lr_katsayi": -0.002609734977285421,
+        "shap_yon_korelasyon": -0.33118556638880026,
+        "ort_abs_shap": 0.037951143181205405
+      },
+      "TAKSIT_GELIR": {
+        "lr_katsayi": 0.17229924210511252,
+        "shap_yon_korelasyon": 0.8038884044133691,
+        "ort_abs_shap": 0.03726514807179192
+      }
+    }
+  }
+}

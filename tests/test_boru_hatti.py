@@ -50,3 +50,13 @@ def test_gorulmemis_kategori_patlamaz():
     test["CODE_GENDER"] = ["XNA"]  # eğitimde yok (zaten temizlemede NaN olur ama güvence)
     X = boru.transform(test)
     assert X.shape[0] == 1
+
+
+def test_dislanan_sutun_modele_girmez():
+    egitim = _cerceve([10000.0, 20000.0, 30000.0])
+    egitim["CODE_GENDER"] = ["M", "F", "M"]
+    boru = on_isleme_boru_hatti(dislanan=("CODE_GENDER",)).fit(egitim)
+    ct = boru.named_steps["sutunlar"]
+    secilen = [s for _, _, sutunlar in ct.transformers_ for s in sutunlar]
+    assert "CODE_GENDER" not in secilen
+    assert "CODE_GENDER" in [s for _, _, sutunlar in on_isleme_boru_hatti().fit(egitim).named_steps["sutunlar"].transformers_ for s in sutunlar]

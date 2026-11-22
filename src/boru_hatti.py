@@ -24,7 +24,13 @@ BIRAKILACAK = ["SK_ID_CURR", "TARGET"]
 
 
 class OzellikTuretici(BaseEstimator, TransformerMixin):
-    """Durumsuz özellik türetme (F1 temizleme + F2 oranlar). fit hiçbir şey öğrenmez."""
+    """Durumsuz özellik türetme (F1 temizleme + F2 oranlar). fit hiçbir şey öğrenmez.
+
+    dislanan: modelden çıkarılacak ham sütunlar (D16: final modelde CODE_GENDER).
+    """
+
+    def __init__(self, dislanan: tuple = ()):
+        self.dislanan = dislanan
 
     def fit(self, X, y=None):
         return self
@@ -32,10 +38,10 @@ class OzellikTuretici(BaseEstimator, TransformerMixin):
     def transform(self, X):
         X = temizle_basvuru(X)
         X = oran_ozellikleri_ekle(X)
-        return X.drop(columns=[c for c in BIRAKILACAK if c in X.columns])
+        return X.drop(columns=[c for c in (*BIRAKILACAK, *self.dislanan) if c in X.columns])
 
 
-def on_isleme_boru_hatti(olcekle: bool = True) -> Pipeline:
+def on_isleme_boru_hatti(olcekle: bool = True, dislanan: tuple = ()) -> Pipeline:
     """Ön işleme Pipeline'ı döndürür. Sütun tipleri fit anında dtype ile seçilir.
 
     olcekle=True (LR için): sayısalları StandardScaler ile ölçekler.
@@ -57,6 +63,6 @@ def on_isleme_boru_hatti(olcekle: bool = True) -> Pipeline:
     ], remainder="drop")
 
     return Pipeline([
-        ("ozellik", OzellikTuretici()),
+        ("ozellik", OzellikTuretici(dislanan=dislanan)),
         ("sutunlar", sutunlar),
     ])

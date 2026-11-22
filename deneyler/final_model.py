@@ -31,13 +31,15 @@ from src.veri_yukle import egitim_matrisi
 KOK = Path(__file__).resolve().parents[1]
 TOHUM = 42
 ECE_ESIGI = 0.01   # D13 kuralı
+DISLANAN = ("CODE_GENDER",)   # D16 (2026-11-22): cinsiyet final modelden çıkarıldı (CV maliyeti AUC 0,0016)
+SURUM = "cinsiyetsiz"
 
 
 def final_boru_hatti():
     m5 = sorted((KOK / "deneyler").glob("m5_arama_*_tam.json"))[-1]
     p = json.loads(m5.read_text(encoding="utf-8"))["sonuclar"]["xgboost"]["en_iyi_parametreler"]
     model = XGBClassifier(tree_method="hist", eval_metric="auc", n_jobs=-1, random_state=TOHUM, **p)
-    return Pipeline([("on", on_isleme_boru_hatti(olcekle=False)), ("model", model)]), p, m5.name
+    return Pipeline([("on", on_isleme_boru_hatti(olcekle=False, dislanan=DISLANAN)), ("model", model)]), p, m5.name
 
 
 def calistir():
@@ -65,12 +67,13 @@ def calistir():
                 klasor / "model" / "final_model.joblib")
     print("Final model tüm eğitimle eğitildi ve kaydedildi.", flush=True)
 
-    kayit = {"tarih": date.today().isoformat(), "tohum": TOHUM, "n": int(len(X)),
+    kayit = {"tarih": date.today().isoformat(), "tohum": TOHUM, "n": int(len(X)), "surum": SURUM,
+             "dislanan": list(DISLANAN),
              "parametre_kaynagi": kaynak, "parametreler": parametreler,
              "oof": {"roc_auc": float(roc_auc_score(y, oof)), "brier": float(brier_score_loss(y, oof)),
                      "ece": oof_ece, "ort_pd": float(oof.mean()), "gozlenen": float(y.mean())},
              "kalibrasyon_karari": kalibrasyon, "kural": f"ECE < {ECE_ESIGI} → ham (D13)"}
-    (KOK / "deneyler" / f"final_model_{date.today().isoformat()}.json").write_text(
+    (KOK / "deneyler" / f"final_model_{date.today().isoformat()}_{SURUM}.json").write_text(
         json.dumps(kayit, ensure_ascii=False, indent=2), encoding="utf-8")
 
 
