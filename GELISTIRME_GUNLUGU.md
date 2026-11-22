@@ -167,6 +167,11 @@ kalıcı kod `src/`'de, denemeler `notebooks/`'ta tutulur.
 - Gerçek veri: büro özet 305.811 başvuru; eğitime birleşince **246.009 satır korundu**. **Başvuruların %14,3'ü büro kaydı yok** (35.244). Gecikme izi %0,2, borç oranı medyan 0,22.
 - bureau_balance (aylık STATUS/DPD) sunum kapsamında **opsiyonel**; zaman kalırsa eklenir (D31).
 
+### Adım 13: F4 sızıntısız Pipeline ✅
+- `src/boru_hatti.py`: `OzellikTuretici` (durumsuz F1+F2) → `ColumnTransformer` [sayısal: median impute (+ opsiyonel StandardScaler); kategorik: most_frequent impute + OneHotEncoder(handle_unknown='ignore')]. `olcekle` paramı (LR=True, ağaçlar=False).
+- `tests/test_boru_hatti.py` 3/3. **Sızıntı kanıtı:** imputer istatistiği eğitim medyanı (test değil) — sayısal test yeşil; görülmemiş kategori patlamıyor.
+- Gerçek veri (büro birleşik, iç doğrulama bölmesi): 267 özellik, çıktıda NaN/inf yok, ölçekli ortalama~0/std~1, test sütunları eğitimle hizalı.
+
 ## Açık konular / kararlar
 
 - **TOPSIS tek başvuruda tanımsız:** İdeal/anti-ideal noktalar eğitim verisinden (ör. %5 ve %95 yüzdelikleri)
@@ -182,8 +187,8 @@ kalıcı kod `src/`'de, denemeler `notebooks/`'ta tutulur.
 
 ## Sıradaki adım
 
-**F4 — sklearn `Pipeline` (`src/boru_hatti.py`).** F1+F2 (ve F3 büro özellikleri) tek bir sızıntısız boru hattında:
-imputer/encoder/scaler **yalnız eğitime fit**. Sızıntı kontrolü testi (fit sadece eğitim katında). Bu, modelleme (M-fazı) ve K-C kapısı için ön koşul.
-Açık karar (K1): büro kaydı olmayan %14 için 6. kriter eksik-değer kuralı. Paralel: L2 (öğrenci).
+**M-fazı başlangıcı (M1):** Dummy baseline + Logistic Regression, 5 katlı katmanlı CV, `on_isleme_boru_hatti(olcekle=True)` ile.
+Metrik: ROC-AUC (±std), PR-AUC. Önce bir veri yükleme yardımcı fonksiyonu (`src/veri_yukle.py`: app+bureau birleştir, eğitim X/y döndür).
+CV AUC'yi kaydet (`deneyler/`), test kümesine BAKMA (K-C'ye kadar). Beklenti: LR ≈0,74–0,76 (`docs/07` §8). Paralel: L2.
 
 ## Değişiklik kaydı

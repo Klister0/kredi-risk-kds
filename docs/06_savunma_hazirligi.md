@@ -42,7 +42,7 @@ Bölme bir kez yapıldı, indeksler commit'lendi (tohum 42). `[KANIT: test_bolme
 İskelet: D04. Eksikliğin kendisi bilgi taşıyor; XGB yerel NaN; maliyet. `[KANIT: strateji karşılaştırması]`
 
 **S8. Veri sızıntısı olmadığını nasıl biliyorsunuz?** ⬜
-İskelet: Tüm dönüşümler `Pipeline` içinde, yalnız eğitime fit; SMOTE/kalibrasyon yalnız CV/OOF içinde; test kilit noktalarda açıldı (K-B/K-C); sızıntı testi. Bölme EDA'dan önce yapıldı (D33), indeksler commit'li. `[KANIT: boru hattı testi; data/processed/bolme/ commit'i]`
+İskelet: Tüm dönüşümler `Pipeline` içinde, yalnız eğitime fit; SMOTE/kalibrasyon yalnız CV/OOF içinde; test kilit noktalarda açıldı (K-B/K-C); sızıntı testi. Bölme EDA'dan önce yapıldı (D33), indeksler commit'li. Boru hattı `src/boru_hatti.py`: imputer/scaler/encoder yalnız fit'te öğrenir; `test_boru_hatti.py::test_sizinti_imputer_egitimden` imputer istatistiğinin **eğitim medyanı** olduğunu sayısal kanıtlar. `[KANIT: sızıntı testi yeşil; data/processed/bolme/ commit'i]`
 
 **S9. Ek tabloları neden bu şekilde toplulaştırdınız? Başka özellik olabilirdi.** ⬜
 İskelet: Sayı/oran/maksimum özetleri, "kayıt yok" ≠ 0 (F3). Alternatif: zaman pencereli özellikler, daha fazla agregasyon; zaman kısıtı.

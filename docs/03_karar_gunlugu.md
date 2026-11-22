@@ -49,7 +49,7 @@ gerçek veri bölmesi `data/processed/bolme/` (n_egitim=246009, n_test=61502, to
 ### D04 · Eksik değer stratejisi: modele göre   [🟡]
 **Seçenekler:** XGBoost yerel NaN + LR/RF için medyan + "eksik" göstergesi (seçilen) / MICE / KNN imputer / satır silme / tek tip sabit doldurma.
 **Gerekçe:** Eksikliğin kendisi bilgi taşıyabilir (`EXT_SOURCE_*`, konut sütunları); satır silmek veri ve temsil kaybı. **Alternatif:** MICE/KNN yavaş (307 bin × 100+ sütun) ve kazanç belirsiz.
-**Kanıt:** (V2: eksik/temerrüt ilişkisi; M-fazı: strateji karşılaştırması). **Not:** RandomForest'ın yerel NaN desteği kurulu sklearn sürümünde doğrulanmalı.
+**Kanıt:** F4 `src/boru_hatti.py` SimpleImputer(median) `Pipeline` içinde, yalnız eğitime fit (sızıntı testi yeşil). (V2 eksik/temerrüt ilişkisi; M-fazı strateji karşılaştırması.) **Not:** RandomForest yerel NaN desteği sklearn 1.9'da doğrulanacak; şimdilik imputer kullanılıyor.
 
 ### D05 · `DAYS_EMPLOYED = 365243` anomalisi: NaN + bayrak   [🟢]
 **Seçenekler:** NaN + `ISTIHDAM_ANOMALI` bayrağı (seçilen) / satırı sil / medyanla doldur / olduğu gibi bırak.
