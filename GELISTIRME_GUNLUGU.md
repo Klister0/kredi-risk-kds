@@ -189,6 +189,11 @@ kalıcı kod `src/`'de, denemeler `notebooks/`'ta tutulur.
 - Kararlar: **D08 🟢** (ağırlıklandırma yok), **D13 🟡** ön-belirlenmiş kural (ECE<0,01 → ham, aksi isotonic).
 - OOF tahminleri `data/processed/oof/xgb_oof_tam.csv` (git dışı; betikle yeniden üretilir). Şekil `rapor/sekiller/04_guvenilirlik_egrisi.png`.
 
+### Adım 17: M5 eşit bütçeli arama — betik hazır, tam koşu öğrencinin makinesinde ⏳
+- `deneyler/m5_arama.py`: LR/RF/XGB, 12 aday × 3 kat (eşit bütçe) → en iyiler 5 katlı CV'de yeniden ölçülür. Seçim kuralı arama öncesi yazıldı (D10): en yüksek 5-kat CV AUC.
+- Claude ortamında 20 bin satır × 2 adayla duman testi geçti (kod çalışıyor; sayılar anlamsız).
+- Tam koşu öğrencinin makinesinde (12 iş parçacığı); tahmini süre kaba olarak 1–3 saat. Çıktı `deneyler/m5_arama_<tarih>_tam.json`.
+
 ## Açık konular / kararlar
 
 - **TOPSIS tek başvuruda tanımsız:** İdeal/anti-ideal noktalar eğitim verisinden (ör. %5 ve %95 yüzdelikleri)
@@ -204,9 +209,8 @@ kalıcı kod `src/`'de, denemeler `notebooks/`'ta tutulur.
 
 ## Sıradaki adım
 
-**M5 (küçük, eşit bütçeli rastgele arama) → M7 test değerlendirmesi (K-C).**
-M5: LR/RF/XGB için eşit bütçe (ör. 10 aday × 3 katlı CV), en iyi parametreler `deneyler/`. Hesaplama ağır → öğrencinin makinesinde (12 iş parçacığı) gece koşusu önerilir.
-M7: model seçimi CV'ye göre; test kümesi **tek sefer** açılır; AUC/Gini/KS/PR-AUC/Brier + bootstrap %95 GA; test erişim sayacına yazılır.
-Sonra **AHP + TOPSIS** (karar katmanı). Paralel: L2.
+1. **Öğrenci:** `deneyler\m5_arama.py`'yi tam veride çalıştır (uzun sürer), JSON'u commit'le.
+2. **Paralel (M5'i beklemez):** **K1 kriter tablosu + K2 AHP sıfırdan** (`src/ahp.py`: özvektör, CR, geometrik ortalama ile grup birleştirme; Saaty örneğiyle test). AHP, PD değerlerine bağlı değil.
+3. M5 bitince: **M7 → K-C** (seçilen model, test tek sefer, bootstrap GA). Sonra K3 TOPSIS, K4 eşikler (OOF üzerinde, K-D).
 
 ## Değişiklik kaydı

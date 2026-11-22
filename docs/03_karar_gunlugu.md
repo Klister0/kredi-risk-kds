@@ -98,6 +98,7 @@ Gözlem: XGB > LR ≈ +0,017 AUC (CV std'nin ~8 katı; resmî test M7 bootstrap)
 ### D10 · Hiperparametre arama   [🟡]
 **Seçenekler:** Rastgele arama (seçilen) / grid / Optuna (Bayes) / elle ayar.
 **Gerekçe:** Eşit bütçeyle adil karşılaştırma; rastgele arama grid'e göre geniş uzayda daha verimli (⚠️ Bergstra & Bengio 2012, doğrulanacak). **Alternatif:** Optuna daha az denemede iyi sonuç verir; öğrenme açısından "ek".
+**Tasarım (2026-11-22, arama ÖNCESİ yazıldı):** `deneyler/m5_arama.py` — her model 12 aday × 3 katlı CV (eşit bütçe), ölçüt ROC-AUC; en iyi parametreler M1–M3 ile aynı 5 katlı CV'de yeniden ölçülür. **Seçim kuralı:** en yüksek 5 katlı CV ROC-AUC. Test kümesi seçime karışmaz. Uzaylar betikte kayıtlı (LR: C; RF: ağaç sayısı/derinlik/yaprak/özellik/örnek oranı; XGB: ağaç, öğrenme hızı, derinlik, min_child_weight, subsample, colsample, L1/L2).
 **Kanıt:** M2/M3 şimdilik **sabit, makul** parametrelerle (betikte kayıtlı); erken durdurma kullanılmadı (ayrı doğrulama katı gerektirir, sızıntı riski). Arama M5'te eşit bütçeyle. (M5: bütçe, aranan uzay, CV skor dağılımı.)
 
 ### D11 · Metrik seti   [🟢]
