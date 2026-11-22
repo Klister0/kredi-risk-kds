@@ -177,6 +177,11 @@ kalıcı kod `src/`'de, denemeler `notebooks/`'ta tutulur.
 - **Sonuç (tam veri 246.009, temel+büro):** LR **ROC-AUC 0,7526 ± 0,0022**, PR-AUC 0,235; Dummy 0,499 / 0,081. Beklenen aralıkta (0,74–0,76), sızıntı işareti yok.
 - Sonuç `deneyler/m1_baseline_2026-11-22_tam.json`. Test kümesine BAKILMADI.
 
+### Adım 15: M2 Random Forest + M3 XGBoost ✅
+- `deneyler/m2_m3_agaclar.py`: M1 ile aynı 5 katlı CV, `olcekle=False`, sabit parametreler, erken durdurma yok, eğitim skoru da kaydediliyor.
+- **Sonuç (tam veri):** XGB **0,769 ± 0,002** (PR-AUC 0,257) > LR 0,753 > RF 0,749. RF'nin LR'nin altında kalması kısıtlı ayardan (derinlik 12, max_samples 0,3); gizlenmedi. XGB eğitim-CV farkı 0,10 (aşırı uyum → M5).
+- Beklenen aralık (0,77–0,80) alt sınırında: yalnız temel+büro özellikleri (diğer 4 tablo kapsam dışı, D31). Sızıntı işareti yok.
+
 ## Açık konular / kararlar
 
 - **TOPSIS tek başvuruda tanımsız:** İdeal/anti-ideal noktalar eğitim verisinden (ör. %5 ve %95 yüzdelikleri)
@@ -192,7 +197,8 @@ kalıcı kod `src/`'de, denemeler `notebooks/`'ta tutulur.
 
 ## Sıradaki adım
 
-**M2 — Random Forest, aynı CV şeması** (`on_isleme_boru_hatti(olcekle=False)`). Sonra **M3 XGBoost**. Hepsi aynı 5 katlı
-StratifiedKFold, aynı metrikler; sonuçlar `deneyler/`. Beklenti: GBDT ≈0,77–0,80. Çok yüksekse (>0,85) sızıntı ara. Paralel: L2.
+**M4 (dar) + M6 kalibrasyon** — karar katmanı için kritik, çünkü TOPSIS PD'nin **değerini** kullanır.
+XGBoost için {dengeleme yok, `scale_pos_weight`} × {ham, isotonic}: OOF tahminlerinde AUC, Brier, ECE, güvenilirlik eğrisi.
+Kalibrasyon **OOF** üzerinde öğrenilir (sızıntısız). Ardından küçük M5 araması ve **M7 → K-C** (test tek sefer). Paralel: L2.
 
 ## Değişiklik kaydı

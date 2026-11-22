@@ -1,0 +1,38 @@
+{
+  "tarih": "2026-11-22",
+  "tohum": 42,
+  "ornek": null,
+  "n": 246009,
+  "cv": "StratifiedKFold(5)",
+  "ozellik_seti": "temel+buro",
+  "sonuclar": {
+    "random_forest": {
+      "roc_auc_ort": 0.7484989764424496,
+      "roc_auc_std": 0.0021082857841718543,
+      "pr_auc_ort": 0.2345768655119409,
+      "egitim_roc_auc_ort": 0.7899961492188824,
+      "sure_sn": 148.3,
+      "parametreler": {
+        "max_depth": 12,
+        "max_features": "sqrt",
+        "max_samples": 0.3,
+        "min_samples_leaf": 50,
+        "n_estimators": 150
+      }
+    },
+    "xgboost": {
+      "roc_auc_ort": 0.7691537239044536,
+      "roc_auc_std": 0.0016174228657235678,
+      "pr_auc_ort": 0.25660421906476716,
+      "egitim_roc_auc_ort": 0.8685796798531229,
+      "sure_sn": 165.1,
+      "parametreler": {
+        "colsample_bytree": 0.8,
+        "learning_rate": 0.05,
+        "max_depth": 6,
+        "n_estimators": 400,
+        "subsample": 0.8
+      }
+    }
+  }
+}

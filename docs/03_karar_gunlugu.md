@@ -86,12 +86,19 @@ gerçek veri bölmesi `data/processed/bolme/` (n_egitim=246009, n_test=61502, to
 **Seçenekler:** LR+RF+XGB (öneri, seçilen) / LightGBM / CatBoost / SVM / sinir ağı / WoE-LR skor kartı / EBM (açıklanabilir boosting).
 **Gerekçe:** Yorumlanabilir baseline + bagging + boosting üçlüsü; öneride taahhüt. **Alternatif seçilseydi:** LightGBM ile XGBoost benzer sonuçlar verir (Home Credit çalışmalarında ikisi de en iyi model olarak raporlanabiliyor),
 CatBoost kategorik veride avantajlı; ikisi de "ek" katmanda duyarlılık olarak eklenebilir. Tabular veride ağaç tabanlı modeller sinir ağlarına çoğu zaman üstün (⚠️ Grinsztajn ve ark. 2022, doğrulanacak).
-**Kanıt:** M1 (2026-11-22): LR CV ROC-AUC 0,753±0,002, PR-AUC 0,235; dummy 0,50. (RF/XGB M2-M3.) `deneyler/m1_baseline_*_tam.json`
+**Kanıt (2026-11-22, temel+büro, 5 katlı CV, sabit hiperparametre):**
+| Model | CV ROC-AUC | PR-AUC | Eğitim AUC | Süre (2 çekirdek) |
+|---|---|---|---|---|
+| Dummy | 0,499 ± 0,002 | 0,081 | – | – |
+| LR | 0,753 ± 0,002 | 0,235 | – | – |
+| RF | 0,749 ± 0,002 | 0,235 | 0,790 | 148 sn |
+| XGBoost | **0,769 ± 0,002** | **0,257** | 0,869 | 165 sn |
+Gözlem: XGB > LR ≈ +0,017 AUC (CV std'nin ~8 katı; resmî test M7 bootstrap). **RF, LR'nin biraz altında** (kısıtlı ayar: derinlik 12, max_samples 0,3) — gizlenmez, M5'te eşit bütçeli aramayla yeniden bakılacak. XGB eğitim-CV farkı 0,10 → düzenlileştirme M5. `deneyler/m1_*`, `deneyler/m2_m3_*`
 
 ### D10 · Hiperparametre arama   [🟡]
 **Seçenekler:** Rastgele arama (seçilen) / grid / Optuna (Bayes) / elle ayar.
 **Gerekçe:** Eşit bütçeyle adil karşılaştırma; rastgele arama grid'e göre geniş uzayda daha verimli (⚠️ Bergstra & Bengio 2012, doğrulanacak). **Alternatif:** Optuna daha az denemede iyi sonuç verir; öğrenme açısından "ek".
-**Kanıt:** (M5: bütçe, aranan uzay, CV skor dağılımı).
+**Kanıt:** M2/M3 şimdilik **sabit, makul** parametrelerle (betikte kayıtlı); erken durdurma kullanılmadı (ayrı doğrulama katı gerektirir, sızıntı riski). Arama M5'te eşit bütçeyle. (M5: bütçe, aranan uzay, CV skor dağılımı.)
 
 ### D11 · Metrik seti   [🟢]
 **Seçenekler:** ROC-AUC (+Gini), PR-AUC, KS, Brier, ECE, F1@eşik, beklenen maliyet (seçilen) / doğruluk.

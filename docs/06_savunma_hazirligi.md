@@ -56,13 +56,13 @@ Bölme bir kez yapıldı, indeksler commit'lendi (tohum 42). `[KANIT: test_bolme
 ## C. Modelleme
 
 **S12. Neden bu üç model? LightGBM/CatBoost/sinir ağı neden değil?** ⬜
-İskelet: D09: baseline + bagging + boosting; LightGBM ≈ XGBoost beklenir; tabular veride ağaçlar güçlü. Duyarlılık olarak eklenebilir.
+İskelet: D09: baseline + bagging + boosting; LightGBM ≈ XGBoost beklenir; tabular veride ağaçlar güçlü. **Sonuç:** XGB 0,769 > LR 0,753 > RF 0,749 (CV). RF'nin LR'yi geçememesi dürüstçe raporlanır (kısıtlı bütçe). `[KANIT: deneyler/m2_m3_*_tam.json]`
 
 **S13. AUC'niz 0,7x. Düşük değil mi?** ⬜
 İskelet: Bu veri setinde literatürde ≈0,76–0,80 aralığı (LightGBM ≈0,79, `docs/05` §2); kredi riskinde AUC 0,9 şüphelidir (sızıntı). **Bizim M1 LR CV AUC = 0,753 ± 0,002** (temel+büro), beklenen aralıkta → sağlama tuttu. Hedef modelin mutlak skoru değil karar katmanı. `[KANIT: deneyler/m1_baseline_*_tam.json]`
 
 **S14. Hiperparametreleri nasıl seçtiniz? Aşırı uyum yok mu?** ⬜
-İskelet: Rastgele arama, eşit bütçe, CV, test kilitli (D10). `[KANIT: CV-test farkı]`
+İskelet: Rastgele arama, eşit bütçe, CV, test kilitli (D10). Aşırı uyum göstergesi eğitim-CV farkı: RF 0,04, XGB 0,10 → XGB'de düzenlileştirme (M5). `[KANIT: CV-test farkı M7]`
 
 **S15. Modeller arasındaki fark istatistiksel olarak anlamlı mı?** ⬜
 İskelet: Bootstrap GA + eşleştirilmiş fark; Friedman/Nemenyi tek veri setinde uygulanamaz (D14). `[KANIT: GA'lar]`
