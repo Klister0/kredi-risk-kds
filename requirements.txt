@@ -9,6 +9,14 @@ numpy==2.5.3
 scikit-learn==1.9.1
 xgboost==3.4.1
 
+# Açıklanabilirlik ve panel
+shap==0.54.1
+streamlit==1.67.0
+joblib==1.6.0
+
+# Çok kriterli karar (yalnız çapraz doğrulama testleri)
+pymcdm==1.4.0
+
 # Görselleştirme
 matplotlib==3.11.2
 seaborn==0.13.2
