@@ -27,6 +27,8 @@ def ozellik_eslemesi(boru) -> tuple[list[str], list[str]]:
     _, ct, _ = _parcalar(boru)
     adlar, kaynak = [], []
     for ad, donusturucu, sutunlar in ct.transformers_:
+        if len(sutunlar) == 0:          # boş grup (ör. kategorik sütun yok): sklearn dönüştürücüyü eğitmez
+            continue
         if ad == "sayisal":
             for s in sutunlar:
                 adlar.append(s); kaynak.append(s)
@@ -38,11 +40,14 @@ def ozellik_eslemesi(boru) -> tuple[list[str], list[str]]:
     return adlar, kaynak
 
 
-def shap_hesapla(boru, X: pd.DataFrame):
-    """(shap matrisi [n × özellik], taban değer, dönüşmüş X, özellik adları, kaynak değişkenler)."""
+def shap_hesapla(boru, X: pd.DataFrame, aciklayici=None):
+    """(shap matrisi [n × özellik], taban değer, dönüşmüş X, özellik adları, kaynak değişkenler).
+
+    aciklayici verilirse yeniden kurulmaz (panelde önbellek için).
+    """
     Z = donusmus_matris(boru, X)
     _, _, model = _parcalar(boru)
-    aciklayici = shap.TreeExplainer(model)
+    aciklayici = aciklayici or shap.TreeExplainer(model)
     S = np.asarray(aciklayici.shap_values(Z), dtype=np.float64)   # float32 yuvarlamasını önle
     taban = float(np.ravel(aciklayici.expected_value)[0])
     adlar, kaynak = ozellik_eslemesi(boru)
