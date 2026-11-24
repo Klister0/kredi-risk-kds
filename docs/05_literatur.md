@@ -109,37 +109,37 @@ Atıf biçimi (APA 7 mi IEEE mi) hocaya sorulacak; künyeler bu yüzden alan ala
 
 Bu tablo, **birkaç aramaya** dayanıyor; kesin değildir. Aynı fikri yapmış bir çalışma çıkarsa kaynak olarak ele alınıp katkı daraltılır (`docs/04` §13).
 
-## 4. Hafızadan listelenen, doğrulanacak kaynaklar (⚠️)
+## 4. Hafızadan listelenen kaynaklar — 2026-11-24 itibarıyla çoğu ✅ (kalan ⚠️: Saaty 1980 kitap, Altman 1968, yasal metinler)
 
 **AHP / çok kriterli karar**
 - Saaty, T. L. (1980). *The Analytic Hierarchy Process.* McGraw-Hill. ⚠️ · **✅ Saaty, T. L. (1990).** How to make a decision: The analytic hierarchy process. *EJOR, 48*(1), 9–26. https://doi.org/10.1016/0377-2217(90)90057-I *(2026-11-24: RePEc + Scilit)*
 - **✅ Aczél, J., & Saaty, T. L. (1983).** Procedures for synthesizing ratio judgements. *Journal of Mathematical Psychology, 27*(1), 93–102. https://doi.org/10.1016/0022-2496(83)90028-7 *(2026-11-24: Crossref atıf kaydı + Springer kaynakçası; bir dizinde yalnız Aczél görünüyor, iki yazarlı künye Crossref'te)* — Grup AHP'de geometrik ortalamanın gerekçesi (homojenlik/karşılıklılık koşulları; D19).
 - Rezaei, J. (2015). Best-worst multi-criteria decision-making method. *Omega, 53*, 49–57. https://doi.org/10.1016/j.omega.2014.11.009 *(✅ 2026-11-20: Omega 53(C) 49–57, DOI RePEc/Elsevier ile doğrulandı)*
 - **✅ Diakoulaki, D., Mavrotas, G., & Papayannakis, L. (1995).** Determining objective weights in multiple criteria problems: The CRITIC method. *Computers & Operations Research, 22*(7), 763–770. https://doi.org/10.1016/0305-0548(94)00059-H *(2026-11-24: Scilit + makale PDF'i)* — RQ2 ağırlık yöntemi karşılaştırması.
-- Opricovic, S., & Tzeng, G.-H. (2004). Compromise solution by MCDM methods: A comparative analysis of VIKOR and TOPSIS. *EJOR, 156*(2), 445–455.
-- Choo, E. U., Schoner, B., & Wedley, W. C. (1999). Interpretation of criteria weights in multicriteria decision making. *Computers & Industrial Engineering, 37*(3), 527–541. *(Nominal ≠ etkin ağırlık; D18)*
-- Triantaphyllou, E., & Sánchez, A. (1997). A sensitivity analysis approach for some deterministic multi-criteria decision-making methods. *Decision Sciences, 28*(1), 151–194. *(RQ2)*
+- **✅ Opricovic, S., & Tzeng, G.-H. (2004).** Compromise solution by MCDM methods: A comparative analysis of VIKOR and TOPSIS. *EJOR, 156*(2), 445–455. https://doi.org/10.1016/S0377-2217(03)00020-1 *(2026-11-24: RePEc + MaRDI)*
+- **✅ Choo, E. U., Schoner, B., & Wedley, W. C. (1999).** Interpretation of criteria weights in multicriteria decision making. *Computers & Industrial Engineering, 37*(3), 527–541. https://doi.org/10.1016/S0360-8352(00)00019-X *(2026-11-24: Scilit + kütüphane kaydı)* — Ağırlıkların anlamı birleştirme kuralına bağlı (nominal ≠ etkin; D18).
+- **✅ Triantaphyllou, E., & Sánchez, A. (1997).** A sensitivity analysis approach for some deterministic multi-criteria decision-making methods. *Decision Sciences, 28*(1), 151–194. https://doi.org/10.1111/j.1540-5915.1997.tb01306.x *(2026-11-24: ISI kaydı + kütüphane)* — RQ2.
 
 **ML ve değerlendirme**
-- Breiman, L. (2001). Random forests. *Machine Learning, 45*(1), 5–32.
+- **✅ Breiman, L. (2001).** Random forests. *Machine Learning, 45*(1), 5–32. https://doi.org/10.1023/A:1010933404324 *(2026-11-24: Springer DOI + makale PDF)*
 - **✅ Chen, T., & Guestrin, C. (2016).** XGBoost: A scalable tree boosting system. *Proceedings of the 22nd ACM SIGKDD International Conference on Knowledge Discovery and Data Mining*, 785–794. https://doi.org/10.1145/2939672.2939785 *(2026-11-24: arXiv + researchr + bibbase)*
 - **✅ Lundberg, S. M., & Lee, S.-I. (2017).** A unified approach to interpreting model predictions. *Advances in Neural Information Processing Systems 30*, 4765–4774. arXiv:1705.07874 *(2026-11-24: NeurIPS bildiri sayfası + meta veri)*
 - **✅ Chawla, N. V., Bowyer, K. W., Hall, L. O., & Kegelmeyer, W. P. (2002).** SMOTE: Synthetic minority over-sampling technique. *Journal of Artificial Intelligence Research, 16*, 321–357. https://doi.org/10.1613/jair.953 *(2026-11-24: JAIR + arXiv)*
-- Saito, T., & Rehmsmeier, M. (2015). The precision-recall plot is more informative than the ROC plot when evaluating binary classifiers on imbalanced datasets. *PLoS ONE, 10*(3), e0118432.
-- Niculescu-Mizil, A., & Caruana, R. (2005). Predicting good probabilities with supervised learning. *Proc. ICML.*
-- Elkan, C. (2001). The foundations of cost-sensitive learning. *Proc. IJCAI.*
-- Hand, D. J. (2009). Measuring classifier performance: a coherent alternative to the area under the ROC curve. *Machine Learning, 77*, 103–123.
-- Nadeau, C., & Bengio, Y. (2003). Inference for the generalization error. *Machine Learning, 52*, 239–281.
-- Demšar, J. (2006). Statistical comparisons of classifiers over multiple data sets. *JMLR, 7*, 1–30. *(Tek veri setinde uygulanamaz; neden uygulamadığımızın savunması)*
-- Bergstra, J., & Bengio, Y. (2012). Random search for hyper-parameter optimization. *JMLR, 13*, 281–305.
+- **✅ Saito, T., & Rehmsmeier, M. (2015).** The precision-recall plot is more informative than the ROC plot when evaluating binary classifiers on imbalanced datasets. *PLoS ONE, 10*(3), e0118432. https://doi.org/10.1371/journal.pone.0118432 *(2026-11-24: DOAJ + PMC)*
+- **✅ Niculescu-Mizil, A., & Caruana, R. (2005).** Predicting good probabilities with supervised learning. *Proceedings of the 22nd International Conference on Machine Learning (ICML '05).* *(2026-11-24: mlanthology + yazar PDF; sayfa numarası görülmedi)* — Boosting'in olasılıkları sigmoid biçimde bozduğunu gösterir; bizim log-loss XGB'miz ise kalibre (ECE 0,002) → tartışma.
+- **✅ Elkan, C. (2001).** The foundations of cost-sensitive learning. *Proceedings of the 17th International Joint Conference on Artificial Intelligence (IJCAI)*, 973–977. *(2026-11-24: IJCAI resmî sayfası 973–977 diyor; bazı dizinler 973–978 — resmî kaynak esas)*
+- **✅ Hand, D. J. (2009).** Measuring classifier performance: a coherent alternative to the area under the ROC curve. *Machine Learning, 77*(1), 103–123. https://doi.org/10.1007/s10994-009-5119-5 *(2026-11-24: Springer + dblp)*
+- **✅ Nadeau, C., & Bengio, Y. (2003).** Inference for the generalization error. *Machine Learning, 52*(3), 239–281. https://doi.org/10.1023/A:1024068626366 *(2026-11-24: mlanthology + MaRDI)*
+- **✅ Demšar, J. (2006).** Statistical comparisons of classifiers over multiple data sets. *Journal of Machine Learning Research, 7*, 1–30. *(2026-11-24: JMLR resmî sayfası)* — Çoklu veri seti testleri; tek veri setinde uygulanamadığının savunması (D14).
+- **✅ Bergstra, J., & Bengio, Y. (2012).** Random search for hyper-parameter optimization. *Journal of Machine Learning Research, 13*, 281–305. *(2026-11-24: JMLR resmî sayfası + PDF)* — D10.
 - **✅ Grinsztajn, L., Oyallon, E., & Varoquaux, G. (2022).** Why do tree-based models still outperform deep learning on typical tabular data? *Advances in Neural Information Processing Systems 35* (Datasets and Benchmarks Track). arXiv:2207.08815 *(2026-11-24: NeurIPS poster sayfası + dblp; sayfa numarası yok)*
 - **✅ Rudin, C. (2019).** Stop explaining black box machine learning models for high stakes decisions and use interpretable models instead. *Nature Machine Intelligence, 1*(5), 206–215. https://doi.org/10.1038/s42256-019-0048-x *(2026-11-24: Duke Scholars + PMC)*
 
 **Kredi skorlama ve politika**
-- Verbraken, T., Bravo, C., Weber, R., & Baesens, B. (2014). Development and application of consumer credit scoring models using profit-based classification measures. *EJOR, 238*(2), 505–513.
-- Crook, J., & Banasik, J. (2004). Does reject inference really improve the performance of application scoring models? *Journal of Banking & Finance, 28*(4), 857–874. *(D29)*
-- Kozodoi, N., Jacob, J., & Lessmann, S. (2022). Fairness in credit scoring: Assessment, implementation and profit implications. *EJOR, 297*(3), 1083–1094. *(RQ5)*
-- Hardt, M., Price, E., & Srebro, N. (2016). Equality of opportunity in supervised learning. *NeurIPS 29.*
+- **✅ Verbraken, T., Bravo, C., Weber, R., & Baesens, B. (2014).** Development and application of consumer credit scoring models using profit-based classification measures. *EJOR, 238*(2), 505–513. https://doi.org/10.1016/j.ejor.2014.04.001 *(2026-11-24: RePEc + Southampton deposu)*
+- **✅ Crook, J., & Banasik, J. (2004).** Does reject inference really improve the performance of application scoring models? *Journal of Banking & Finance, 28*(4), 857–874. https://doi.org/10.1016/S0378-4266(03)00203-6 *(2026-11-24: RePEc + econbiz)* — D29.
+- **✅ Kozodoi, N., Jacob, J., & Lessmann, S. (2022).** Fairness in credit scoring: Assessment, implementation and profit implications. *EJOR, 297*(3), 1083–1094. https://doi.org/10.1016/j.ejor.2021.06.023 *(2026-11-24: RePEc + arXiv)* — D16/RQ5 (adalet; cinsiyet çıkarma tartışması).
+- **✅ Hardt, M., Price, E., & Srebro, N. (2016).** Equality of opportunity in supervised learning. *Advances in Neural Information Processing Systems 29*, 3315–3323. *(2026-11-24: NeurIPS meta verisi)*
 - Altman, E. I. (1968). Financial ratios, discriminant analysis and the prediction of corporate bankruptcy. *Journal of Finance, 23*(4), 589–609. *(Tarihsel arka plan)*
 
 **Yasal/düzenleyici (içerik doğrulanmadan iddia etme)**

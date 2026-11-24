@@ -250,6 +250,12 @@ AHP yargıları gelince 3. adım yeniden çalıştırılır (ağırlıklar paket
 - `src/dayaniklilik.py` (Dirichlet kararlılık S, entropi, CRITIC) + testler; `deneyler/e2_rq2.py` deneme modu çalıştı: α↑ → S↑ (medyan 0,85 → 0,97 → 1,00). **D35:** Şartlı–kararsızlık ilişkisi kısmen tasarım gereği; yorum kuralı yazıldı. Entropi PD'ye ≈0 ağırlık veriyor.
 - Kaynakça: 8 ⚠️ kaynak web'de doğrulandı → ✅ (Saaty 1990, Aczél & Saaty 1983, Diakoulaki 1995, Chen & Guestrin 2016, Lundberg & Lee 2017, Chawla 2002, Grinsztajn 2022, Rudin 2019).
 
+### Adım 27: Kaynak doğrulama tamamlandı (2026-11-24) ✅
+- 15 kaynak daha ✅ (DOI/sayfa yayıncı ya da dizin kaydıyla): Bergstra & Bengio 2012, Saito & Rehmsmeier 2015, Niculescu-Mizil & Caruana 2005, Breiman 2001, Nadeau & Bengio 2003, Hand 2009, Demšar 2006, Elkan 2001, Verbraken vd. 2014, Crook & Banasik 2004, Kozodoi vd. 2022, Hardt vd. 2016, Opricovic & Tzeng 2004, Choo vd. 1999, Triantaphyllou & Sánchez 1997. `docs/05`'te toplam 33 ✅.
+- Notlar: Elkan 2001 sayfaları IJCAI resmî sayfasına göre 973–977 (bazı dizinler 978 yazıyor). Niculescu-Mizil & Caruana 2005'in sayfa numarası doğrulanmadı → raporda sayfasız künye.
+- Kalan ⚠️: Saaty 1980 kitabı (yerine doğrulanmış Saaty 1990 kullanılabilir), §2'deki yakın çalışmaların eksik alanları, yasal metinler (EU AI Act, KVKK). Bunlar slayt için gerekli değil; makale aşamasında tamamlanır.
+- Sunum iskeleti hazır (15 slayt, konuşmacı notlu): https://claude.ai/artifact/4828oVExUaKCwUgnqwxziW — AHP ağırlıkları, CR, RQ1/RQ2 sonuçları, cinsiyetsiz test AUC ve L2 tarama sayıları `[  ]` yer tutucularıyla bekliyor. PowerPoint/PDF olarak indirilebilir.
+
 ## Açık konular / kararlar
 
 - **TOPSIS tek başvuruda tanımsız:** İdeal/anti-ideal noktalar eğitim verisinden (ör. %5 ve %95 yüzdelikleri)
