@@ -112,19 +112,19 @@ Bu tablo, **birkaç aramaya** dayanıyor; kesin değildir. Aynı fikri yapmış 
 ## 4. Hafızadan listelenen, doğrulanacak kaynaklar (⚠️)
 
 **AHP / çok kriterli karar**
-- Saaty, T. L. (1980). *The Analytic Hierarchy Process.* McGraw-Hill. · Saaty, T. L. (1990). How to make a decision: The analytic hierarchy process. *EJOR, 48*(1), 9–26.
-- Aczél, J., & Saaty, T. L. (1983). Procedures for synthesizing ratio judgements. *J. Math. Psychol., 27*, 93–102. *(Grup AHP geometrik ortalama; D19)*
+- Saaty, T. L. (1980). *The Analytic Hierarchy Process.* McGraw-Hill. ⚠️ · **✅ Saaty, T. L. (1990).** How to make a decision: The analytic hierarchy process. *EJOR, 48*(1), 9–26. https://doi.org/10.1016/0377-2217(90)90057-I *(2026-11-24: RePEc + Scilit)*
+- **✅ Aczél, J., & Saaty, T. L. (1983).** Procedures for synthesizing ratio judgements. *Journal of Mathematical Psychology, 27*(1), 93–102. https://doi.org/10.1016/0022-2496(83)90028-7 *(2026-11-24: Crossref atıf kaydı + Springer kaynakçası; bir dizinde yalnız Aczél görünüyor, iki yazarlı künye Crossref'te)* — Grup AHP'de geometrik ortalamanın gerekçesi (homojenlik/karşılıklılık koşulları; D19).
 - Rezaei, J. (2015). Best-worst multi-criteria decision-making method. *Omega, 53*, 49–57. https://doi.org/10.1016/j.omega.2014.11.009 *(✅ 2026-11-20: Omega 53(C) 49–57, DOI RePEc/Elsevier ile doğrulandı)*
-- Diakoulaki, D., Mavrotas, G., & Papayannakis, L. (1995). Determining objective weights in multiple criteria problems: The CRITIC method. *Computers & Operations Research, 22*(7), 763–770.
+- **✅ Diakoulaki, D., Mavrotas, G., & Papayannakis, L. (1995).** Determining objective weights in multiple criteria problems: The CRITIC method. *Computers & Operations Research, 22*(7), 763–770. https://doi.org/10.1016/0305-0548(94)00059-H *(2026-11-24: Scilit + makale PDF'i)* — RQ2 ağırlık yöntemi karşılaştırması.
 - Opricovic, S., & Tzeng, G.-H. (2004). Compromise solution by MCDM methods: A comparative analysis of VIKOR and TOPSIS. *EJOR, 156*(2), 445–455.
 - Choo, E. U., Schoner, B., & Wedley, W. C. (1999). Interpretation of criteria weights in multicriteria decision making. *Computers & Industrial Engineering, 37*(3), 527–541. *(Nominal ≠ etkin ağırlık; D18)*
 - Triantaphyllou, E., & Sánchez, A. (1997). A sensitivity analysis approach for some deterministic multi-criteria decision-making methods. *Decision Sciences, 28*(1), 151–194. *(RQ2)*
 
 **ML ve değerlendirme**
 - Breiman, L. (2001). Random forests. *Machine Learning, 45*(1), 5–32.
-- Chen, T., & Guestrin, C. (2016). XGBoost: A scalable tree boosting system. *Proc. KDD '16*, 785–794.
-- Lundberg, S. M., & Lee, S.-I. (2017). A unified approach to interpreting model predictions. *Advances in Neural Information Processing Systems 30.*
-- Chawla, N. V., Bowyer, K. W., Hall, L. O., & Kegelmeyer, W. P. (2002). SMOTE: Synthetic minority over-sampling technique. *JAIR, 16*, 321–357.
+- **✅ Chen, T., & Guestrin, C. (2016).** XGBoost: A scalable tree boosting system. *Proceedings of the 22nd ACM SIGKDD International Conference on Knowledge Discovery and Data Mining*, 785–794. https://doi.org/10.1145/2939672.2939785 *(2026-11-24: arXiv + researchr + bibbase)*
+- **✅ Lundberg, S. M., & Lee, S.-I. (2017).** A unified approach to interpreting model predictions. *Advances in Neural Information Processing Systems 30*, 4765–4774. arXiv:1705.07874 *(2026-11-24: NeurIPS bildiri sayfası + meta veri)*
+- **✅ Chawla, N. V., Bowyer, K. W., Hall, L. O., & Kegelmeyer, W. P. (2002).** SMOTE: Synthetic minority over-sampling technique. *Journal of Artificial Intelligence Research, 16*, 321–357. https://doi.org/10.1613/jair.953 *(2026-11-24: JAIR + arXiv)*
 - Saito, T., & Rehmsmeier, M. (2015). The precision-recall plot is more informative than the ROC plot when evaluating binary classifiers on imbalanced datasets. *PLoS ONE, 10*(3), e0118432.
 - Niculescu-Mizil, A., & Caruana, R. (2005). Predicting good probabilities with supervised learning. *Proc. ICML.*
 - Elkan, C. (2001). The foundations of cost-sensitive learning. *Proc. IJCAI.*
@@ -132,8 +132,8 @@ Bu tablo, **birkaç aramaya** dayanıyor; kesin değildir. Aynı fikri yapmış 
 - Nadeau, C., & Bengio, Y. (2003). Inference for the generalization error. *Machine Learning, 52*, 239–281.
 - Demšar, J. (2006). Statistical comparisons of classifiers over multiple data sets. *JMLR, 7*, 1–30. *(Tek veri setinde uygulanamaz; neden uygulamadığımızın savunması)*
 - Bergstra, J., & Bengio, Y. (2012). Random search for hyper-parameter optimization. *JMLR, 13*, 281–305.
-- Grinsztajn, L., Oyallon, E., & Varoquaux, G. (2022). Why do tree-based models still outperform deep learning on typical tabular data? *NeurIPS Datasets and Benchmarks.*
-- Rudin, C. (2019). Stop explaining black box machine learning models for high stakes decisions and use interpretable models instead. *Nature Machine Intelligence, 1*, 206–215.
+- **✅ Grinsztajn, L., Oyallon, E., & Varoquaux, G. (2022).** Why do tree-based models still outperform deep learning on typical tabular data? *Advances in Neural Information Processing Systems 35* (Datasets and Benchmarks Track). arXiv:2207.08815 *(2026-11-24: NeurIPS poster sayfası + dblp; sayfa numarası yok)*
+- **✅ Rudin, C. (2019).** Stop explaining black box machine learning models for high stakes decisions and use interpretable models instead. *Nature Machine Intelligence, 1*(5), 206–215. https://doi.org/10.1038/s42256-019-0048-x *(2026-11-24: Duke Scholars + PMC)*
 
 **Kredi skorlama ve politika**
 - Verbraken, T., Bravo, C., Weber, R., & Baesens, B. (2014). Development and application of consumer credit scoring models using profit-based classification measures. *EJOR, 238*(2), 505–513.

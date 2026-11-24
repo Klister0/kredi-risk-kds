@@ -182,6 +182,7 @@ Eşleştirilmiş farklar: XGB−LR AUC **+0,019 [+0,017; +0,022]**, XGB−RF **+
 ### D22 · Karar bantları ve eşikler   [🔴]
 **Seçenekler:** Hedef onay oranına göre eğitim OOF C* niceliklerinden eşik (önerilen) / sabit puan eşikleri (örn. 0,6/0,4) / maliyet tabanlı eşik / karar vericinin dashboard'da ayarladığı eşikler.
 **Gerekçe:** Sabit puan eşikleri ağırlık değişince anlamını yitirir; onay oranı bazlı eşik, ağırlık/dağılım değişse de "portföy politikasını" sabit tutar ve PD-tek ile **eşit onay oranında** karşılaştırmaya izin verir (D23).
+**Uygulama (2026-11-22):** `src/politika.py::bant_esikleri/bantla/bant_tablosu` — eşikler eğitim C* niceliklerinden (Reddet alt %15, Şartlı sonraki %15, Onayla üst %70; ön-kayıt §3). PD-tek için aynı nicelikler (1−PD) üzerinde. Testli. Eşikler E1 gerçek koşusunda tüm eğitimden kilitlenir (**K-D**) ve JSON'a yazılır.
 **Kanıt:** (K4).
 
 ### D23 · Karar katmanı doğrulama tasarımı   [🟡]
@@ -195,7 +196,8 @@ Eşleştirilmiş farklar: XGB−LR AUC **+0,019 [+0,017; +0,022]**, XGB−RF **+
 
 ### D24 · Arayüz: Streamlit   [🟢]
 **Seçenekler:** Streamlit (öneri, seçilen) / Gradio / Dash / Flask+React / FastAPI+React.
-**Gerekçe:** Python-yerli, ağırlık kaydırıcıları ve canlı sonuç için hızlı. **Alternatif:** FastAPI+React ölçeklenebilir ve üretime yakın ama tek öğrenci/13 hafta için kapsam dışı.
+**Gerekçe:** Python-yerli, ağırlık kaydırıcıları ve canlı sonuç için hızlı.
+**Uygulama (2026-11-22):** `panel.py` (arayüz) + `src/karar.py` (testli mantık) + `deneyler/karar_katmani_hazirla.py` (eğitimden paket). Tek başvuru: PD, C*, AHP-TOPSIS bandı ve PD-tek bandı yan yana, kriterlerin ideale yakınlığı, SHAP katkıları; ağırlık ve bant oranı kaydırıcıları (eşikler eğitimden yeniden hesaplanır). Streamlit `AppTest` ile başsız çalıştırıldı: istisna yok; gelir düşünce C* düşüyor; w_PD=1'de iki politika aynı kararı veriyor (sağlama). **Alternatif:** FastAPI+React ölçeklenebilir ve üretime yakın ama tek öğrenci/13 hafta için kapsam dışı.
 
 ### D25 · Deney takibi   [🟡]
 **Seçenekler:** Tarihli CSV/JSON + sabit tohum (seçilen) / MLflow / Weights & Biases.
@@ -265,6 +267,12 @@ Gerekçe: gelirde aşırı uçlar var; vektör normalizasyonu uçlara duyarlı, 
 **Gerekçe (K6):** Politika kriteri olarak "gözlenmiş gecikme yok" ile "kayıt yok" ikisi de gecikme kanıtı içermez; kanıt olmadan ceza verilmez. Not: **model** tarafında bu iki durum ayrı tutulur (`BURO_KAYDI_VAR`, F3); karar katmanında ayrım PD üzerinden zaten yansır.
 **Alternatifler:** K5 için 0 (cezalandırıcı) / ayrı "emekli" kriteri; K6 için kayıtsızlara medyan ya da ceza; kırpma yerine log dönüşümü.
 **Kanıt:** V2/F3 bulguları (`docs/07`). Duyarlılık: RQ2'de bu kurallar değiştirilerek karar değişim oranı ölçülebilir.
+
+### D35 · RQ2 yorum kuralı: Şartlı bandı–kararlılık ilişkisi kısmen tasarım gereği   [🟢]
+**Bağlam:** E2 deneme koşusu (eşit ağırlık, eğitim içi bölme, raporlanmaz) Şartlı bandındakilerin neredeyse tamamının düşük kararlılıkta (S<0,8) olduğunu gösterdi. Şartlı bandı iki eşik arasındaki %15'lik dilim olduğu için bu kısmen mekaniktir: bant sınırına yakın her başvuru ağırlık oynayınca bant değiştirir.
+**Karar:** "Şartlı bandı kararsızlığı yakalıyor" diye iddia edilmez. Raporlanan: düşük-S başvuruların Şartlı **dışındaki** payı, α'ya göre değişimi, düşük-S ve yüksek-S onaylananların kötü oranı. Bu bir protokol değişikliği değildir (RQ2 zaten keşifsel), yorum kuralıdır.
+**Ek bulgu (deneme):** Entropi ağırlıkları PD'ye ≈0,01 veriyor (ağırlık gelire ve istihdama kayıyor); CRITIC daha dengeli. Veri temelli yöntemler değer dağılımına bakar, riski bilmez → AHP gerekçesi (D19, S20).
+**Kanıt:** `deneyler/e2_rq2.py deneme` çıktısı (git dışı). Gerçek sayılar AHP ağırlıklarıyla test kümesinde.
 
 ## Bilinen açık sorular (hocaya/öğrenciye)
 

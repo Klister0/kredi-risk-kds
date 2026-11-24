@@ -80,7 +80,7 @@ Test kümesine kural dışı bakılırsa bu `GELISTIRME_GUNLUGU.md` içine yazı
 | K1 ✅ | Kriter tablosu | 6 kriter: tanım, yön, ölçek, eksik değer kuralı | Her kriter koddan türetildi ve doğrulandı | Fayda/maliyet kriteri |
 | K2 ✅ | **AHP sıfırdan** | `src/ahp.py`: özvektör yöntemi, CR, grup birleştirme (geometrik ortalama) | Saaty örneğiyle ve bir kütüphaneyle (ör. `pymcdm`) çapraz doğrulandı; CR < 0,10 | AHP matematiği, tutarlılık |
 | K3 ✅ | **TOPSIS sıfırdan** | `src/topsis.py`: normalizasyon, ağırlıklı matris, ideal/anti-ideal, C* | Kitap örneği ve kütüphane ile aynı sonuç; **sabit referans** (eğitimden) desteği | TOPSIS adımları, rank reversal |
-| K4 | Bantlar ve eşikler → **K-D** | Onayla/Şartlı Onayla/Reddet tanımı | Eşikler eğitim OOF'unda kilitli; hedef onay oranı parametrik | Eşik seçimi, maliyet |
+| K4 ◐ | Bantlar ve eşikler → **K-D** | Onayla/Şartlı Onayla/Reddet tanımı | Eşikler eğitim OOF'unda kilitli; hedef onay oranı parametrik | Eşik seçimi, maliyet |
 | K5 | Karar gerekçesi | Kriter katkıları + SHAP özeti | Her karar için "neden" metni üretilebiliyor | Açıklama biçimi |
 
 ## Faz 6 · Deneyler (hf 9-11)
@@ -89,8 +89,8 @@ Ayrıntı: `docs/04_katki_stratejisi.md` §4-§8.
 
 | # | Adım | Çıktı | Bitti sayılır |
 |---|---|---|---|
-| E1 | **RQ1** PD-tek vs AHP-TOPSIS | Onay oranı - kötü oran eğrisi, swap-set, politika-ihlal oranı, bootstrap GA | Protokole uygun, `deneyler/` altında kayıtlı |
-| E2 | **RQ2** Ağırlık dayanıklılığı | Dirichlet MC, karar kararlılık indeksi, ağırlık yöntemleri karşılaştırması | Aynı |
+| E1 ◐ | **RQ1** PD-tek vs AHP-TOPSIS | Onay oranı - kötü oran eğrisi, swap-set, politika-ihlal oranı, bootstrap GA | Protokole uygun, `deneyler/` altında kayıtlı |
+| E2 ◐ | **RQ2** Ağırlık dayanıklılığı | Dirichlet MC, karar kararlılık indeksi, ağırlık yöntemleri karşılaştırması | Aynı |
 | E3 | **RQ3** Dengesizlik/kalibrasyon → karar | Varyant başına AUC, Brier, karar değişim oranı | Aynı |
 | E4 | (Ek) RQ4 referans noktası, adalet | Batch vs sabit TOPSIS; onay oranı eşitsizliği | Zaman kalırsa |
 | E5 | Sonuç yazımı | Tablolar/şekiller, negatif sonuçlar dahil | Her iddia bir tablo/şekle bağlı |
@@ -99,9 +99,9 @@ Ayrıntı: `docs/04_katki_stratejisi.md` §4-§8.
 
 | # | Adım | Bitti sayılır |
 |---|---|---|
-| D1 | Streamlit iskelet, model + referans yükleme, girdi formu | Tek başvuru girilince PD ve C* hesaplanıyor |
-| D2 | Ağırlık kaydırıcıları, canlı karar | Ağırlıklar toplamı 1; AHP ikili karşılaştırma girişi opsiyonel |
-| D3 | Açıklama paneli | SHAP waterfall + kriter katkıları |
+| D1 ✅ | Streamlit iskelet, model + referans yükleme, girdi formu | Tek başvuru girilince PD ve C* hesaplanıyor |
+| D2 ✅ | Ağırlık kaydırıcıları, canlı karar | Ağırlıklar toplamı 1; AHP ikili karşılaştırma girişi opsiyonel |
+| D3 ✅ | Açıklama paneli | SHAP waterfall + kriter katkıları |
 | D4 | Hata durumları, README, ekran görüntüleri | Geçersiz girdi çökmüyor; temiz kurulumda çalışıyor |
 
 ## Faz 8 · Rapor ve savunma (hf 12-13)

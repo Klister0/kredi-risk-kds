@@ -78,6 +78,7 @@ H1a yanlışlanırsa (MCDM daha iyi ayırıyorsa) önce nedeni araştır: sızı
 - **Sorular:** (a) S dağılımı nasıl? (b) Düşük-S başvurular eşiğe yakın mı? (c) Düşük-S onaylananların kötü oranı, yüksek-S onaylananlardan farklı mı? (d) Ağırlıklandırma yöntemleri (AHP, eşit, entropi, CRITIC) arasında sıralama uyumu (Kendall τ) ve karar uyumu (Cohen κ).
 - **Tasarım önerisi (hipotez):** "Şartlı Onayla" bandı, *ağırlık-hassas (düşük S)* başvurulara karşılık gelsin; bu bandın riski gerçekten daha belirsiz olup olmadığı test edilir.
 - **Ek duyarlılık:** Tek tek ağırlığı ±%20 oynatma (OAT; ⚠️ Triantaphyllou & Sánchez 1997).
+- **Yorum uyarısı (deneme koşusundan, 2026-11-24):** Şartlı bandı iki eşik arasındaki dar dilimdir; bu banttaki başvurular **tanım gereği** eşiklere yakındır ve ağırlık oynayınca bant değiştirmeleri mekanik olarak beklenir (eşit ağırlıklı denemede α=10'da Şartlı'nın %100'ü düşük-S). Bu yüzden "Şartlı = kararsız" kısmen döngüseldir. Raporlanacak bilgi: (i) düşük-S başvuruların **ne kadarının Şartlı dışında** kaldığı, (ii) α'ya göre bu payın değişimi, (iii) düşük-S onaylananların kötü oranı. Bkz. D35.
 - **Not:** Düşük S ile yüksek kötü oran arasında ilişki **bulunmayabilir**; bu durumda "S, risk için değil yalnızca karar belirsizliği için bilgi taşır" diye raporlanır.
 
 ## 6. RQ3 deney tasarımı: dengesizlik ve kalibrasyon → karar

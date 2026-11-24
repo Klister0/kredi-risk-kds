@@ -227,6 +227,29 @@ kalıcı kod `src/`'de, denemeler `notebooks/`'ta tutulur.
 - **CODE_GENDER 4. en önemli değişken.** Cinsiyetsiz modelin CV maliyeti AUC −0,0016 (yalnız eğitim).
 - **D16 kararı (öğrenci): cinsiyetsiz final model.** `on_isleme_boru_hatti(dislanan=...)` parametresi (varsayılan boş → M1–M5 değişmez). Final OOF AUC 0,7689, ECE 0,0023 → ham PD. SHAP yeniden üretildi (cinsiyetli şekiller `*_cinsiyetli.png` olarak saklı). Cinsiyetli kayıtlar: eksiz JSON'lar + `*_cinsiyetli.png` + yerel `*_cinsiyetli_m7.*`. Sapma `docs/04` §10; cinsiyetsiz modelin test AUC'si E1'de bir kez.
 
+### Adım 24: E1 (RQ1) deney kodu + K4 bantlar — hazır, ağırlık bekliyor
+- `src/politika.py` (onay, kötü oranı, ihlal, Δ, eşleştirilmiş bootstrap, swap-set, w_PD taraması, bantlar) + `tests/test_politika.py` 7/7.
+- `src/ahp.py::yargilardan_agirlik` (CSV → yargıç CR'leri + geometrik ortalama; `Fraction` ile "1/3" okuma, eval yok).
+- `deneyler/e1_rq1.py`: **deneme** (eğitim içi 50/50, eşit ağırlık, raporlanmaz, `deneyler/deneme/` git dışı) çalıştı; sağlama: w_PD=1 → Δ = 0 (TOPSIS tek kriterde PD sıralamasını verir ✓); AHP noktası tarama eğrisinin üzerinde ✓. **gercek** mod: `docs/kaynaklar/ahp_yargilar.csv` gelince test kümesinde bir kez (kilitli); cinsiyetsiz final modelin test AUC'si de burada.
+
+### Adım 25: Streamlit paneli (D1–D3) ✅
+- `src/karar.py` (katman_kur, degerlendir, kriter_konumlari, shap_katkilari) + `tests/test_karar.py`; `src/aciklama.py` önbellekli açıklayıcı + boş grup düzeltmesi. Testler: 62.
+- `deneyler/karar_katmani_hazirla.py` → `data/processed/karar_katmani.joblib` (yalnız eğitim; 500 başvuruluk havuz, TARGET yok; AHP dosyası varsa ağırlıklar).
+- `panel.py`: başvuru seçimi + ne-olursa düzenleme, PD / C* / iki politikanın kararı, kriter tablosu, SHAP grafiği, ağırlık ve bant kaydırıcıları. AppTest ile sağlamalar tuttu.
+- `requirements.txt`: shap 0.54.1, streamlit 1.67.0, joblib 1.6.0, pymcdm 1.4.0 eklendi.
+
+**Panel nasıl açılır (öğrencinin makinesi):**
+1. `.\.venv\Scripts\python.exe -m pip install -r requirements.txt`
+2. (Önerilir) `.\.venv\Scripts\python.exe deneyler\final_model.py` → model senin ortamında üretilsin
+3. `.\.venv\Scripts\python.exe deneyler\karar_katmani_hazirla.py`
+4. `.\.venv\Scripts\python.exe -m streamlit run panel.py`
+AHP yargıları gelince 3. adım yeniden çalıştırılır (ağırlıklar pakete girer).
+
+### Adım 26: AHP formunun PDF/Word sürümleri + E2 (RQ2) kodu + kaynak doğrulama
+- Form: `docs/kaynaklar/AHP_Yargi_Formu.pdf` (yazdırılabilir + PDF okuyucuda tıklanabilir, alanlar `yon_XX`/`deger_XX`), `AHP_Yargi_Formu.docx` (180 Word onay kutusu), üretici betikler yanında. Yargıçlar her biri ayrı kopya doldurur.
+- `src/dayaniklilik.py` (Dirichlet kararlılık S, entropi, CRITIC) + testler; `deneyler/e2_rq2.py` deneme modu çalıştı: α↑ → S↑ (medyan 0,85 → 0,97 → 1,00). **D35:** Şartlı–kararsızlık ilişkisi kısmen tasarım gereği; yorum kuralı yazıldı. Entropi PD'ye ≈0 ağırlık veriyor.
+- Kaynakça: 8 ⚠️ kaynak web'de doğrulandı → ✅ (Saaty 1990, Aczél & Saaty 1983, Diakoulaki 1995, Chen & Guestrin 2016, Lundberg & Lee 2017, Chawla 2002, Grinsztajn 2022, Rudin 2019).
+
 ## Açık konular / kararlar
 
 - **TOPSIS tek başvuruda tanımsız:** İdeal/anti-ideal noktalar eğitim verisinden (ör. %5 ve %95 yüzdelikleri)
@@ -253,10 +276,10 @@ Sahip: **Sen** = Egemen · **Ben** = Claude · **Birlikte**. Kritik yol kalın.
 | 5 | 22 Kas ✅ | **M7: test kümesi TEK SEFER** — XGB AUC 0,777 [0,770–0,784] | Ben | **K-C** ✅ |
 | 6 | 22 Kas ✅ | M8 SHAP (global + yerel); D16: final model cinsiyetsiz | Ben | T9 ✅, D16 ✅ |
 | 7 | 25 Kas | AHP yargıları → ağırlıklar, CR; gerekirse en tutarsız çiftler yeniden sorulur | Birlikte | D19 |
-| 8 | 25–26 Kas | **K4 bantlar/eşikler** (Onayla/Şartlı/Reddet) eğitim OOF'unda | Ben | **K-D** |
-| 9 | 26–27 Kas | **E1 (RQ1)**: eşit onay oranında PD-tek vs AHP-TOPSIS; swap-set; politika ihlali; w_PD taraması; bootstrap | Ben | Çekirdek katkı |
-| 10 | 28–29 Kas | E2 (RQ2) ağırlık dayanıklılığı (Dirichlet MC, karar kararlılığı); zaman kalırsa E3 dar | Ben | Hedef katman |
-| 11 | 30 Kas–2 Ara | Streamlit dashboard D1–D3 (tek başvuru, ağırlık kaydırıcı, SHAP + kriter katkısı) | Ben | T8/T9 |
+| 8 | 22 Kas ◐ | **K4 bantlar/eşikler** — kod hazır; gerçek eşikler E1 gerçek koşusunda kilitlenir | Ben | **K-D** |
+| 9 | 22 Kas ◐ → yargılar gelince | **E1 (RQ1)** — kod + deneme hazır; `e1_rq1.py gercek` ağırlık bekliyor | Ben | Çekirdek katkı |
+| 10 | 24 Kas ◐ → yargılar gelince | E2 (RQ2) — kod + deneme hazır (`e2_rq2.py gercek` ağırlık bekliyor); E3 dar sonra | Ben | Hedef katman; D35 yorum kuralı |
+| 11 | 22 Kas ✅ | Streamlit dashboard D1–D3 (tek başvuru, ağırlık kaydırıcı, SHAP + kriter konumu) | Ben | T8/T9 ✅; D4 (README, ekran görüntüleri) kaldı |
 | 12 | 23 Kas–2 Ara (günde ~1 sa) | **L2 sistematik literatür taraması** (Scopus/WoS/IEEE + atıf zinciri), `docs/05` §7 | Sen | Katkı cümlesinin dayanağı |
 | 13 | 3–4 Ara | Sonuç tabloları/şekilleri, literatür + katkı slaytları | Birlikte | — |
 | 14 | 5 Ara | Slaytlar (R2) | Birlikte | — |
