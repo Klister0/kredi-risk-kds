@@ -20,3 +20,6 @@ __pycache__/
 
 # Yerel yardimci betik (Claude her adimda gunceller)
 commit_bekleyen.cmd
+
+# Deneme modu çıktıları (raporlanmaz)
+deneyler/deneme/

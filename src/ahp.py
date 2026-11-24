@@ -94,3 +94,30 @@ def en_tutarsiz_ciftler(A, k: int = 3) -> list[tuple[int, int, float, float]]:
                for i in range(n) for j in range(i + 1, n)]
     ciftler.sort(key=lambda c: c[4], reverse=True)
     return [c[:4] for c in ciftler[:k]]
+
+
+def yargilardan_agirlik(yol, n: int = 6) -> dict:
+    """`docs/kaynaklar/ahp_yargilar.csv` (şablon: yargic, uzmanlik, deneyim_yil, c01..c15) → grup ağırlıkları.
+
+    cXX değeri: sol kriter daha önemliyse d, sağ daha önemliyse 1/d, eşitse 1 (form → CSV aktarımı).
+    Her yargıç için CR raporlanır; grup matrisi geometrik ortalamayla birleştirilir (AIJ).
+    """
+    from fractions import Fraction
+
+    import pandas as pd
+    df = pd.read_csv(yol, dtype=str)
+    df = df[~df["uzmanlik"].astype(str).str.contains("ornek")]
+    sutunlar = [c for c in df.columns if c.startswith("c")]
+    if len(sutunlar) != n * (n - 1) // 2:
+        raise ValueError("yargı sütun sayısı hatalı")
+    matrisler, bireysel = [], {}
+    for _, r in df.iterrows():
+        A = ust_ucgenden_matris([float(Fraction(str(r[c]).strip())) for c in sutunlar], n)   # "1/3" ya da "3"
+        t = tutarlilik(A)
+        bireysel[str(r["yargic"])] = {"CR": t["CR"], "agirliklar": t["agirliklar"].tolist(),
+                                      "uzmanlik": str(r["uzmanlik"]), "deneyim_yil": r["deneyim_yil"]}
+        matrisler.append(A)
+    G = grup_birlestir(matrisler)
+    tg = tutarlilik(G)
+    return {"agirliklar": tg["agirliklar"], "grup_CR": tg["CR"], "bireysel": bireysel,
+            "hepsi_tutarli": all(v["CR"] < 0.10 for v in bireysel.values())}

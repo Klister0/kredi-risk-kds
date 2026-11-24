@@ -81,3 +81,19 @@ def test_uc_kriterde_yer_tespiti_mumkun_degil():
     A[0, 2], A[2, 0] = 9.0, 1 / 9.0
     sapmalar = [abs(np.log(v / t)) for _, _, v, t in en_tutarsiz_ciftler(A, k=3)]
     assert np.allclose(sapmalar, sapmalar[0])
+
+
+def test_csvden_grup_agirligi(tmp_path):
+    from src.ahp import yargilardan_agirlik
+    w = np.array([0.35, 0.25, 0.15, 0.10, 0.10, 0.05])
+    A = _tutarli(w)
+    ust = [A[i, j] for i in range(6) for j in range(i + 1, 6)]
+    satir = lambda ad: ",".join([ad, "bankaci", "10"] + [f"{v:.10f}" for v in ust])
+    basliklar = "yargic,uzmanlik,deneyim_yil," + ",".join(f"c{k:02d}" for k in range(1, 16))
+    yol = tmp_path / "y.csv"
+    yol.write_text("\n".join([basliklar, "Y0,ornek_satir_silin,0" + ",1" * 15, satir("Y1"), satir("Y2")]), encoding="utf-8")
+    r = yargilardan_agirlik(yol)
+    assert set(r["bireysel"]) == {"Y1", "Y2"}                 # örnek satır atlandı
+    assert np.allclose(r["agirliklar"], w, atol=1e-6) and r["hepsi_tutarli"]
+    yol.write_text("\n".join([basliklar, "Y1,b,5," + ",".join(["1/3"] * 15)]), encoding="utf-8")
+    assert np.isclose(yargilardan_agirlik(yol)["bireysel"]["Y1"]["agirliklar"][0], yargilardan_agirlik(yol)["agirliklar"][0])
